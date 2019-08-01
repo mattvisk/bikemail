@@ -1,16 +1,18 @@
 {
-  "name": "my-app",
+  "name": "bikemail",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
+    "homebrew": "^0.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-jsx": "^1.0.0",
     "react-native-restart": "0.0.12",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "yarn": "^1.17.3"
   },
   "scripts": {
     "start": "react-scripts start",
