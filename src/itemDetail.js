@@ -7,7 +7,9 @@ function ItemDetail({match}) {
     },[]);
 
     // idk
-    const [item, setItem] = useState({});
+    const [item, setItem] = useState({
+      images:{}
+    });
 
     // Fetch Data
     const fetchItem = async () => {
@@ -21,6 +23,7 @@ function ItemDetail({match}) {
     return (
         <div>
           <h1>{item.name}</h1>
+          <img src={item.images.transparent} />
         </div>
     );
 }
