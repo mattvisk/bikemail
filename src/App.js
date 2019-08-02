@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.less';
 import Nav from './Nav';
 import Shop from './Shop';
 import About from './About';
@@ -27,3 +27,4 @@ function App() {
 
 
 export default App;
+

@@ -6,10 +6,12 @@
     "babel-cli": "^6.26.0",
     "babel-preset-react-app": "^3.1.2",
     "homebrew": "^0.1.0",
+    "less": "^3.9.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-jsx": "^1.0.0",
     "react-native-restart": "0.0.12",
+    "react-particles-js": "^2.7.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "yarn": "^1.17.3"
@@ -36,7 +38,9 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "less-loader": "^5.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mattvisk/bikemail.git"
