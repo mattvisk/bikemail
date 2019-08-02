@@ -4,7 +4,7 @@ import Nav from './Nav';
 import Shop from './Shop';
 import About from './About';
 import ItemDetail from './itemDetail';
-import Instagram from './Instagram';
+import Home from './Home';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
@@ -22,12 +22,6 @@ function App() {
     </Router>
   );
 }
-
-const Home = () => (
-  <div>
-    <h1>Home Page</h1>
-  </div>
-);
 
 
 
