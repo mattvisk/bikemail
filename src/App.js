@@ -4,6 +4,7 @@ import Nav from './Nav';
 import Shop from './Shop';
 import About from './About';
 import ItemDetail from './itemDetail';
+import Instagram from './Instagram';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {

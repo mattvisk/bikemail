@@ -1,21 +1,23 @@
 import React from 'react';
 import './App.css';
 import {Link} from 'react-router-dom';
+import logo from './assets/images/logo_v1.png'; 
 
 function Nav() {
 
-    const navStyle = {
-        color: 'white'
-    };
-
     return (
-        <nav>
-            <Link to="/"><h1>Logo</h1></Link>
-            <ul>
-                <Link to="/about"><li>About</li></Link>
-                <Link to="/shop"><li>Shop</li></Link>
-            </ul>
-        </nav>
+        <header>
+            <Link to="/"><img class="logo"  alt="Bikemail Logo" width="" src={logo}/></Link>
+            <nav>
+                <ul>
+                    <li><Link to="/about">Pricing</Link></li>
+                    <li><Link to="/shop">Services</Link></li>
+                    <li><Link to="/shop">About</Link></li>
+                    <li><Link to="/shop">Contact</Link></li>
+                    <li class="bold"><Link to="/shop">Signup</Link></li>
+                </ul>
+            </nav>
+        </header>
     );
 }
 
