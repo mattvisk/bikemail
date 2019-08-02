@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.less';
+import './App.css';
 import Nav from './Nav';
 import Shop from './Shop';
 import About from './About';
