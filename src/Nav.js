@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import logo from './assets/images/logo_v1.png'; 
 
 function Nav() {
@@ -8,14 +8,12 @@ function Nav() {
         <div>
             <header>
                 <div class="inner">
-                    <Link to="/"><img class="logo"  alt="Bikemail Logo" width="" src={logo}/></Link>
+                    <NavLink to="/"><img class="logo"  alt="Bikemail Logo" width="" src={logo}/></NavLink>
                     <nav>
                         <ul>
-                            <li><Link to="/about">Pricing</Link></li>
-                            <li><Link to="/shop">Services</Link></li>
-                            <li><Link to="/shop">About</Link></li>
-                            <li><Link to="/shop">Contact</Link></li>
-                            <li class="bold"><Link to="/shop">Signup</Link></li>
+                            <li><NavLink activeClassName='cur' to="/shop">Shop</NavLink></li>
+                            <li><NavLink activeClassName='cur' to="/pricing">Pricing</NavLink></li>
+                            <li class="bold"><NavLink activeClassName='cur' to="/signup">Signup</NavLink></li>
                         </ul>
                     </nav>
                 </div>

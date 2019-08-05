@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Nav from './Nav';
 import Shop from './Shop';
+import Signup from './Signup';
 import About from './About';
 import ItemDetail from './itemDetail';
 import Home from './Home';
@@ -14,7 +15,7 @@ function App() {
       <Nav/>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/about" component={About} />
+        <Route path="/signup" component={Signup} />
         <Route path="/shop" exact component={Shop} />
         <Route path="/shop/:id" component={ItemDetail} />
       </Switch>
