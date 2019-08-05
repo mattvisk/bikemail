@@ -7,7 +7,6 @@ function Signup() {
         <div class="container">
             
             <form class="centerForm signup">
-                <input 
             </form>
         </div>
     );
