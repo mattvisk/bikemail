@@ -7,6 +7,7 @@
     "babel-preset-react-app": "^3.1.2",
     "homebrew": "^0.1.0",
     "less": "^3.9.0",
+    "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-jsx": "^1.0.0",
