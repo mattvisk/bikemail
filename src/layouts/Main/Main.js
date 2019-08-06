@@ -8,14 +8,11 @@ import { Sidebar, Topbar, Footer } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    paddingTop: 56,
     height: '100%',
     [theme.breakpoints.up('sm')]: {
-      paddingTop: 64
     }
   },
   shiftContent: {
-    paddingLeft: 240
   },
   content: {
     height: '100%'
@@ -51,11 +48,7 @@ const Main = props => {
       })}
     >
       <Topbar onSidebarOpen={handleSidebarOpen} />
-      <Sidebar
-        onClose={handleSidebarClose}
-        open={shouldOpenSidebar}
-        variant={isDesktop ? 'persistent' : 'temporary'}
-      />
+      
       <main className={classes.content}>
         {children}
         <Footer />
@@ -63,7 +56,11 @@ const Main = props => {
     </div>
   );
 };
-
+// <Sidebar
+//         onClose={handleSidebarClose}
+//         open={shouldOpenSidebar}
+//         variant={isDesktop ? 'persistent' : 'temporary'}
+//       />
 Main.propTypes = {
   children: PropTypes.node
 };
