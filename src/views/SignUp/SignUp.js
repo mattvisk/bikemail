@@ -6,10 +6,10 @@ import { makeStyles } from '@material-ui/styles';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {ToastsContainer, ToastsStore} from 'react-toasts';
 import {
   signup
 } from '../../modules/user'
+import {ToastsStore} from 'react-toasts';
 
 import {
   Grid,
@@ -373,7 +373,6 @@ const SignUp = props => {
           </div>
         </Grid>
       </Grid>
-      <ToastsContainer store={ToastsStore}/>
     </div>
   );
 };

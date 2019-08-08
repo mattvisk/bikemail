@@ -3,6 +3,7 @@ import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
 import { connect } from 'react-redux'
+import {ToastsStore} from 'react-toasts';
 
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -17,7 +18,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
 import {
-  signin
+  signin,
+  initstatus
 } from '../../modules/user'
 
 const schema = {
@@ -141,7 +143,18 @@ const SignIn = props => {
     errors: {}
   });
   useEffect(() => {
-  }, [props.status]);
+    console.log(props)
+    if(props.status != '' ){
+      if(props.isLoggedIn){
+        ToastsStore.success(props.status)
+        history.push('/')
+      }
+      else
+        ToastsStore.error(props.status)
+       
+       props.initStatus()
+    }
+  }, [props.isLoggedIn]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -352,7 +365,8 @@ const mapStateToProps = ({ user }) => ({
   username: user.username,
   email: user.email,
   role: user.role,
-  status: user.status  
+  status: user.status,
+  isLoggedIn: user.isLoggedIn
 })
 
 
@@ -361,6 +375,7 @@ const mapDispatchToProps = dispatch => {
     onSubmitSignIn: (username, password) => {
       signin(username, password, dispatch);
     },
+    initStatus: () => initstatus(dispatch)
   };
 }
 

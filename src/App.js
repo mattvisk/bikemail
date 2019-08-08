@@ -13,6 +13,7 @@ import './assets/scss/index.scss';
 import validators from './common/validators';
 import Routes from './Routes';
 import store, { history } from './store'
+import {ToastsContainer, ToastsStore} from 'react-toasts';
 
 
 Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
@@ -33,6 +34,8 @@ export default class App extends Component {
           <Router history={history}>
             <Routes />
           </Router>
+          <ToastsContainer store={ToastsStore}/>
+
         </ThemeProvider>
     </Provider>
     );

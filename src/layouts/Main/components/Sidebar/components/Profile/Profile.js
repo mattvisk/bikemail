@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,32 +32,46 @@ const Profile = props => {
     avatar: '/images/avatars/avatar_11.png',
     bio: 'Brain Director'
   };
-
-  return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <Avatar
-        alt="Person"
-        className={classes.avatar}
-        component={RouterLink}
-        src={user.avatar}
-        to="/settings"
-      />
-      <Typography
-        className={classes.name}
-        variant="h4"
+  if(props.isLoggedIn)
+    return (
+      <div
+        {...rest}
+        className={clsx(classes.root, className)}
       >
-        {user.name}
-      </Typography>
-      <Typography variant="body2">{user.bio}</Typography>
-    </div>
-  );
+        <Avatar
+          alt="Person"
+          className={classes.avatar}
+          component={RouterLink}
+          src={user.avatar}
+          to="/settings"
+        />
+        <Typography
+          className={classes.name}
+          variant="h4"
+        >
+          {props.username}
+        </Typography>
+        <Typography variant="body2">{props.role}</Typography>
+      </div>
+    );
+  else
+    return (<div></div>);
 };
 
-Profile.propTypes = {
-  className: PropTypes.string
-};
+const mapStateToProps = ({ user }) => ({
+  username: user.username,
+  email: user.email,
+  role: user.role,
+  status: user.status,
+  isLoggedIn: user.isLoggedIn
+})
 
-export default Profile;
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile)
