@@ -30,12 +30,11 @@ export default class App extends Component {
     <Provider store={store}>
 
         <ThemeProvider theme={theme}>
-          <Router history={historys}>
+          <Router history={history}>
             <Routes />
           </Router>
         </ThemeProvider>
-    </Provider>,
-
+    </Provider>
     );
   }
 }

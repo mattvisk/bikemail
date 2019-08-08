@@ -3,7 +3,6 @@ import React, { useState, useEffect, memo } from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
-import { signup } from './actions';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -190,6 +189,7 @@ const SignUp = props => {
 
   const handleSignUp = event => {
     console.log(formState.values)
+    props.onSubmitSignup(formState.values.username, formState.values.email, formState.values.password)
     event.preventDefault();
     history.push('/');
   };
@@ -271,7 +271,7 @@ const SignUp = props => {
                     hasError('username') ? formState.errors.username[0] : null
                   }
                   label="Username"
-                  name="Username"
+                  name="username"
                   onChange={handleChange}
                   type="text"
                   value={formState.values.username || ''}
@@ -375,15 +375,18 @@ const mapStateToProps = ({ user }) => ({
   status: user.status
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      signup
-    },
-    dispatch
-  )
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators(
+//     {
+//       signup
+//     },
+//     dispatch
+//   )
 const mapDispatchToProps = dispatch => {
   return {
+    onSubmitSignup: (username, email, password) => {
+      signup(username, email, password, dispatch);
+    },
   };
 }
 
