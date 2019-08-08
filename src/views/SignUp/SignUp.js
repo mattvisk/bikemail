@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import React, { useState, useEffect, memo } from 'react';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { useInjectReducer } from 'utils/injectReducer';
+import { Link as RouterLink, withRouter } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
+import reducer from './reducer';
+import { signup } from './actions';
+
 import {
   Grid,
   Button,
@@ -14,15 +21,9 @@ import {
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
+const key = 'signup';
 const schema = {
-  firstName: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 32
-    }
-  },
-  lastName: {
+  username: {
     presence: { allowEmpty: false, message: 'is required' },
     length: {
       maximum: 32
@@ -141,6 +142,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
+  useInjectReducer({ key, reducer });
+
   const { history } = props;
 
   const classes = useStyles();
@@ -186,6 +189,7 @@ const SignUp = props => {
   };
 
   const handleSignUp = event => {
+    console.log(formState.values)
     event.preventDefault();
     history.push('/');
   };
@@ -261,30 +265,16 @@ const SignUp = props => {
                 </Typography>
                 <TextField
                   className={classes.textField}
-                  error={hasError('firstName')}
+                  error={hasError('username')}
                   fullWidth
                   helperText={
-                    hasError('firstName') ? formState.errors.firstName[0] : null
+                    hasError('username') ? formState.errors.username[0] : null
                   }
-                  label="First name"
-                  name="firstName"
+                  label="Username"
+                  name="Username"
                   onChange={handleChange}
                   type="text"
-                  value={formState.values.firstName || ''}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  error={hasError('lastName')}
-                  fullWidth
-                  helperText={
-                    hasError('lastName') ? formState.errors.lastName[0] : null
-                  }
-                  label="Last name"
-                  name="lastName"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.lastName || ''}
+                  value={formState.values.username || ''}
                   variant="outlined"
                 />
                 <TextField
@@ -379,7 +369,36 @@ const SignUp = props => {
 };
 
 SignUp.propTypes = {
-  history: PropTypes.object
+  // loading: PropTypes.bool,
+  // error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  // repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  // onSubmitForm: PropTypes.func,
+  // username: PropTypes.string,
+  // onChangeUsername: PropTypes.func,
 };
 
-export default withRouter(SignUp);
+const mapStateToProps = createStructuredSelector({
+  // repos: makeSelectRepos(),
+  // username: makeSelectUsername(),
+  // loading: makeSelectLoading(),
+  // error: makeSelectError(),
+});
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    onSubmitForm: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      signup(dispatch());
+    },
+  };
+}
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withConnect,
+  memo,
+)(SignUp);

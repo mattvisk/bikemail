@@ -1,49 +1,29 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { AppBar, Toolbar } from '@material-ui/core';
-import logo from './logo_v1.png'
+import {NavLink} from 'react-router-dom';
 
-const useStyles = makeStyles(() => ({
-  root: {
-    boxShadow: 'none',
-    background: '#fff'
-  },
-   logo: {
-    width: '70%',
-    height: '70%'
-  }
-}));
+import logo from './logo_v1.png'; 
 
-const Topbar = props => {
-  const { className, ...rest } = props;
+function Topbar() {
 
-  const classes = useStyles();
-
-  return (
-    <AppBar
-      {...rest}
-      className={clsx(classes.root, className)}
-      color="primary"
-      position="fixed"
-    >
-      <Toolbar>
-        <RouterLink to="/">
-          <img
-            alt="Logo"
-            src={logo}
-            className={classes.logo}
-          />
-        </RouterLink>
-      </Toolbar>
-    </AppBar>
-  );
-};
-
-Topbar.propTypes = {
-  className: PropTypes.string
-};
+    return (
+        <div>
+            <header>
+                <div className="inner">
+                    <NavLink to="/"><img className="logo"  alt="Bikemail Logo" width="" src={logo}/></NavLink>
+                    <nav>
+                        <ul>
+                            <li><NavLink to="/">Shop</NavLink></li>
+                            <li><NavLink to="/pricing">Pricing</NavLink></li>
+                            <li className="bold"><NavLink to="/sign-up">Signup</NavLink></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+            <div className="header-spacer">
+                
+            </div>
+        </div>
+    );
+}
 
 export default Topbar;
