@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, memo } from 'react';
-import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { useInjectReducer } from 'utils/injectReducer';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
-import reducer from './reducer';
 import { signup } from './actions';
+import { push } from 'connected-react-router'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  signup
+} from '../../modules/user'
 
 import {
   Grid,
@@ -142,7 +143,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignUp = props => {
-  useInjectReducer({ key, reducer });
 
   const { history } = props;
 
@@ -368,37 +368,26 @@ const SignUp = props => {
   );
 };
 
-SignUp.propTypes = {
-  // loading: PropTypes.bool,
-  // error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  // repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  // onSubmitForm: PropTypes.func,
-  // username: PropTypes.string,
-  // onChangeUsername: PropTypes.func,
-};
+const mapStateToProps = ({ user }) => ({
+  username: user.username,
+  email: user.email,
+  password: user.password,
+  status: user.status
+})
 
-const mapStateToProps = createStructuredSelector({
-  // repos: makeSelectRepos(),
-  // username: makeSelectUsername(),
-  // loading: makeSelectLoading(),
-  // error: makeSelectError(),
-});
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    onSubmitForm: evt => {
-      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      signup(dispatch());
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      signup
     },
+    dispatch
+  )
+const mapDispatchToProps = dispatch => {
+  return {
   };
 }
 
-const withConnect = connect(
+export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-);
-
-export default compose(
-  withConnect,
-  memo,
-)(SignUp);
+  mapDispatchToProps
+)(SignUp)
