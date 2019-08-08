@@ -16,8 +16,9 @@ function Topbar() {
                         <ul>
                             <li><NavLink to="/">Shop</NavLink></li>
                             <li><NavLink to="/pricing">Pricing</NavLink></li>
+                            <li><a>|</a></li>
                             <li><NavLink to="/sign-in">Signin</NavLink></li>
-                            <li activeClassName='bold'><NavLink to="/sign-up">Signup</NavLink></li>
+                            <li className="bold"><NavLink to="/sign-up">Signup</NavLink></li>
                         </ul>
                     </nav>
                 </div>
