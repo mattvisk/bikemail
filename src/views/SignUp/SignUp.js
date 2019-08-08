@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import {ToastsContainer, ToastsStore} from 'react-toasts';
 import {
   signup
 } from '../../modules/user'
@@ -190,8 +191,9 @@ const SignUp = props => {
   const handleSignUp = event => {
     console.log(formState.values)
     props.onSubmitSignup(formState.values.username, formState.values.email, formState.values.password)
+    ToastsStore.success("User is created successfully. ")
     event.preventDefault();
-    history.push('/');
+    // history.push('/');
   };
 
   const hasError = field =>
@@ -364,6 +366,7 @@ const SignUp = props => {
           </div>
         </Grid>
       </Grid>
+      <ToastsContainer store={ToastsStore}/>
     </div>
   );
 };
@@ -375,13 +378,7 @@ const mapStateToProps = ({ user }) => ({
   status: user.status
 })
 
-// const mapDispatchToProps = dispatch =>
-//   bindActionCreators(
-//     {
-//       signup
-//     },
-//     dispatch
-//   )
+
 const mapDispatchToProps = dispatch => {
   return {
     onSubmitSignup: (username, email, password) => {
