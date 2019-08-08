@@ -145,19 +145,26 @@ const useStyles = makeStyles(theme => ({
 const SignUp = props => {
 
   const { history } = props;
-
+  // const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
+    username: props.username,
+    email: props.email,
+    password: props.password,
+    status: props.status
   });
 
   useEffect(() => {
-    const errors = validate(formState.values, schema);
+    ToastsStore.success(props.status)
+  }, [props.status])
 
+  useEffect(() => {
+    const errors = validate(formState.values, schema);
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
@@ -191,7 +198,6 @@ const SignUp = props => {
   const handleSignUp = event => {
     console.log(formState.values)
     props.onSubmitSignup(formState.values.username, formState.values.email, formState.values.password)
-    ToastsStore.success("User is created successfully. ")
     event.preventDefault();
     // history.push('/');
   };
@@ -201,6 +207,7 @@ const SignUp = props => {
 
   return (
     <div className={classes.root}>
+      {props.status}
       <Grid
         className={classes.grid}
         container

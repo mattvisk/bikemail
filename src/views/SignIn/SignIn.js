@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
+import { connect } from 'react-redux'
+
 import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
@@ -14,11 +16,13 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
+import {
+  signin
+} from '../../modules/user'
 
 const schema = {
-  email: {
+  username: {
     presence: { allowEmpty: false, message: 'is required' },
-    email: true,
     length: {
       maximum: 64
     }
@@ -136,6 +140,8 @@ const SignIn = props => {
     touched: {},
     errors: {}
   });
+  useEffect(() => {
+  }, [props.status]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -172,7 +178,9 @@ const SignIn = props => {
 
   const handleSignIn = event => {
     event.preventDefault();
-    history.push('/');
+    props.onSubmitSignIn(formState.values.username, formState.values.password)
+
+    // history.push('/');
   };
 
   const hasError = field =>
@@ -277,20 +285,20 @@ const SignIn = props => {
                   color="textSecondary"
                   variant="body1"
                 >
-                  or login with email address
+                  or login with username or email address
                 </Typography>
                 <TextField
                   className={classes.textField}
-                  error={hasError('email')}
+                  error={hasError('username')}
                   fullWidth
                   helperText={
-                    hasError('email') ? formState.errors.email[0] : null
+                    hasError('username') ? formState.errors.username[0] : null
                   }
-                  label="Email address"
-                  name="email"
+                  label="Username or Email address"
+                  name="username"
                   onChange={handleChange}
                   type="text"
-                  value={formState.values.email || ''}
+                  value={formState.values.username || ''}
                   variant="outlined"
                 />
                 <TextField
@@ -340,8 +348,23 @@ const SignIn = props => {
   );
 };
 
-SignIn.propTypes = {
-  history: PropTypes.object
-};
+const mapStateToProps = ({ user }) => ({
+  username: user.username,
+  email: user.email,
+  role: user.role,
+  status: user.status  
+})
 
-export default withRouter(SignIn);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubmitSignIn: (username, password) => {
+      signin(username, password, dispatch);
+    },
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignIn)

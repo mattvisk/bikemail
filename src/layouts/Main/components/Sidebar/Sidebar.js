@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: 240,
     [theme.breakpoints.up('lg')]: {
-      marginTop: 64,
+      marginTop: 97,
       height: 'calc(100% - 64px)'
     }
   },
@@ -97,6 +97,8 @@ const Sidebar = props => {
         {...rest}
         className={clsx(classes.root, className)}
       >
+        <Profile />
+
         <Divider className={classes.divider} />
         <SidebarNav
           className={classes.nav}
@@ -107,7 +109,6 @@ const Sidebar = props => {
   );
 };
         // <UpgradePlan />
-        // <Profile />
 
 Sidebar.propTypes = {
   className: PropTypes.string,
