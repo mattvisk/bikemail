@@ -147,7 +147,11 @@ const SignIn = props => {
     if(props.status != '' ){
       if(props.isLoggedIn){
         ToastsStore.success(props.status)
-        history.push('/')
+        if(props.role == 'admin')
+          history.push('/admin_user')
+        else
+          history.push('/')
+
       }
       else
         ToastsStore.error(props.status)

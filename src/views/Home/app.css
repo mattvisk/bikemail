@@ -54,11 +54,20 @@ nav li {
   float:left;
   list-style:none;
 }
-nav li.bold a {
+/*.bold a {
   background: #2229ab;
   border-radius:2px;
   margin-left:10px;
   color:#fff;
+}*/
+a.bold {
+  background: #2229ab;
+  border-radius:2px;
+  color:#fff;
+}
+.headerlink {
+  margin-left:10px !important;
+  border-radius:2px;
 }
 nav li a.cur {
   text-decoration: underline;

@@ -6,6 +6,7 @@ import { Main as MainLayout} from './layouts';
 
 import {
   Home as HomeView,
+  AdminUser as AdminUserView,
   Dashboard as DashboardView,
   ProductList as ProductListView,
   UserList as UserListView,
@@ -16,6 +17,7 @@ import {
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView
+
 } from './views';
 
 const Routes = () => {
@@ -25,6 +27,12 @@ const Routes = () => {
         exact
         from="/"
         to="/dashboard"
+      />
+      <RouteWithLayout
+        component={AdminUserView}
+        exact
+        layout={MainLayout}
+        path="/admin_user"
       />
       <RouteWithLayout
         component={DashboardView}

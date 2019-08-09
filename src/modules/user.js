@@ -5,6 +5,8 @@ export const SIGNUP_FAIL = 'user/SIGNUP_FAIL'
 export const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'user/LOGIN_FAIL'
 export const INIT_STATUS = 'user/INIT_STATUS'
+export const GET_USERLIST = 'user/GET_USERLIST'
+
 
 const initialState = {
   username: '',
@@ -12,7 +14,8 @@ const initialState = {
   password: '',
   status: '',
   role: '',
-  isLoggedIn: ''
+  isLoggedIn: '',
+  userlist: []
 }
 
 export default (state = initialState, action) => {
@@ -37,15 +40,31 @@ export default (state = initialState, action) => {
         isLoggedIn: true
       }
     case LOGIN_FAIL:
-    console.log(action);
       return {
         ...state,
         status: action.error,
         isLoggedIn: false
       }
+    case GET_USERLIST:
+      return {
+        ...state,
+        userlist: action.userlist
+      }
     default:
       return state
   }
+}
+export const getuserlist = (dispatch) => {
+  axios.get('http://127.0.0.1:4040/api/users/')
+    .then( userdata =>{ 
+          dispatch({
+            type: GET_USERLIST,
+            userlist: userdata.data
+          })
+    })
+    .catch( error => {
+        console.log(error);
+    });
 }
 export const initstatus= (dispatch) => {
   dispatch({

@@ -7,7 +7,8 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  signup
+  signup,
+  initstatus
 } from '../../modules/user'
 import {ToastsStore} from 'react-toasts';
 
@@ -160,7 +161,11 @@ const SignUp = props => {
   });
 
   useEffect(() => {
-    ToastsStore.success(props.status)
+    if(props.status != ''){
+      ToastsStore.success(props.status)
+      history.push('/sign-in')
+      props.initStatus()
+    }
   }, [props.status])
 
   useEffect(() => {
@@ -390,6 +395,7 @@ const mapDispatchToProps = dispatch => {
     onSubmitSignup: (username, email, password) => {
       signup(username, email, password, dispatch);
     },
+    initStatus: () => initstatus(dispatch)
   };
 }
 
