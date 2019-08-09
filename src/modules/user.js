@@ -20,6 +20,7 @@ const initialState = {
   userlist: []
 }
 
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040' : ''
 export default (state = initialState, action) => {
   switch (action.type) {
     case SIGNOUT:
@@ -77,7 +78,7 @@ export default (state = initialState, action) => {
   }
 }
 export const getuserlist = (dispatch) => {
-  axios.get('http://127.0.0.1:4040/api/users/')
+  axios.get(`${API_URL}/api/users/`)
     .then( userdata =>{ 
           dispatch({
             type: GET_USERLIST,
@@ -95,7 +96,7 @@ export const initstatus= (dispatch) => {
 }
 export const signup = (username, email, password, dispatch) => {
   console.log(username, email, password);
-  axios.post('http://127.0.0.1:4040/api/users/',{
+  axios.post(`${API_URL}/api/users/`,{
     username: username,
     email: email,
     password: password
@@ -116,7 +117,7 @@ export const signup = (username, email, password, dispatch) => {
 
 
 export const signin = (username, password, dispatch) => {
-  axios.post('http://127.0.0.1:4040/api/auth/login',{
+  axios.post(`${API_URL}/api/auth/login`, {
     username: username,
     password: password
   })
