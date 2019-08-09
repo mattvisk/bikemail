@@ -38,7 +38,6 @@ const Topbar = props => {
                     <nav>
                         <ul>
                             <li><Button
-                                activeClassName="bold"
                                 className = 'headerlink'
                                 component={CustomRouterLink}
                                 to='/shop'
@@ -47,7 +46,6 @@ const Topbar = props => {
                               </Button></li>
                             <li>
                                 <Button
-                                    activeClassName="bold"
                                     className = 'headerlink'
 
                                     component={CustomRouterLink}
@@ -79,7 +77,6 @@ const Topbar = props => {
                             :
                               <li>
                               <li><Button
-                                activeClassName="bold"
                                 className = 'headerlink'
                                 component={CustomRouterLink}
                                 to='/sign-in'
@@ -89,8 +86,7 @@ const Topbar = props => {
                               </li>
                               <li>
                                  <Button
-                                  activeClassName="bold"
-                                  className = 'headerlink'
+                                  className = 'headerlink bold'
                                   component={CustomRouterLink}
                                   to='/sign-up'
                                 >
