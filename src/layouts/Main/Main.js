@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   shiftContent: {
-    paddingLeft: 240,
+    // paddingLeft: 240,
     zIndex: 1
   },
   content: {
@@ -51,11 +51,7 @@ const Main = props => {
         [classes.shiftContent]: isDesktop
       })}
     >
-      <Sidebar
-        onClose={handleSidebarClose}
-        open={shouldOpenSidebar}
-        variant={isDesktop ? 'persistent' : 'temporary'}
-      />
+
       <main className={classes.content}>
         {children}
         <Footer />
@@ -65,5 +61,9 @@ const Main = props => {
   );
 };
 
-
+      // <Sidebar
+      //   onClose={handleSidebarClose}
+      //   open={shouldOpenSidebar}
+      //   variant={isDesktop ? 'persistent' : 'temporary'}
+      // />
 export default Main;

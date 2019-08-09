@@ -1,11 +1,13 @@
 import axios from 'axios';
-
 export const SIGNUP_SUCCESS = 'user/SIGNUP_SUCCESS'
 export const SIGNUP_FAIL = 'user/SIGNUP_FAIL'
 export const LOGIN_SUCCESS = 'user/LOGIN_SUCCESS'
 export const LOGIN_FAIL = 'user/LOGIN_FAIL'
 export const INIT_STATUS = 'user/INIT_STATUS'
 export const GET_USERLIST = 'user/GET_USERLIST'
+export const SIGNOUT = 'user/SIGNOUT'
+export const LOGEDIN = 'user/LOGEDIN'
+
 
 
 const initialState = {
@@ -20,6 +22,14 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SIGNOUT:
+      window.localStorage.removeItem('username');
+      window.localStorage.removeItem('role');
+      window.localStorage.removeItem('email');
+      return {
+        ...state,
+        isLoggedIn: false
+      }
     case SIGNUP_SUCCESS:
       return {
         ...state,
@@ -30,7 +40,19 @@ export default (state = initialState, action) => {
         ...state,
         status:''
       }
+    case LOGEDIN:
+      console.log('logedin', action)
+      return  {
+        ...state,
+        username: action.username,
+        role: action.role,
+        email: action.email,
+        isLoggedIn: true
+      }
     case LOGIN_SUCCESS:
+      window.localStorage.setItem('username', action.username);
+      window.localStorage.setItem('role', action.role);
+      window.localStorage.setItem('email', action.email);
       return {
         ...state,
         username: action.username,

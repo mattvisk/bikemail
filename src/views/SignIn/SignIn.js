@@ -19,7 +19,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
 import {
   signin,
-  initstatus
+  initstatus,
 } from '../../modules/user'
 
 const schema = {
@@ -212,7 +212,7 @@ const SignIn = props => {
         <Grid
           className={classes.quoteContainer}
           item
-          lg={5}
+          lg={6}
         >
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
@@ -243,7 +243,7 @@ const SignIn = props => {
         <Grid
           className={classes.content}
           item
-          lg={7}
+          lg={6}
           xs={12}
         >
           <div className={classes.content}>
