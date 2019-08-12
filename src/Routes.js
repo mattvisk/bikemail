@@ -6,6 +6,7 @@ import { Main as MainLayout} from './layouts';
 
 import {
   Home as HomeView,
+  EmailForm as EmailFormView,
   AdminUser as AdminUserView,
   Dashboard as DashboardView,
   ProductList as ProductListView,
@@ -33,6 +34,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/admin_user"
+      />
+      <RouteWithLayout
+        component={EmailFormView}
+        exact
+        layout={MainLayout}
+        path="/create_mail"
       />
       <RouteWithLayout
         component={DashboardView}

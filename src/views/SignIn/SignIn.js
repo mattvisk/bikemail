@@ -152,8 +152,7 @@ const SignIn = props => {
         if(props.role == 'admin')
           history.push('/admin_user')
         else
-          history.push('/')
-
+          history.push('/create_mail')
       }
       else
         ToastsStore.error(props.status)
@@ -218,7 +217,6 @@ const SignIn = props => {
           xs={12}
         >
           <div className={classes.content}>
-
             <div className={classes.contentBody}>
               <form
                 className={classes.form}

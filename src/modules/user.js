@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
       window.localStorage.removeItem('email');
       return {
         ...state,
-        isLoggedIn: false
+        isLoggedIn: ''
       }
     case SIGNUP_SUCCESS:
       return {
