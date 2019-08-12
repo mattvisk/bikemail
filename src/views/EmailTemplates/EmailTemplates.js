@@ -20,10 +20,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const EmailTemplates = props => {
+  const { history } = props;
+  
   const classes = useStyles();
   useEffect(() => {
-    if(props.status){
+    if(props.status != ''){
       ToastsStore.success(props.status)
+      console.log(props.status,props.status.includes('removed'))
+      if(props.status.includes('removed'))
+        props.getEmailList(props.username)
       props.initStatus()
     }
 
@@ -44,7 +49,7 @@ const EmailTemplates = props => {
           lg={12}
          
         >
-          <EmailList list={props.maillist}/>
+          <EmailList list={props.maillist} history={history}/>
         </Grid>
       </Grid>
     </div>

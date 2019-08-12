@@ -1,5 +1,6 @@
 import React, { useState, forwardRef } from 'react';
 import {NavLink} from 'react-router-dom';
+import { connect } from 'react-redux'
 
 import clsx from 'clsx';
 import moment from 'moment';
@@ -20,9 +21,18 @@ import {
   TableRow,
   Tooltip,
   TableSortLabel,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog 
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { StatusBullet } from 'components';
+import {
+  removemail,
+  initstatus,
+  setformstatus
+} from '../../../../modules/mail'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -41,6 +51,9 @@ const useStyles = makeStyles(theme => ({
   },
   actions: {
     justifyContent: 'flex-end'
+  },
+  clickabletd: {
+    cursor: 'pointer'
   }
 }));
 
@@ -56,15 +69,85 @@ const CustomRouterLink = forwardRef((props, ref) => (
     <NavLink {...props} />
   </div>
 ));
+
+function ConfirmationDialogRaw(props) {
+  const { remove, onOk, onClose, open, ...other } = props;
+  const radioGroupRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!open) {
+    }
+  }, [open]);
+
+  function handleEntering() {  
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+  }
+
+  function handleCancel() {
+    onClose();
+  }
+
+  function handleOk() {
+    onOk(remove);
+  }
+
+  return (
+    <Dialog
+      disableBackdropClick
+      disableEscapeKeyDown
+      maxWidth="xs"
+      onEntering={handleEntering}
+      aria-labelledby="confirmation-dialog-title"
+      open={open}
+      {...other}
+    >
+      <DialogTitle id="confirmation-dialog-title">Delete email</DialogTitle>
+      <DialogContent dividers>
+          Do you want to delete this email?
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleOk} color="primary">
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 const EmailList = props => {
-  const { className, ...rest } = props;
+  const { history, className, ...rest } = props;
+  const [open, setOpen] = React.useState(false);
+  const [remove, setRemove] = React.useState();
 
   const classes = useStyles();
 
-  // const [orders] = useState(mockData);
-
+  const removemail = (id) => {
+    setRemove(id)
+    setOpen(true);
+  }
   const mails = props.list
   console.log("Mails:",mails)
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+  const handleOk = (remove) => {
+    setOpen(false);
+    
+    props.removeMail(remove)
+  }
+  const editCol = (id) => {
+    props.setFormStatus(id)
+    history.push('/mail-form')
+  }
+  const createmail = () => {
+    props.setFormStatus('create')
+    history.push('/mail-form')
+  }
   return (
     <Card
       {...rest}
@@ -76,8 +159,8 @@ const EmailList = props => {
             color="primary"
             size="small"
             variant="outlined"
-            component={CustomRouterLink}
-            to='/create-mail'
+            to='/mail-form'
+            onClick={createmail}
           >
             Create email
           </Button>
@@ -92,12 +175,10 @@ const EmailList = props => {
               <TableHead>
                 <TableRow>
                   <TableCell>Subject</TableCell>
-                  <TableCell>Slug</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Delay</TableCell>
                   <TableCell>Sender Name</TableCell>
                   <TableCell>Sender email</TableCell>
-                  <TableCell>Filter Id</TableCell>
                   <TableCell>Mail</TableCell>
                   <TableCell sortDirection="desc">
                     <Tooltip
@@ -112,24 +193,33 @@ const EmailList = props => {
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
+                  <TableCell>Action</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
                 {mails.map(mail => (
                   <TableRow
                     hover
-                    key={mail.id}
+                    key={mail._id}
+                    className={classes.clickabletd}
+                    
                   >
-                    <TableCell>{mail.subject}</TableCell>
-                    <TableCell>{mail.slug}</TableCell>
-                    <TableCell>{mail.mail_status}</TableCell>
-                    <TableCell>{mail.delay}</TableCell>
-                    <TableCell>{mail.sender_name}</TableCell>
-                    <TableCell>{mail.sender_email}</TableCell>
-                    <TableCell>{mail.filter_id}</TableCell>
-                    <TableCell>{mail.mail_content}</TableCell>
-                    <TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>{mail.subject}</TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>{mail.mail_status}</TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>{mail.delay}</TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>{mail.sender_name}</TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>{mail.sender_email}</TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>{mail.mail_content}</TableCell>
+                    <TableCell onClick={()=>editCol(mail._id)}>
                       {moment(mail.createdAt).format('DD/MM/YYYY')}
+                    </TableCell>
+                    <TableCell>
+                      <Button 
+                        color='primary' 
+                        onClick={() => {removemail(mail._id)}}>
+                          Remove
+                      </Button>
                     </TableCell>
                     
                   </TableRow>
@@ -149,12 +239,37 @@ const EmailList = props => {
           View all <ArrowRightIcon />
         </Button>
       </CardActions>
+      <ConfirmationDialogRaw
+          classes={{
+            paper: classes.paper,
+          }}
+          id="ringtone-menu"
+          keepMounted
+          open={open}
+          onClose={handleClose}
+          onOk={handleOk}
+          remove={remove}
+        />
     </Card>
   );
 };
 
-EmailList.propTypes = {
-  className: PropTypes.string
-};
+const mapStateToProps = ({ user, mail }) => ({
+  maillist: mail.maillist,
+  status: mail.status,
+  isLoggedIn: user.isLoggedIn,
+  username: user.username
+})
 
-export default EmailList;
+
+const mapDispatchToProps = dispatch => {
+  return {
+    removeMail: (id) => removemail(id, dispatch),
+    setFormStatus:(status) => setformstatus(status, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EmailList)

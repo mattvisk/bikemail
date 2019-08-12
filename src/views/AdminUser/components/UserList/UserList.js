@@ -104,7 +104,7 @@ const UserList = props => {
                 {users.map(user => (
                   <TableRow
                     hover
-                    key={user.id}
+                    key={user._id}
                   >
                     <TableCell>{user.username}</TableCell>
                     <TableCell>{user.email}</TableCell>

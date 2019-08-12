@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   create_mail,
+  update_mail,
   initstatus
 } from '../../modules/mail'
 import {ToastsStore} from 'react-toasts';
@@ -39,9 +40,6 @@ const schema = {
   mail_status: {
     presence: { allowEmpty: false, message: 'is required' },
   },
-  slug: {
-    presence: { allowEmpty: false, message: 'is required' },
-  },
   delay: {
     presence: { allowEmpty: false, message: 'is required' },
   },
@@ -52,9 +50,6 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' },
     email: true
 
-  },
-  filter_id: {
-    presence: { allowEmpty: false, message: 'is required' },
   },
   mail_content: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -180,8 +175,8 @@ const EmailForm = props => {
 
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
+  const [title, setTitle] = useState('')
   const classes = useStyles();
-
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
@@ -190,14 +185,22 @@ const EmailForm = props => {
   });
 
   useEffect(() => {
+    console.log(props.status)
     if(props.status){
       ToastsStore.success(props.status)
-      history.push('/email-templates')
       props.initStatus()
     }
 
   }, [props.status]);
+  useEffect(() => {
+    if(props.formStatus == 'create')
+      setTitle('Create New Mail')
+    else if(props.formStatus != ''){
+      setTitle('Update Mail')
+      formState.values = props.maildata
+    }
 
+  }, [props.formStatus]);
   useEffect(() => {
     const errors = validate(formState.values, schema);
     setFormState(formState => ({
@@ -225,8 +228,13 @@ const EmailForm = props => {
     }));
   };
 
-  const handleEmailCreate = event => {
-    props.onEmailCreate(formState.values, props.username)
+  const handleEmailSubmit = event => {
+    console.log(formState.values)
+    if(props.formStatus == 'create')
+      props.onEmailCreate(formState.values, props.username)
+    else if(props.formStatus != '')
+      props.onEmailUpdate(formState.values, props.username)
+       
     event.preventDefault();
     // history.push('/');
   };
@@ -251,13 +259,13 @@ const EmailForm = props => {
             <div className={classes.contentBody}>
               <form
                 className={classes.form}
-                onSubmit={handleEmailCreate}
+                onSubmit={handleEmailSubmit}
               >
                 <Typography
                   className={classes.title}
                   variant="h2"
                 >
-                  Create new mail
+                  {title}
                 </Typography>
                 <Typography
                   color="textSecondary"
@@ -281,20 +289,7 @@ const EmailForm = props => {
                   variant="outlined"
                 />
 
-                <FormLabel component="legend" className={classes.label}>Slug</FormLabel>
-                <TextField
-                  className={classes.textField}
-                  error={hasError('slug')}
-                  fullWidth
-                  helperText={
-                    hasError('slug') ? formState.errors.slug[0] : null
-                  }
-                  name="slug"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.slug || ''}
-                  variant="outlined"
-                />
+
 
 
                 <FormControl component="fieldset" className={classes.textField}>
@@ -357,21 +352,7 @@ const EmailForm = props => {
                   variant="outlined"
                 />
 
-                <FormLabel component="legend" className={classes.label}>Filter Id</FormLabel>
-                <TextField
-                  className={classes.textField}
-                  error={hasError('filter_id')}
-                  fullWidth
-                  helperText={
-                    hasError('filter_id') ? formState.errors.filter_id[0] : null
-                  }
-                  name="filter_id"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.filter_id || ''}
-                  variant="outlined"
-                />
-
+                
                 <FormLabel component="legend" className={classes.label}>Email</FormLabel>
                 <TextField
                   className={classes.textField}
@@ -450,7 +431,9 @@ const EmailForm = props => {
 
 const mapStateToProps = ({ user, mail }) => ({
   username: user.username,
-  status: mail.status
+  status: mail.status,
+  formStatus: mail.formStatus,
+  maildata: mail.maildata
 })
 
 // <div className={classes.preview}>
@@ -458,9 +441,8 @@ const mapStateToProps = ({ user, mail }) => ({
 //                 </div>
 const mapDispatchToProps = dispatch => {
   return {
-    onEmailCreate: (mail, username) => {
-      create_mail(mail, username, dispatch);
-    },
+    onEmailCreate: (mail, username) => create_mail(mail, username, dispatch),
+    onEmailUpdate: (mail, username) => update_mail(mail, dispatch),
     initStatus: () => initstatus(dispatch)
   };
 }

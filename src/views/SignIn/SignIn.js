@@ -151,7 +151,7 @@ const SignIn = props => {
         if(props.role == 'admin')
           history.push('/admin-user')
         else
-          history.push('/create-mail')
+          history.push('/email-templates')
       }
       else
         ToastsStore.error(props.status)
