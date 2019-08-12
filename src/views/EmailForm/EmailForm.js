@@ -189,8 +189,6 @@ const EmailForm = props => {
   useEffect(() => {
     if(props.status != ''){
       ToastsStore.success(props.status)
-      history.push('/sign-in')
-      props.initStatus()
     }
   }, [props.status])
 
