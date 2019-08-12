@@ -145,14 +145,13 @@ const SignIn = props => {
     errors: {}
   });
   useEffect(() => {
-    console.log(props)
     if(props.status != '' ){
       if(props.isLoggedIn){
         ToastsStore.success(props.status)
         if(props.role == 'admin')
-          history.push('/admin_user')
+          history.push('/admin-user')
         else
-          history.push('/create_mail')
+          history.push('/create-mail')
       }
       else
         ToastsStore.error(props.status)

@@ -2,6 +2,7 @@ export { default as Account } from './Account';
 export { default as Home } from './Home';
 export { default as AdminUser } from './AdminUser';
 export { default as EmailForm } from './EmailForm';
+export { default as EmailTemplates } from './EmailTemplates';
 
 export { default as Dashboard } from './Dashboard';
 export { default as Icons } from './Icons';

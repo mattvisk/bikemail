@@ -1,13 +1,14 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import React, { useState, useEffect, memo, forwardRef } from 'react';
+import { NavLink, Link as RouterLink, withRouter } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  create_mail
+  create_mail,
+  initstatus
 } from '../../modules/mail'
 import {ToastsStore} from 'react-toasts';
 
@@ -156,15 +157,25 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '-14px'
   },
   createButton: {
-    margin: theme.spacing(2, 0)
+    margin: theme.spacing(2, 0),
+    width: '90%'
   },
   preview: {
     width: '50%',
     minHeight: 200,
     marginTop: 20,
+  },
+  gridright: {
+    textAlign: 'right'
   }
 }));
-
+const CustomRouterLink = forwardRef((props, ref) => (
+  <div
+    ref={ref}
+  >
+    <NavLink {...props} />
+  </div>
+));
 const EmailForm = props => {
 
   const { history } = props;
@@ -176,21 +187,16 @@ const EmailForm = props => {
     values: {},
     touched: {},
     errors: {},
-    subject: props.subject,
-    slug: props.slug,
-    mail_status: props.mail_status,
-    delay: props.delay,
-    sender_name: props.sender_name,
-    sender_email: props.sender_email,
-    filter_id: props.filter_id,
-    mail_content: props.mail_content,
   });
 
   useEffect(() => {
-    if(props.status != ''){
+    if(props.status){
       ToastsStore.success(props.status)
+      history.push('/email-templates')
+      props.initStatus()
     }
-  }, [props.status])
+
+  }, [props.status]);
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -203,7 +209,6 @@ const EmailForm = props => {
 
   const handleChange = event => {
     event.persist();
-    console.log(formState)
     setFormState(formState => ({
       ...formState,
       values: {
@@ -221,7 +226,7 @@ const EmailForm = props => {
   };
 
   const handleEmailCreate = event => {
-    props.onEmailCreate(formState.values)
+    props.onEmailCreate(formState.values, props.username)
     event.preventDefault();
     // history.push('/');
   };
@@ -384,29 +389,56 @@ const EmailForm = props => {
                   rows="4"
                   rowsMax='20'
                 />
-                <TextField
-                  className={classes.preview}
-                  fullWidth
-                  disabled
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.mail_content || ''}
-                  variant="outlined"
-                  multiline
-                  rows="4"
-                  rowsMax='20'
-                />
+                
+                <Grid
+                  className={classes.grid}
+                  container
+                >
+                <Grid
+                  lg={4}
+                >
                 <Button
                   className={classes.createButton}
                   color="primary"
                   disabled={!formState.isValid}
-                  fullWidth
                   size="large"
                   type="submit"
                   variant="contained"
                 >
                   Save Email
                 </Button>
+                </Grid>
+                <Grid
+                  lg={4}
+                >
+                  <Button
+                    className={classes.createButton}
+                    color="primary"
+                    disabled={!formState.isValid}
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                  >
+                    Test Email
+                  </Button>
+                </Grid>
+                <Grid
+                  className={classes.gridright}
+                  lg={4}
+                >
+                  <Button
+                    className={classes.createButton}
+                    color="info"
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    component={CustomRouterLink}
+                    to='/email-templates'
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
+                </Grid>
               </form>
             </div>
           </div>
@@ -416,15 +448,20 @@ const EmailForm = props => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, mail }) => ({
+  username: user.username,
+  status: mail.status
 })
 
-
+// <div className={classes.preview}>
+//                 // <span dangerouslySetInnerHTML={{__html: formState.values.mail_content}} />
+//                 </div>
 const mapDispatchToProps = dispatch => {
   return {
-    onEmailCreate: (mail) => {
-      create_mail(mail,dispatch);
-    }
+    onEmailCreate: (mail, username) => {
+      create_mail(mail, username, dispatch);
+    },
+    initStatus: () => initstatus(dispatch)
   };
 }
 
