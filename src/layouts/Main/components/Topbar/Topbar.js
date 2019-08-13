@@ -43,6 +43,7 @@ const Topbar = props => {
 
                             { props.isLoggedIn == true ?
                               <ul>
+
                               <li>
                                   <Button
                                       className = 'headerlink'
@@ -73,6 +74,17 @@ const Topbar = props => {
                               </ul>
                             :
                               <ul>
+                              <li>
+                                  <Button
+                                      className = 'headerlink'
+
+                                      component={CustomRouterLink}
+                                      to='/products-and-pricing'
+                                    >
+                                  Pricing
+                                </Button>
+                              </li>
+                              <li><a>|</a></li>
                               <li><Button
                                 className = 'headerlink'
                                 component={CustomRouterLink}
