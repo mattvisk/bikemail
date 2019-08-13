@@ -37,12 +37,15 @@ header .inner {
   padding:1vw 5vw;
 }
 .header-spacer {
-  height:120px;
+  height:91px;
 }
 .logo {
   width:200px;
 }
 
+header {
+
+}
 nav {
   float:right;
   padding-top:8px;
@@ -53,6 +56,7 @@ nav ul {
 nav li {
   float:left;
   list-style:none;
+
 }
 /*.bold a {
   background: #2229ab;
@@ -107,7 +111,7 @@ nav a {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  
+
 }
 
 .column {
@@ -126,9 +130,3 @@ nav a {
 .green-column {
   background-color: green;
 }
-
-
-
-
-
-
