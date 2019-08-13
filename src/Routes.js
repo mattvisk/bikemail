@@ -36,11 +36,18 @@ const Routes = () => {
         layout={MainLayout}
         path="/admin-user"
       />
+
       <RouteWithLayout
         component={EmailFormView}
         exact
         layout={MainLayout}
         path="/mail-form/:mailId"
+      />
+      <RouteWithLayout
+        component={EmailFormView}
+        exact
+        layout={MainLayout}
+        path="/mail-form"
       />
       <RouteWithLayout
         component={EmailTemplatesView}
