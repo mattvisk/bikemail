@@ -7,7 +7,7 @@ export const INIT_STATUS = 'user/INIT_STATUS'
 export const GET_USERLIST = 'user/GET_USERLIST'
 export const SIGNOUT = 'user/SIGNOUT'
 export const LOGEDIN = 'user/LOGEDIN'
-
+export const SET_ACCOUNT_TYPE = 'user/SET_ACCOUNT_TYPE'
 
 
 const initialState = {
@@ -17,12 +17,18 @@ const initialState = {
   status: '',
   role: '',
   isLoggedIn: '',
-  userlist: []
+  userlist: [],
+  accountType: ''
 }
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040' : ''
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_ACCOUNT_TYPE:
+      return {
+        ...state,
+        accountType: action.accountType
+      }
     case SIGNOUT:
       window.localStorage.removeItem('username');
       window.localStorage.removeItem('role');
@@ -92,6 +98,12 @@ export const getuserlist = (dispatch) => {
 export const initstatus= (dispatch) => {
   dispatch({
     type: INIT_STATUS
+  });
+}
+export const set_account_type= (account_type,dispatch) => {
+  dispatch({
+    type: SET_ACCOUNT_TYPE,
+    accountType: account_type
   });
 }
 export const signup = (username, email, password, dispatch) => {

@@ -164,7 +164,10 @@ const SignUp = props => {
   useEffect(() => {
     if(props.status != ''){
       ToastsStore.success(props.status)
-      history.push('/sign-in')
+      if(props.accountType == 'Pro')
+        history.push('/payment')
+      else
+        history.push('/sign-in')
       props.initStatus()
     }
   }, [props.status])
@@ -235,7 +238,7 @@ const SignUp = props => {
                   className={classes.title}
                   variant="h2"
                 >
-                  Create new account
+                  Create {props.accountType} account
                 </Typography>
                 <Typography
                   color="textSecondary"
@@ -352,7 +355,8 @@ const mapStateToProps = ({ user }) => ({
   username: user.username,
   email: user.email,
   password: user.password,
-  status: user.status
+  status: user.status,
+  accountType: user.accountType
 })
 
 
