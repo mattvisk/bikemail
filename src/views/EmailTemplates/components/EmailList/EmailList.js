@@ -142,7 +142,7 @@ const EmailList = props => {
   }
   const editCol = (id) => {
     props.setFormStatus(id)
-    history.push('/mail-form')
+    history.push('/mail-form/' + id)
   }
   const createmail = () => {
     props.setFormStatus('create')

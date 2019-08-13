@@ -40,7 +40,7 @@ const Routes = () => {
         component={EmailFormView}
         exact
         layout={MainLayout}
-        path="/mail-form"
+        path="/mail-form/:mailId"
       />
       <RouteWithLayout
         component={EmailTemplatesView}
