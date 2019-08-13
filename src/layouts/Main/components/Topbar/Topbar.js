@@ -25,10 +25,9 @@ const Topbar = props => {
     if(props.isLoggedIn == ''){
 
       if(window.localStorage.getItem('username')){
-        console.log('asdas')
          props.logedin(window.localStorage.getItem('username'),
-                       window.localStorage.getItem('email'),
-                       window.localStorage.getItem('role'))
+           window.localStorage.getItem('email'),
+           window.localStorage.getItem('role'))
       }
     }
 
@@ -97,9 +96,6 @@ const Topbar = props => {
                     </nav>
                 </div>
             </header>
-            <div className="header-spacer">
-
-            </div>
         </div>
     );
 }

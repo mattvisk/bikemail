@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
-
 import { Sidebar, Topbar, Footer } from './components';
+import './main.scss';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +31,6 @@ const Main = props => {
   });
 
   const [openSidebar, setOpenSidebar] = useState(false);
-
   const handleSidebarOpen = () => {
     setOpenSidebar(true);
   };
