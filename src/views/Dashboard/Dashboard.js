@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 import './banner.scss';
@@ -30,6 +31,7 @@ const Dashboard = () => {
       <h1>Automatic Customer Communication.</h1>
       <h2>Talk to your customers one-on-one, at scale.</h2>
 
+      <NavLink class="large-btn" to='/sign-up'>Create your account</NavLink>
 
     </div>
   );

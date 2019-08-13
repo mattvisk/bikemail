@@ -1,10 +1,9 @@
-
-
 header {
   position: fixed;
   width:100%;
   background:#fff;
-  border-bottom:1px solid #f8f8f8;
+  border-bottom:1px solid rgba(0,0,0,.05);
+  background:rgba(255,255,255,.9);
 }
 header .inner {
   padding:1vw 5vw;
