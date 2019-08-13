@@ -26,38 +26,6 @@ p {
   padding:40px 0;
 }
 
-
-header {
-  position: fixed;
-  width:100%;
-  background:#fff;
-  border-bottom:1px solid #f8f8f8;
-}
-header .inner {
-  padding:1vw 5vw;
-}
-.header-spacer {
-  height:91px;
-}
-.logo {
-  width:200px;
-}
-
-header {
-
-}
-nav {
-  float:right;
-  padding-top:8px;
-}
-nav ul {
-  margin:0;
-}
-nav li {
-  float:left;
-  list-style:none;
-
-}
 /*.bold a {
   background: #2229ab;
   border-radius:2px;

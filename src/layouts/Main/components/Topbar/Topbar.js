@@ -4,6 +4,7 @@ import {  Button } from '@material-ui/core';
 import { connect } from 'react-redux'
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import logo from './logo_v1.png';
+import './topbar.scss';
 import {
   SIGNOUT,
   LOGEDIN
