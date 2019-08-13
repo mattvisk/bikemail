@@ -12,7 +12,7 @@ import {
   initstatus
 } from '../../modules/mail'
 import {ToastsStore} from 'react-toasts';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
   Grid,
   Button,
@@ -239,6 +239,10 @@ const EmailForm = props => {
     // history.push('/');
   };
 
+  const handleBack = () => {
+    history.goBack();
+  };
+
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
 
@@ -256,6 +260,11 @@ const EmailForm = props => {
           xs={7}
         >
           <div className={classes.content}>
+            <div className={classes.contentHeader}>
+              <IconButton onClick={handleBack}>
+                <ArrowBackIcon />
+              </IconButton>
+            </div>
             <div className={classes.contentBody}>
               <form
                 className={classes.form}

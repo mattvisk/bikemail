@@ -22,7 +22,6 @@ import {
   Checkbox,
   Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 const key = 'signup';
 const schema = {
   username: {

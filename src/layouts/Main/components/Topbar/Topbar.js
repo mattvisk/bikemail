@@ -85,7 +85,7 @@ const Topbar = props => {
                                  <Button
                                   className = 'headerlink bold'
                                   component={CustomRouterLink}
-                                  to='/sign-up'
+                                  to='/products-and-pricing'
                                 >
                                   SignUp
                                 </Button>

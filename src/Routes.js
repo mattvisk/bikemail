@@ -5,6 +5,7 @@ import { RouteWithLayout } from './components';
 import { Main as MainLayout} from './layouts';
 
 import {
+  Products as ProductsView,
   Home as HomeView,
   EmailTemplates as EmailTemplatesView,
   EmailForm as EmailFormView,
@@ -37,6 +38,12 @@ const Routes = () => {
         path="/admin-user"
       />
 
+      <RouteWithLayout
+        component={ProductsView}
+        exact
+        layout={MainLayout}
+        path="/products-and-pricing"
+      />
       <RouteWithLayout
         component={EmailFormView}
         exact
