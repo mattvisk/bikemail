@@ -48,7 +48,6 @@ export default {
     link: colors.blue[600]
   },
   background: {
-    default: '#F4F6F8',
     paper: white
   },
   icon: colors.blueGrey[600],

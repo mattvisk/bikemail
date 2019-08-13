@@ -1,0 +1,20 @@
+#banner-wrapper {
+  height:72vh;
+  background: #BE93C5;  /* fallback for old browsers */
+  background: linear-gradient(to right, #8240da, #30339e);
+  position: absolute;
+  width:100%;
+  img {
+    margin:0 auto;
+    display:block;
+    margin-top:24vh;
+  }
+  text-align:center;
+  color:#fff;
+  font-size:40px;
+  h1 {
+    font-size:46px;
+    margin-top:60px;
+    line-height:1.1em;
+  }
+}

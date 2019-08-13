@@ -26,34 +26,6 @@ p {
   padding:40px 0;
 }
 
-
-header {
-  position: fixed;
-  width:100%;
-  background:#fff;
-  border-bottom:1px solid #f8f8f8;
-}
-header .inner {
-  padding:1vw 5vw;
-}
-.header-spacer {
-  height:120px;
-}
-.logo {
-  width:200px;
-}
-
-nav {
-  float:right;
-  padding-top:8px;
-}
-nav ul {
-  margin:0;
-}
-nav li {
-  float:left;
-  list-style:none;
-}
 /*.bold a {
   background: #2229ab;
   border-radius:2px;
@@ -107,7 +79,7 @@ nav a {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  
+
 }
 
 .column {
@@ -126,9 +98,3 @@ nav a {
 .green-column {
   background-color: green;
 }
-
-
-
-
-
-

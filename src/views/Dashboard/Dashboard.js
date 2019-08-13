@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
+import './banner.scss';
+import envelope from'./envelopes.png';
 
 import {
   Budget,
@@ -23,7 +25,13 @@ const Dashboard = () => {
   const classes = useStyles();
 
   return (
-    <div></div>
+    <div id="banner-wrapper">
+      <img width="400px" src={envelope} />
+      <h1>Automatic Customer Communication.</h1>
+      <h2>Talk to your customers one-on-one, at scale.</h2>
+
+
+    </div>
   );
 };
 // <div className={classes.root}>
