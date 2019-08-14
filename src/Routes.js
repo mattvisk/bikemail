@@ -5,6 +5,7 @@ import { RouteWithLayout } from './components';
 import { Main as MainLayout} from './layouts';
 
 import {
+  Payment as PaymentView,
   Products as ProductsView,
   Home as HomeView,
   EmailTemplates as EmailTemplatesView,
@@ -37,7 +38,12 @@ const Routes = () => {
         layout={MainLayout}
         path="/admin-user"
       />
-
+      <RouteWithLayout
+        component={PaymentView}
+        exact
+        layout={MainLayout}
+        path="/payment"
+      />
       <RouteWithLayout
         component={ProductsView}
         exact

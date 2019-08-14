@@ -40,7 +40,8 @@ export default (state = initialState, action) => {
     case SIGNUP_SUCCESS:
       return {
         ...state,
-        status:'User is created successfully.'
+        status:'User is created successfully.',
+        username: action.username
       }
     case INIT_STATUS:
       return {
@@ -115,7 +116,8 @@ export const signup = (username, email, password, dispatch) => {
   })
     .then( userdata =>{ 
           dispatch({
-            type: SIGNUP_SUCCESS
+            type: SIGNUP_SUCCESS,
+            username: userdata.data.username
           })
        }
         

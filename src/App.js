@@ -5,7 +5,6 @@ import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
 import validate from 'validate.js';
 import { Provider } from 'react-redux'
-
 import { chartjs } from './helpers';
 import theme from './theme';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -31,10 +30,13 @@ export default class App extends Component {
     <Provider store={store}>
 
         <ThemeProvider theme={theme}>
+              
+
           <Router history={history}>
             <Routes />
           </Router>
           <ToastsContainer store={ToastsStore}/>
+              
 
         </ThemeProvider>
     </Provider>
