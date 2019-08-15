@@ -27,10 +27,12 @@ import {
 const Routes = () => {
   return (
     <Switch>
-      <Redirect
+
+      <RouteWithLayout
+        component={DashboardView}
         exact
-        from="/"
-        to="/dashboard"
+        layout={MainLayout}
+        path="/"
       />
       <RouteWithLayout
         component={AdminUserView}
@@ -68,12 +70,7 @@ const Routes = () => {
         layout={MainLayout}
         path="/email-templates"
       />
-      <RouteWithLayout
-        component={DashboardView}
-        exact
-        layout={MainLayout}
-        path="/dashboard"
-      />
+
       <RouteWithLayout
         component={UserListView}
         exact

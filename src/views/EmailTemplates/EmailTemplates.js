@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
 
 const EmailTemplates = props => {
   const { history } = props;
-  
+  if(props.isLoggedIn != true)
+    history.push('/')
   const classes = useStyles();
   useEffect(() => {
     if(props.status != ''){
