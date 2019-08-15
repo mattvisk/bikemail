@@ -7,7 +7,6 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Editor } from '@tinymce/tinymce-react';
-
 import {
   create_mail,
   update_mail,
@@ -15,6 +14,7 @@ import {
 } from '../../modules/mail'
 import {ToastsStore} from 'react-toasts';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import $ from 'jquery';
 import {
   Grid,
   Button,
@@ -52,9 +52,6 @@ const schema = {
     presence: { allowEmpty: false, message: 'is required' },
     email: true
 
-  },
-  mail_content: {
-    presence: { allowEmpty: false, message: 'is required' },
   }
 };
 
@@ -99,6 +96,12 @@ const useStyles = makeStyles(theme => ({
   },
   bio: {
     color: theme.palette.white
+  },
+  email_content: {
+    width: '100%',
+    height: 200,
+    padding: 20,
+    border: '1px solid #ddd'
   },
   contentContainer: {},
   content_main: {
@@ -174,11 +177,11 @@ const CustomRouterLink = forwardRef((props, ref) => (
   </div>
 ));
 const EmailForm = props => {
-
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   const [title, setTitle] = useState('')
   const classes = useStyles();
+  const [email, setemail] = useState('')
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
@@ -231,11 +234,23 @@ const EmailForm = props => {
   };
 
   const handleEmailSubmit = event => {
-    console.log(formState.values)
+    var tmp = document.createElement("DIV");
+     tmp.innerHTML = email
+     console.log("aafasdfasfasdf",  tmp.textContent || tmp.innerText || "")
+
+    var mail_content = $(email).find('a')
+    var link_list = []
+    $(email).find('a').each(function(){
+      link_list.push({title: $(this).text(), url: $(this).attr('href')})
+    });
+    console.log(link_list)
+    formState.values.mail_content = tmp.textContent || tmp.innerText || ""
+    formState.values.mail_html = email
+    console.log(formState)
     if(props.formStatus == 'create')
-      props.onEmailCreate(formState.values, props.username)
+      props.onEmailCreate(formState.values, link_list, props.username)
     else if(props.formStatus != '')
-      props.onEmailUpdate(formState.values, props.username)
+      props.onEmailUpdate(formState.values, link_list, props.username)
        
     event.preventDefault();
     // history.push('/');
@@ -247,9 +262,26 @@ const EmailForm = props => {
 
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
-  const handleEditorChange = (e) => {
-    console.log('Content was updated:', e.target.getContent());
+  const handleEditorChange = (event) => {
+    // setFormState(formState => ({
+    //   ...formState,
+    //   values: {
+    //     ...formState.values,
+    //     [event.target.name]:
+    //       event.target.type === 'checkbox'
+    //         ? event.target.checked
+    //         : event.target.value
+    //   },
+    //   touched: {
+    //     ...formState.touched,
+    //     [event.target.name]: true
+    //   }
+    // }));
+    setemail(event.target.getContent())
   }
+
+
+
   return (
     <div className={classes.root}>
       <Grid
@@ -368,24 +400,9 @@ const EmailForm = props => {
 
                 
                 <FormLabel component="legend" className={classes.label}>Email</FormLabel>
-                <TextField
-                  className={classes.textField}
-                  error={hasError('mail_content')}
-                  fullWidth
-                  helperText={
-                    hasError('mail_content') ? formState.errors.mail_content[0] : null
-                  }
-                  name="mail_content"
-                  onChange={handleChange}
-                  type="text"
-                  value={formState.values.mail_content || ''}
-                  variant="outlined"
-                  multiline
-                  rows="4"
-                  rowsMax='20'
-                />
+
                 <Editor
-                  initialValue="<p>This is the initial content of the editor</p>"
+                  initialValue={props.maildata.mail_html}
                   init={{
                     plugins: 'link',
                     toolbar: 'link',
@@ -393,6 +410,12 @@ const EmailForm = props => {
                     statusbar: false,
                   }}
                   onChange={handleEditorChange}
+                  error={hasError('mail_content')}
+                  helperText={
+                   hasError('mail_content') ? formState.errors.mail_content[0] : null
+                  }
+                  name="mail_content"
+                  type="text"
                 />
                 <Grid
                   className={classes.grid}
@@ -451,7 +474,23 @@ const EmailForm = props => {
     </div>
   );
 };
-
+                // <TextField
+                //   className={classes.textField}
+                //   error={hasError('mail_content')}
+                //   fullWidth
+                //   helperText={
+                //     hasError('mail_content') ? formState.errors.mail_content[0] : null
+                //   }
+                //   name="mail_content"
+                //   onChange={handleChange}
+                //   type="text"
+                //   value={formState.values.mail_content || ''}
+                //   variant="outlined"
+                //   multiline
+                //   rows="4"
+                //   rowsMax='20'
+                // />
+                // <div className={classes.email_content} contentEditable='true'></div>
 const mapStateToProps = ({ user, mail }) => ({
   username: user.username,
   status: mail.status,
@@ -464,8 +503,8 @@ const mapStateToProps = ({ user, mail }) => ({
 //                 </div>
 const mapDispatchToProps = dispatch => {
   return {
-    onEmailCreate: (mail, username) => create_mail(mail, username, dispatch),
-    onEmailUpdate: (mail, username) => update_mail(mail, dispatch),
+    onEmailCreate: (mail, link_list, username) => create_mail(mail, link_list, username, dispatch),
+    onEmailUpdate: (mail, link_list, username) => update_mail(mail, link_list, dispatch),
     initStatus: () => initstatus(dispatch)
   };
 }

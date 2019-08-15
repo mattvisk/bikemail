@@ -70,10 +70,20 @@ export const getemaillist = (username, dispatch) => {
         console.log(error);
     });
 }
-export const create_mail = (mail, username, dispatch) => {
+export const create_mail = (mail, link_list, username, dispatch) => {
   mail.author = username
   axios.post(`${API_URL}/api/mail/`, mail)
-    .then( userdata =>{ 
+    .then( userdata =>{
+          axios.post(`${API_URL}/api/link/${userdata.data._id}`, link_list)
+          .then( userdata =>{
+                
+                dispatch({
+                  type: MAIL_CREATED
+                })
+          })
+          .catch( error => {
+              console.log(error);
+          });
           dispatch({
             type: MAIL_CREATED
           })
@@ -93,9 +103,19 @@ export const removemail = (mail, dispatch) => {
         console.log(error);
     });
 }
-export const update_mail = (mail, dispatch) => {
+export const update_mail = (mail, link_list, dispatch) => {
   axios.put(`${API_URL}/api/mail/${mail._id}`, mail)
     .then( userdata =>{ 
+        axios.put(`${API_URL}/api/link/${mail._id}`, link_list)
+          .then( userdata =>{
+                
+                dispatch({
+                  type: MAIL_CREATED
+                })
+          })
+          .catch( error => {
+              console.log(error);
+          });
           dispatch({
             type: MAIL_UPDATED
           })
