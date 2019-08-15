@@ -17,8 +17,17 @@ header .inner {
 .active_link {
   border-bottom: 2px solid red;
 }
+.bold{
+   background: #2229ab;
+  border-radius:2px;
+   
+   color:#fff;
+}
 header {
 
+}
+.splitter {
+  line-height: 2
 }
 nav {
   float:right;
