@@ -10,7 +10,9 @@ import { Editor } from '@tinymce/tinymce-react';
 import {
   create_mail,
   update_mail,
-  initstatus
+  initstatus,
+  setformstatus
+
 } from '../../modules/mail'
 import {ToastsStore} from 'react-toasts';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -188,6 +190,8 @@ const EmailForm = props => {
     touched: {},
     errors: {},
   });
+  if(props.match.params.mailId)
+    props.setFormStatus(props.match.params.mailId)
 
   useEffect(() => {
     console.log(props.status)
@@ -198,13 +202,13 @@ const EmailForm = props => {
 
   }, [props.status]);
   useEffect(() => {
-    if(props.formStatus == 'create')
-      setTitle('Create New Mail')
-    else if(props.formStatus != ''){
-      setTitle('Update Mail')
-      formState.values = props.maildata
-    }
+      if(props.formStatus != ''){
+        setTitle('Update Mail')
+        formState.values = props.maildata
 
+      }
+      else 
+        setTitle('Create New Mail')
   }, [props.formStatus]);
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -247,11 +251,10 @@ const EmailForm = props => {
     formState.values.mail_content = tmp.textContent || tmp.innerText || ""
     formState.values.mail_html = email
     console.log(formState)
-    if(props.formStatus == 'create')
-      props.onEmailCreate(formState.values, link_list, props.username)
-    else if(props.formStatus != '')
+    if(props.formStatus != '')
       props.onEmailUpdate(formState.values, link_list, props.username)
-       
+    else
+      props.onEmailCreate(formState.values, link_list, props.username)
     event.preventDefault();
     // history.push('/');
   };
@@ -505,7 +508,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onEmailCreate: (mail, link_list, username) => create_mail(mail, link_list, username, dispatch),
     onEmailUpdate: (mail, link_list, username) => update_mail(mail, link_list, dispatch),
-    initStatus: () => initstatus(dispatch)
+    initStatus: () => initstatus(dispatch),
+    setFormStatus:(status) => setformstatus(status, dispatch)
+
   };
 }
 
