@@ -148,7 +148,11 @@ const Products = props => {
 
   const goSignUp = (type) => {
     props.setAccountType(type)
-    history.push('/sign-up')
+    if(type == 'Pro')
+      history.push('/sign-up/pro')
+    else
+      history.push('/sign-up/free')
+
   }
   return (
     <div className={classes.root}>

@@ -149,7 +149,7 @@ const SignUp = props => {
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
-
+  console.log("Here is signup component", props)
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
@@ -238,7 +238,7 @@ const SignUp = props => {
                   className={classes.title}
                   variant="h2"
                 >
-                  Create {props.accountType} account
+                  Create {props.match.params.mode} account
                 </Typography>
                 <Typography
                   color="textSecondary"

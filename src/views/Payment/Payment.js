@@ -170,9 +170,8 @@ const Payment = props => {
             <div className={classes.contentBody}>
                 <div className="example">
                   <StripeProvider apiKey="pk_test_TYooMQauvdEDq54NiTphI7jx">
-
                     <Elements>
-                      <CheckoutForm />
+                      <CheckoutForm history={history}/>
                     </Elements>
                   </StripeProvider>
                 </div>

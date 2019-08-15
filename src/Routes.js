@@ -114,7 +114,7 @@ const Routes = () => {
         component={SignUpView}
         exact
         layout={MainLayout}
-        path="/sign-up"
+        path="/sign-up/:mode"
       />
       <RouteWithLayout
         component={SignInView}
