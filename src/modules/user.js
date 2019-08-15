@@ -38,10 +38,16 @@ export default (state = initialState, action) => {
         isLoggedIn: ''
       }
     case SIGNUP_SUCCESS:
+      window.localStorage.setItem('username', action.userdata.username);
+      window.localStorage.setItem('role', action.userdata.role);
+      window.localStorage.setItem('email', action.userdata.email);
       return {
         ...state,
         status:'User is created successfully.',
-        username: action.username
+        username: action.userdata.username,
+        role: action.userdata.role,
+        email: action.userdata.email,
+        isLoggedIn: true
       }
     case INIT_STATUS:
       return {
@@ -117,7 +123,7 @@ export const signup = (username, email, password, dispatch) => {
     .then( userdata =>{ 
           dispatch({
             type: SIGNUP_SUCCESS,
-            username: userdata.data.username
+            userdata: userdata.data
           })
        }
         

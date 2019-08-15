@@ -74,11 +74,7 @@ const CheckoutForm = props => {
     if (response) {
        ToastsStore.success('Customer is Created Successfully')
        console.log('loggined', props)
-       if(props.isLoggedIn)
-         props.history.push('/email-templates')
-       else
-         props.history.push('/sign-in')
-
+       props.history.push('/dashboard/welcome')
     }
   }
   return (

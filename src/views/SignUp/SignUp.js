@@ -167,7 +167,7 @@ const SignUp = props => {
       if(props.accountType == 'Pro')
         history.push('/payment')
       else
-        history.push('/sign-in')
+        history.push('/dashboard/welcome')
       props.initStatus()
     }
   }, [props.status])

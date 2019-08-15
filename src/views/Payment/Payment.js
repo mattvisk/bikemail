@@ -151,7 +151,8 @@ const Payment = props => {
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
-
+  if(props.isLoggedIn != true)
+    history.push('/sign-in')
   return (
     <div className={classes.root}>
       {props.status}
@@ -188,7 +189,8 @@ const mapStateToProps = ({ user }) => ({
   email: user.email,
   password: user.password,
   status: user.status,
-  accountType: user.accountType
+  accountType: user.accountType,
+  isLoggedIn: user.isLoggedIn
 })
 
 

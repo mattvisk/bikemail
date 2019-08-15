@@ -29,10 +29,16 @@ const Routes = () => {
     <Switch>
 
       <RouteWithLayout
-        component={DashboardView}
+        component={HomeView}
         exact
         layout={MainLayout}
         path="/"
+      />
+      <RouteWithLayout
+        component={DashboardView}
+        exact
+        layout={MainLayout}
+        path="/dashboard"
       />
       <RouteWithLayout
         component={AdminUserView}

@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/styles';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Editor } from '@tinymce/tinymce-react';
+
 import {
   create_mail,
   update_mail,
@@ -245,7 +247,9 @@ const EmailForm = props => {
 
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
-
+  const handleEditorChange = (e) => {
+    console.log('Content was updated:', e.target.getContent());
+  }
   return (
     <div className={classes.root}>
       <Grid
@@ -266,6 +270,7 @@ const EmailForm = props => {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
+             
               <form
                 className={classes.form}
                 onSubmit={handleEmailSubmit}
@@ -379,7 +384,16 @@ const EmailForm = props => {
                   rows="4"
                   rowsMax='20'
                 />
-                
+                <Editor
+                  initialValue="<p>This is the initial content of the editor</p>"
+                  init={{
+                    plugins: 'link',
+                    toolbar: 'link',
+                    menubar:false,
+                    statusbar: false,
+                  }}
+                  onChange={handleEditorChange}
+                />
                 <Grid
                   className={classes.grid}
                   container
