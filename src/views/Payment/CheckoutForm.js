@@ -63,7 +63,7 @@ const CheckoutForm = props => {
     const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040' : ''
     let response = ''
     if(token)
-       response = await fetch(`${API_URL}/api/auth/charge/${props.username}/${token.card.exp_month}/${token.card.exp_year}/${token.card.last4}` , {
+       response = await fetch(`${API_URL}/api/auth/charge/${props.username}/${token.card.exp_month}/${token.card.exp_year}/${token.card.last4}/${props.accountType}` , {
         method: "POST",
         headers: {"Content-Type": "text/plain"},
         body: token.id
@@ -97,7 +97,8 @@ const CheckoutForm = props => {
 
 const mapStateToProps = ({ user }) => ({
   username: user.username,
-  isLoggedIn: user.isLoggedIn
+  isLoggedIn: user.isLoggedIn,
+  accountType: user.accountType
 })
 
 

@@ -164,7 +164,7 @@ const SignUp = props => {
   useEffect(() => {
     if(props.status != ''){
       ToastsStore.success(props.status)
-      if(props.accountType == 'Pro')
+      if(props.match.params.price != 0)
         history.push('/payment')
       else
         history.push('/dashboard')

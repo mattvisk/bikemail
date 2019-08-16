@@ -11,6 +11,8 @@ export const SET_ACCOUNT_TYPE = 'user/SET_ACCOUNT_TYPE'
 export const USER_UPDATED = 'user/USER_UPDATED'
 export const USER_DELETED = 'user/USER_DELETED'
 export const USER_DUPLICATED = 'user/USER_DUPLICATED'
+export const GET_ACCOUNT_TYPE = 'user/GET_ACCOUNT_TYPE'
+
 
 const initialState = {
   username: '',
@@ -21,12 +23,18 @@ const initialState = {
   isLoggedIn: '',
   userlist: [],
   accountType: '',
-  changed: ''
+  changed: '',
+  accountTypeList: []
 }
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040' : ''
 export default (state = initialState, action) => {
   switch (action.type) {
+    case GET_ACCOUNT_TYPE:
+      return {
+        ...state,
+        accountTypeList: action.accountlist
+      }
     case USER_DELETED:
       window.localStorage.removeItem('username');
       window.localStorage.removeItem('role');
@@ -130,6 +138,18 @@ export const getuserlist = (dispatch) => {
           dispatch({
             type: GET_USERLIST,
             userlist: userdata.data
+          })
+    })
+    .catch( error => {
+        console.log(error);
+    });
+}
+export const get_account_type = (dispatch) => {
+  axios.get(`${API_URL}/api/users/account-type`)
+    .then( accountlist =>{ 
+          dispatch({
+            type: GET_ACCOUNT_TYPE,
+            accountlist: accountlist.data
           })
     })
     .catch( error => {

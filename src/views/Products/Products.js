@@ -7,7 +7,8 @@ import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  set_account_type
+  set_account_type,
+  get_account_type
 } from '../../modules/user'
 import {ToastsStore} from 'react-toasts';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -138,7 +139,10 @@ const Products = props => {
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
-
+  console.log('Products', props)
+  if(props.accountTypeList.length == 0)
+    props.getAccountType()
+  
 
   useEffect(() => {
     if(props.status != ''){
@@ -146,12 +150,9 @@ const Products = props => {
     }
   }, [props.status])
 
-  const goSignUp = (type) => {
+  const goSignUp = (type, price) => {
     props.setAccountType(type)
-    if(type == 'Pro')
-      history.push('/sign-up/pro')
-    else
-      history.push('/sign-up/free')
+    history.push('/sign-up/' + type + '/' + price)
 
   }
   return (
@@ -170,33 +171,16 @@ const Products = props => {
         >
           <div className={classes.content}>
             <div className={classes.contentBody}>
-               <Card className={classes.card}>
+              {props.accountTypeList.map(atype => (
+                <Card className={classes.card}>
                 <CardContent className={classes.cardcontent}>
-                  <div className={classes.gofree} onClick={() => goSignUp('Free')}>
-                      <h2 className={classes.cardtitle}>Free</h2>
-                      <h3 className={classes.cardprice}></h3>
-                      <small className={classes.cardfreedate}></small>
-                  </div>
-                  <ul className={classes.providedservices}>
-                    <li>
-                    <CheckCircleIcon className={classes.icon}/>
-                      <strong>1000</strong> uploads
-                    </li>
-                    <li>
-                    <RadioButtonUncheckedIcon className={classes.icon}/>
-                    Embed Capabilities</li>
-                  </ul>
-                  
-                </CardContent>
-                <CardActions>
-                </CardActions>
-              </Card>
-              <Card className={classes.card}>
-                <CardContent className={classes.cardcontent}>
-                  <div className={classes.gopro} onClick={() => goSignUp('Pro')}>
-                      <h2 className={classes.cardtitle}>Pro</h2>
-                      <h3 className={classes.cardprice}>$12 monthly</h3>
-                      <small className={classes.cardfreedate}>10 Days Free</small>
+                  <div className={atype.price == 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug, atype.price)}>
+                      <h2 className={classes.cardtitle}>{atype.title}</h2>
+                      <h3 className={classes.cardprice}>
+                        { atype.price == 0 ? '' : '$' + atype.price + ' monthly' }
+                      </h3>
+                      <small className={classes.cardfreedate}>
+                      { atype.price == 0 ? '' : atype.free + ' Days Free' }</small>
                   </div>
                   <ul className={classes.providedservices}>
                     <li>
@@ -212,6 +196,7 @@ const Products = props => {
                 <CardActions>
                 </CardActions>
               </Card>
+                ))}
             </div>
           </div>
         </Grid>
@@ -221,13 +206,14 @@ const Products = props => {
 };
 
 const mapStateToProps = ({ user }) => ({
-
+  accountTypeList: user.accountTypeList
 })
 
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAccountType: ( type ) => set_account_type(type, dispatch)
+    setAccountType: ( type ) => set_account_type(type, dispatch),
+    getAccountType: ( ) => get_account_type(dispatch)
    
   };
 }
