@@ -160,7 +160,7 @@ const SignUp = props => {
     password: props.password,
     status: props.status
   });
-
+  // if(props.match.params.mode == 'free' && props.match.params.mode == '')
   useEffect(() => {
     if(props.status != ''){
       ToastsStore.success(props.status)
@@ -171,7 +171,8 @@ const SignUp = props => {
       props.initStatus()
     }
   }, [props.status])
-
+  if(props.accountType == '')
+    history.push('/products-and-pricing')
   useEffect(() => {
     const errors = validate(formState.values, schema);
     setFormState(formState => ({
@@ -238,7 +239,7 @@ const SignUp = props => {
                   className={classes.title}
                   variant="h2"
                 >
-                  Create {props.match.params.mode} account
+                  Create {props.accountType} account
                 </Typography>
                 <Typography
                   color="textSecondary"
