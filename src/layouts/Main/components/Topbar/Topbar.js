@@ -15,7 +15,9 @@ const headerstyle = {
 };
 const useStyles = makeStyles(theme => ({
   active_link: {
-    borderBottom: "2px solid #ddd"
+    borderBottom: "2px solid #ddd",
+    marginLeft: 10,
+    marginRight: 10
   },
   bold: {
     background: '#2229ab',
@@ -57,7 +59,7 @@ const Topbar = props => {
                               <ul>
                               <li>
                                   <Button
-                                      className = {classes.headerLink}
+                                      className = 'headerlink'
                                       activeClassName = {classes.active_link}
                                       component={CustomRouterLink}
                                       to='/payment'
@@ -67,8 +69,7 @@ const Topbar = props => {
                               </li>
                               <li>
                                   <Button
-                                      className = {classes.headerLink}
-                                      activeClassName = {classes.active_link}
+                                      className = 'headerlink'
                                       component={CustomRouterLink}
                                       to='/email-templates'
                                     >
@@ -78,7 +79,7 @@ const Topbar = props => {
                               <li  className='splitter'><a>|</a></li>
                               <li>
                               <Button
-                                className = {classes.headerLink}
+                                className = 'headerlink'
                                 activeClassName = {classes.active_link}
                                 component={CustomRouterLink}
                                 to='/account'
@@ -89,7 +90,7 @@ const Topbar = props => {
                               </Button>
                               </li>
                               <li><Button
-                                className = {classes.headerLink}
+                                className = 'headerlink'
                                 onClick={signOut}
                                 activeClassName = {classes.active_link}
                                 
@@ -103,7 +104,7 @@ const Topbar = props => {
                               <ul>
                               <li>
                                   <Button
-                                      className = {classes.headerLink}
+                                      className = 'headerlink'
                                       activeClassName = {classes.active_link}
 
                                       component={CustomRouterLink}
@@ -114,7 +115,7 @@ const Topbar = props => {
                               </li>
                               <li className='splitter'><a>|</a></li>
                               <li><Button
-                                className = {classes.headerLink}
+                                className = 'headerlink'
                                 component={CustomRouterLink}
                                 activeClassName = {classes.active_link}
                                 

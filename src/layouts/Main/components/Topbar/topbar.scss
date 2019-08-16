@@ -17,6 +17,11 @@ header .inner {
 .active_link {
   border-bottom: 2px solid red;
 }
+.headerlink {
+  margin-left:10px !important;
+  margin-right:10px !important;
+  border-radius:2px;
+}
 .bold{
    background: #2229ab;
   border-radius:2px;

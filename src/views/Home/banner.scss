@@ -1,3 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,500&display=swap');
+body {
+  font-family: 'Roboto', sans-serif;
+  margin:0;
+  font-weight:300;
+  line-height:1.4em;
+  background:#fdfdfd;
+}
+.container {
+  margin:0 5vw;
+}
+h1, h2, h3 {
+  font-weight:300;
+  font-size:22px;
+  margin:.1em 0 .45em;
+}
+p {
+  margin:0 0 2em;
+}
+.clr {
+  clear:both;
+}
+
+.pad-y {
+  padding:40px 0;
+}
+
+/*.bold a {
+  background: #2229ab;
+  border-radius:2px;
+  margin-left:10px;
+  color:#fff;
+}*/
+a.bold {
+  background: #2229ab;
+  border-radius:2px;
+  color:#fff;
+}
+
+nav li a.cur {
+  text-decoration: underline;
+}
+nav a {
+  color:#444;
+  display:block;
+  padding:8px 12px;
+  font-size:16px;
+  text-decoration: none;
+  letter-spacing: 0px;
+  font-size:12px;
+
+}
+
+#banner {
+  height:80vh;
+  background:#222;
+  color:#fff;
+  margin-bottom:5vw;
+}
+#content {
+  color:#222;
+}
+
+.img {
+  height:100%;
+  background:#333;
+}
+.img.left {
+  margin-right:30px;
+}
+
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 100%;
+  flex: 1;
+  position: relative;
+}
+
+.blue-column {
+  background-color: blue;
+  height: 100px;
+}
+
+.green-column {
+  background-color: green;
+}
+
+
 #banner-wrapper {
   height:100vh;
   background: #BE93C5;  /* fallback for old browsers */
