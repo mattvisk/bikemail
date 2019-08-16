@@ -27,7 +27,6 @@ import {
 import { history } from './store'
 
 const Routes = () => {
-  history.push('/sign-in')
   return (
     <Switch>
 
@@ -73,7 +72,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/products-and-pricing"
-        auth='user'
 
       />
       <RouteWithLayout
@@ -146,23 +144,18 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/sign-up/:mode"
-        auth='user'
-
       />
       <RouteWithLayout
         component={SignInView}
         exact
         layout={MainLayout}
         path="/sign-in"
-        auth='user'
-
       />
       <RouteWithLayout
         component={NotFoundView}
         exact
         layout={MainLayout}
         path="/not-found"
-        auth='user'
       />
       <Redirect to="/not-found" />
     </Switch>

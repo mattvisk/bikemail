@@ -39,15 +39,6 @@ const CustomRouterLink = forwardRef((props, ref) => (
 ));
 const Topbar = props => {
     const classes = useStyles();
-    console.log('Topbar',props);
-    if(props.isLoggedIn == ''){
-
-      if(window.localStorage.getItem('username')){
-         props.logedin(window.localStorage.getItem('username'),
-           window.localStorage.getItem('email'),
-           window.localStorage.getItem('role'))
-      }
-    }
 
 
     const signOut = () => {
