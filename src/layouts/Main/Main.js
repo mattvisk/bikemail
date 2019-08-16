@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const Main = props => {
   const { children } = props;
-
+  const {history} = props
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
@@ -43,7 +43,7 @@ const Main = props => {
 
   return (
     <div>
-      <Topbar onSidebarOpen={handleSidebarOpen} />
+      <Topbar history = {history} onSidebarOpen={handleSidebarOpen} />
       <div
       className={clsx({
         [classes.root]: true,

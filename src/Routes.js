@@ -3,8 +3,10 @@ import { Switch, Redirect } from 'react-router-dom';
 
 import { RouteWithLayout } from './components';
 import { Main as MainLayout} from './layouts';
+import { connect } from 'react-redux'
 
 import {
+  AccountPage as AccountPageView,
   Payment as PaymentView,
   Products as ProductsView,
   Home as HomeView,
@@ -16,7 +18,6 @@ import {
   UserList as UserListView,
   Typography as TypographyView,
   Icons as IconsView,
-  Account as AccountView,
   Settings as SettingsView,
   SignUp as SignUpView,
   SignIn as SignInView,
@@ -33,6 +34,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/"
+      />
+      <RouteWithLayout
+        component={AccountPageView}
+        exact
+        layout={MainLayout}
+        path="/account"
       />
       <RouteWithLayout
         component={DashboardView}
@@ -101,12 +108,7 @@ const Routes = () => {
         layout={MainLayout}
         path="/icons"
       />
-      <RouteWithLayout
-        component={AccountView}
-        exact
-        layout={MainLayout}
-        path="/account"
-      />
+
       <RouteWithLayout
         component={SettingsView}
         exact
@@ -136,4 +138,19 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+
+const mapStateToProps = ({ user }) => ({
+  isLoggedIn: user.isLoggedIn
+})
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+   
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Routes)

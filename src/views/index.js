@@ -1,4 +1,5 @@
-export { default as Account } from './Account';
+export { default as AccountPage } from './AccountPage';
+
 export { default as Home } from './Home';
 export { default as AdminUser } from './AdminUser';
 export { default as EmailForm } from './EmailForm';

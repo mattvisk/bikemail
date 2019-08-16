@@ -8,7 +8,9 @@ export const GET_USERLIST = 'user/GET_USERLIST'
 export const SIGNOUT = 'user/SIGNOUT'
 export const LOGEDIN = 'user/LOGEDIN'
 export const SET_ACCOUNT_TYPE = 'user/SET_ACCOUNT_TYPE'
-
+export const USER_UPDATED = 'user/USER_UPDATED'
+export const USER_DELETED = 'user/USER_DELETED'
+export const USER_DUPLICATED = 'user/USER_DUPLICATED'
 
 const initialState = {
   username: '',
@@ -18,12 +20,44 @@ const initialState = {
   role: '',
   isLoggedIn: '',
   userlist: [],
-  accountType: ''
+  accountType: '',
+  changed: ''
 }
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040' : ''
 export default (state = initialState, action) => {
   switch (action.type) {
+    case USER_DELETED:
+      window.localStorage.removeItem('username');
+      window.localStorage.removeItem('role');
+      window.localStorage.removeItem('email');
+      return {
+        ...state,
+        isLoggedIn: false,
+        username: '',
+        email: '',
+        password: '',
+        status:'Your account is deleted successfully.'
+
+      }
+    case USER_UPDATED:
+      console.log('user_updated')
+      window.localStorage.setItem('username', action.userdata.username);
+      window.localStorage.setItem('role', action.userdata.role);
+      window.localStorage.setItem('email', action.userdata.email);
+      return {
+        ...state,
+        isLoggedIn: true,
+        username: action.userdata.username,
+        email: action.userdata.username,
+        password: action.userdata.username,
+        status:'Your account is updated Successfully.'
+      }
+    case USER_DUPLICATED:
+      return {
+        ...state,
+        status:'Username is Duplicated.',
+      }
     case SET_ACCOUNT_TYPE:
       return {
         ...state,
@@ -159,6 +193,43 @@ export const signin = (username, password, dispatch) => {
         }
        }
         
+    )
+    .catch( error => {
+        console.log(error);
+    });
+  return dispatch => {
+  }
+}
+
+export const updateuser = (oldname, username, email, password, dispatch) => {
+  axios.put(`${API_URL}/api/users/${oldname}`,{
+    username: username,
+    email: email,
+    password: password
+  })
+    .then( userdata =>{ 
+          dispatch({
+            type: USER_UPDATED,
+            userdata: userdata.data
+          })
+       }
+    )
+    .catch( error => {
+        dispatch({
+          type: USER_DUPLICATED,
+        })
+    });
+  return dispatch => {
+  }
+}
+
+export const deleteuser = (oldname, dispatch) => {
+  axios.delete(`${API_URL}/api/users/${oldname}`)
+    .then( userdata =>{ 
+          dispatch({
+            type: USER_DELETED,
+          })
+       }
     )
     .catch( error => {
         console.log(error);

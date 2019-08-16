@@ -1,30 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import React, { useState, useEffect, memo } from 'react';
+import { Link as RouterLink, withRouter } from 'react-router-dom';
 import validate from 'validate.js';
+import { makeStyles } from '@material-ui/styles';
+import { push } from 'connected-react-router'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import {
+  updateuser,
+  deleteuser,
+  initstatus
+} from '../../modules/user'
 import {ToastsStore} from 'react-toasts';
 
-import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
   IconButton,
   TextField,
   Link,
-  Typography
+  FormHelperText,
+  Checkbox,
+  Typography,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Dialog 
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
-import {
-  signin,
-  initstatus,
-} from '../../modules/user'
-
+const key = 'accountpage';
 const schema = {
   username: {
     presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 32
+    }
+  },
+  email: {
+    presence: { allowEmpty: false, message: 'is required' },
+    email: true,
     length: {
       maximum: 64
     }
@@ -108,6 +121,7 @@ const useStyles = makeStyles(theme => ({
     paddingRight: 100,
     paddingBottom: 125,
     flexBasis: 700,
+    margin: '0 auto',
     [theme.breakpoints.down('sm')]: {
       paddingLeft: theme.spacing(2),
       paddingRight: theme.spacing(2)
@@ -116,65 +130,102 @@ const useStyles = makeStyles(theme => ({
   title: {
     marginTop: theme.spacing(3)
   },
-  socialButtons: {
-    marginTop: theme.spacing(3)
-  },
-  socialIcon: {
-    marginRight: theme.spacing(1)
-  },
-  sugestion: {
-    marginTop: theme.spacing(2)
-  },
   textField: {
     marginTop: theme.spacing(2)
   },
-  signInButton: {
-    margin: theme.spacing(2, 0)
+
+  signUpButton: {
+    margin: theme.spacing(2, 0),
+    marginRight: 20
   }
 }));
 
-const SignIn = props => {
+function ConfirmationDialogRaw(props) {
+  const { onOk, onClose, open, ...other } = props;
+  const radioGroupRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!open) {
+    }
+  }, [open]);
+
+  function handleEntering() {  
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+  }
+
+  function handleCancel() {
+    onClose();
+  }
+
+  function handleOk() {
+    onOk();
+  }
+
+  return (
+    <Dialog
+      disableBackdropClick
+      disableEscapeKeyDown
+      maxWidth="xs"
+      onEntering={handleEntering}
+      aria-labelledby="confirmation-dialog-title"
+      open={open}
+      {...other}
+    >
+      <DialogTitle id="confirmation-dialog-title">Delete email</DialogTitle>
+      <DialogContent dividers>
+          Do you want to delete this email?
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleOk} color="primary">
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+const AccountPage = props => {
+
   const { history } = props;
-
+  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
-
   const [formState, setFormState] = useState({
     isValid: false,
-    values: {},
+    values: {username: props.username, email: props.email, password: props.password},
     touched: {},
-    errors: {}
+    errors: {},
+    username: props.username,
+    email: props.email,
+    password: props.password,
+    status: props.status
   });
-  useEffect(() => {
-    if(props.status != '' ){
-      if(props.isLoggedIn){
-        ToastsStore.success(props.status)
-        if(props.role == 'admin')
-          history.push('/admin-user')
-        else
-          history.push('/email-templates')
-      
-      }
-      else
-        ToastsStore.error(props.status)
-       props.initStatus()
-       
-    }
-  }, [props.status]);
-
+  
   useEffect(() => {
     const errors = validate(formState.values, schema);
-
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
       errors: errors || {}
     }));
   }, [formState.values]);
-
-  const handleBack = () => {
-    history.goBack();
-  };
-
+  useEffect(() => {
+    if(props.status != '') {
+      if(props.status.includes('dupl'))
+        ToastsStore.error(props.status)
+      else if(props.status.includes('deleted')){
+        ToastsStore.success(props.status)
+        window.location.href='/sign-in'
+      }
+      else
+        ToastsStore.success(props.status)
+      props.initStatus()
+    }
+  }, [props.status]);
   const handleChange = event => {
     event.persist();
 
@@ -194,22 +245,50 @@ const SignIn = props => {
     }));
   };
 
-  const handleSignIn = event => {
-    event.preventDefault();
-    props.onSubmitSignIn(formState.values.username, formState.values.password)
+  const handleBack = () => {
+    history.goBack();
+  };
 
+  const handleSave = event => {
+    console.log(formState.values)
+    props.onSave(props.username, formState.values.username, formState.values.email, formState.values.password)
+    event.preventDefault();
     // history.push('/');
   };
 
+  const handleDelete = event => {
+    console.log(formState.values)
+    setOpen(true);
+
+    event.preventDefault();
+    // history.push('/');
+  };
+  const handleClose = () => {
+    setOpen(false);
+  }
+  const handleOk = () => {
+    setOpen(false);
+    
+    props.onDelete(props.username)
+    
+  }
   const hasError = field =>
     formState.touched[field] && formState.errors[field] ? true : false;
+  
+  // if(props.isLoggedIn) {
+  //   formState.values.username = props.username
+  //   formState.values.email = props.email
+  //   setFormState(formState);
+  // }
 
   return (
     <div className={classes.root}>
+      {props.status}
       <Grid
         className={classes.grid}
         container
       >
+        
         <Grid
           className={classes.content}
           item
@@ -220,16 +299,15 @@ const SignIn = props => {
             <div className={classes.contentBody}>
               <form
                 className={classes.form}
-                onSubmit={handleSignIn}
+                onSubmit={handleSave}
               >
                 <Typography
                   className={classes.title}
                   variant="h2"
                 >
-                  Sign in
+                  My Account
                 </Typography>
 
-                
                 <TextField
                   className={classes.textField}
                   error={hasError('username')}
@@ -237,11 +315,25 @@ const SignIn = props => {
                   helperText={
                     hasError('username') ? formState.errors.username[0] : null
                   }
-                  label="Username or Email address"
+                  label="Username"
                   name="username"
                   onChange={handleChange}
                   type="text"
                   value={formState.values.username || ''}
+                  variant="outlined"
+                />
+                <TextField
+                  className={classes.textField}
+                  error={hasError('email')}
+                  fullWidth
+                  helperText={
+                    hasError('email') ? formState.errors.email[0] : null
+                  }
+                  label="Email address"
+                  name="email"
+                  onChange={handleChange}
+                  type="text"
+                  value={formState.values.email || ''}
                   variant="outlined"
                 />
                 <TextField
@@ -259,29 +351,36 @@ const SignIn = props => {
                   variant="outlined"
                 />
                 <Button
-                  className={classes.signInButton}
+                  className={classes.signUpButton}
                   color="primary"
                   disabled={!formState.isValid}
-                  fullWidth
+                  
                   size="large"
                   type="submit"
                   variant="contained"
                 >
-                  Sign in now
+                  Save
                 </Button>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
+                <Button
+                  className={classes.signUpButton}
+                  color="secondary"
+                  size="large"
+                  onClick={handleDelete}
+                  variant="contained"
                 >
-                  Don't have an account?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/sign-up"
-                    variant="h6"
-                  >
-                    Sign up
-                  </Link>
-                </Typography>
+                  Delete
+                </Button>
+                        <ConfirmationDialogRaw
+                    classes={{
+                      paper: classes.paper,
+                    }}
+                    id="ringtone-menu"
+                    keepMounted
+                    open={open}
+                    onClose={handleClose}
+                    onOk={handleOk}
+                  />
+              
               </form>
             </div>
           </div>
@@ -294,16 +393,20 @@ const SignIn = props => {
 const mapStateToProps = ({ user }) => ({
   username: user.username,
   email: user.email,
-  role: user.role,
+  password: user.password,
   status: user.status,
+  accountType: user.accountType,
   isLoggedIn: user.isLoggedIn
 })
 
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSubmitSignIn: (username, password) => {
-      signin(username, password, dispatch);
+    onSave: (oldname, username, email, password) => {
+      updateuser(oldname, username, email, password, dispatch);
+    },
+    onDelete: (oldname) => {
+      deleteuser(oldname, dispatch);
     },
     initStatus: () => initstatus(dispatch)
   };
@@ -312,4 +415,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignIn)
+)(AccountPage)
