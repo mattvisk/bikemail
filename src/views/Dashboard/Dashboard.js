@@ -26,8 +26,6 @@ const useStyles = makeStyles(theme => ({
 const Dashboard = (props) => {
   const {history} = props
   const classes = useStyles();
-  if(props.isLoggedIn != true)
-    history.push('/sign-in')
   return (
     <div id="banner-wrapper">
     </div>

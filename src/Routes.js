@@ -24,8 +24,10 @@ import {
   NotFound as NotFoundView
 
 } from './views';
+import { history } from './store'
 
 const Routes = () => {
+  history.push('/sign-in')
   return (
     <Switch>
 
@@ -40,35 +42,45 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/account"
+        auth='user'
       />
       <RouteWithLayout
         component={DashboardView}
         exact
         layout={MainLayout}
         path="/dashboard"
+        auth='user'
+
       />
       <RouteWithLayout
         component={AdminUserView}
         exact
         layout={MainLayout}
         path="/admin-user"
+        auth='admin'
+
       />
       <RouteWithLayout
         component={PaymentView}
         exact
         layout={MainLayout}
         path="/payment"
+        auth='user'
+
       />
       <RouteWithLayout
         component={ProductsView}
         exact
         layout={MainLayout}
         path="/products-and-pricing"
+        auth='user'
+
       />
       <RouteWithLayout
         component={EmailFormView}
         exact
         layout={MainLayout}
+        auth='user'
         path="/mail-form/:mailId"
       />
       <RouteWithLayout
@@ -76,12 +88,16 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/mail-form"
+        auth='user'
+
       />
       <RouteWithLayout
         component={EmailTemplatesView}
         exact
         layout={MainLayout}
         path="/email-templates"
+        auth='user'
+
       />
 
       <RouteWithLayout
@@ -89,24 +105,32 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/users"
+        auth='user'
+
       />
       <RouteWithLayout
         component={ProductListView}
         exact
         layout={MainLayout}
         path="/products"
+        auth='user'
+
       />
       <RouteWithLayout
         component={TypographyView}
         exact
         layout={MainLayout}
         path="/typography"
+        auth='user'
+
       />
       <RouteWithLayout
         component={IconsView}
         exact
         layout={MainLayout}
         path="/icons"
+        auth='user'
+
       />
 
       <RouteWithLayout
@@ -114,24 +138,31 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/settings"
+        auth='user'
+
       />
       <RouteWithLayout
         component={SignUpView}
         exact
         layout={MainLayout}
         path="/sign-up/:mode"
+        auth='user'
+
       />
       <RouteWithLayout
         component={SignInView}
         exact
         layout={MainLayout}
         path="/sign-in"
+        auth='user'
+
       />
       <RouteWithLayout
         component={NotFoundView}
         exact
         layout={MainLayout}
         path="/not-found"
+        auth='user'
       />
       <Redirect to="/not-found" />
     </Switch>
