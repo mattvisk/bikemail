@@ -55,7 +55,16 @@ const Topbar = props => {
 
                             { props.isLoggedIn == true ?
                               <ul>
-
+                              <li>
+                                  <Button
+                                      className = {classes.headerLink}
+                                      activeClassName = {classes.active_link}
+                                      component={CustomRouterLink}
+                                      to='/payment'
+                                    >
+                                  Payment
+                                </Button>
+                              </li>
                               <li>
                                   <Button
                                       className = {classes.headerLink}

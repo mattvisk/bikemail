@@ -5,16 +5,6 @@ import { Grid } from '@material-ui/core';
 import './banner.scss';
 import envelope from'./envelopes.png';
 
-import {
-  Budget,
-  TotalUsers,
-  TasksProgress,
-  TotalProfit,
-  LatestSales,
-  UsersByDevice,
-  LatestProducts,
-  LatestOrders
-} from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,7 +21,7 @@ const Home = () => {
       <h1>Automatic Customer Communication.</h1>
       <h2>Talk to your customers one-on-one, at scale.</h2>
 
-      <NavLink class="large-btn" to='/sign-up'>Create your account</NavLink>
+      <NavLink className="large-btn" to='/sign-up'>Create your account</NavLink>
 
     </div>
   );
