@@ -32,3 +32,4 @@ sh backend.sh
 ```sh
 sh frontend.sh
 ```
+Open [http://bikemail.io] to view it in the browser.
