@@ -18,3 +18,17 @@ Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ## `How to deploy`
+
+```sh
+ssh -i /d/bikemail.pem ubuntu@ec2-3-15-149-157.us-east-2.compute.amazonaws.com
+```
+```sh
+cd bikemail
+```
+```sh
+sh backend.sh
+```
+
+```sh
+sh frontend.sh
+```
