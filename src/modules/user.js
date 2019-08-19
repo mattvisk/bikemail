@@ -12,7 +12,7 @@ export const USER_UPDATED = 'user/USER_UPDATED'
 export const USER_DELETED = 'user/USER_DELETED'
 export const USER_DUPLICATED = 'user/USER_DUPLICATED'
 export const GET_ACCOUNT_TYPE = 'user/GET_ACCOUNT_TYPE'
-
+export const STORE_BLOCKED_URL = 'user/STORE_BLOCKED_URL'
 
 const initialState = {
   username: '',
@@ -24,7 +24,8 @@ const initialState = {
   userlist: [],
   accountType: '',
   changed: '',
-  accountTypeList: []
+  accountTypeList: [],
+  blockedUrl: ''
 }
 
 const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040' : ''
@@ -34,6 +35,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         accountTypeList: action.accountlist
+      }
+    case STORE_BLOCKED_URL:
+      return {
+        ...state,
+        blockedUrl: action.url
       }
     case USER_DELETED:
       window.localStorage.removeItem('username');

@@ -205,8 +205,9 @@ const EmailForm = props => {
   useEffect(() => {
       if(props.formStatus != ''){
         setTitle('Update Mail')
-        formState.values = props.maildata
-
+        let tmp = formState;
+        tmp.values = props.maildata
+        setFormState(tmp)
       }
       else 
         setTitle('Create New Mail')

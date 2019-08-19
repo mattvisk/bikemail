@@ -148,11 +148,17 @@ const SignIn = props => {
     if(props.status != '' ){
       if(props.isLoggedIn){
         ToastsStore.success(props.status)
-        if(props.role == 'admin')
-          history.push('/admin-user')
-        else
-          history.push('/email-templates')
-      
+        console.log(window.localStorage.getItem('blockedurl'))
+        if(window.localStorage.getItem('blockedurl') != ''){
+          history.push(window.localStorage.getItem('blockedurl'))
+          window.localStorage.setItem('blockedurl', '')
+        }
+        else {
+          if(props.role == 'admin')
+            history.push('/admin-user')
+          else
+            history.push('/email-templates')
+        }
       }
       else
         ToastsStore.error(props.status)

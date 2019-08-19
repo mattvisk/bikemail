@@ -56,8 +56,7 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/admin-user"
-        auth='admin'
-
+        auth='user'
       />
       <RouteWithLayout
         component={PaymentView}
