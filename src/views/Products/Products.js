@@ -139,9 +139,10 @@ const Products = props => {
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
-  console.log('Products', props)
-  if(props.accountTypeList.length == 0)
+  if(props.accountTypeList.length == 0){
+    console.log('Products', props)
     props.getAccountType()
+  }
   
 
   useEffect(() => {

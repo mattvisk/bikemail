@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { chartjs } from './helpers';
 import theme from './theme';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import './assets/scss/index.scss';
+import './assets/scss/index.css';
 import validators from './common/validators';
 import Routes from './Routes';
 import store, { history } from './store'
