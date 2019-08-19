@@ -115,6 +115,10 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'center'
     }
   },
+  label: {
+    fontSize: 15,
+    marginTop: 10
+  },
   form: {
     paddingLeft: 100,
     paddingRight: 100,
@@ -129,7 +133,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3)
   },
   textField: {
-    marginTop: theme.spacing(2)
+    minWidth: 400
   },
   policy: {
     marginTop: theme.spacing(1),
@@ -247,6 +251,14 @@ const SignUp = props => {
                 >
                   Use your email to create new account
                 </Typography>
+
+
+                <Typography
+                  className={classes.label}
+                  variant="h2"
+                >
+                  Username
+                </Typography>
                 <TextField
                   className={classes.textField}
                   error={hasError('username')}
@@ -254,13 +266,18 @@ const SignUp = props => {
                   helperText={
                     hasError('username') ? formState.errors.username[0] : null
                   }
-                  label="Username"
                   name="username"
                   onChange={handleChange}
                   type="text"
                   value={formState.values.username || ''}
                   variant="outlined"
                 />
+                <Typography
+                  className={classes.label}
+                  variant="h2"
+                >
+                  Email address
+                </Typography>
                 <TextField
                   className={classes.textField}
                   error={hasError('email')}
@@ -268,13 +285,18 @@ const SignUp = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Email address"
                   name="email"
                   onChange={handleChange}
                   type="text"
                   value={formState.values.email || ''}
                   variant="outlined"
                 />
+                <Typography
+                  className={classes.label}
+                  variant="h2"
+                >
+                  Password
+                </Typography>
                 <TextField
                   className={classes.textField}
                   error={hasError('password')}
@@ -282,7 +304,6 @@ const SignUp = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Password"
                   name="password"
                   onChange={handleChange}
                   type="password"
