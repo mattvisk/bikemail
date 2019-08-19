@@ -30,7 +30,8 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { StatusBullet } from 'components';
 import {
   removemail,
-  initstatus
+  initstatus,
+  setformstatus
 } from '../../../../modules/mail'
 
 const useStyles = makeStyles(theme => ({
@@ -140,6 +141,7 @@ const EmailList = props => {
     props.removeMail(remove)
   }
   const editCol = (id) => {
+    props.setFormStatus(id)
     history.push('/mail-form/' + id)
   }
   const createmail = () => {
@@ -261,7 +263,8 @@ const mapStateToProps = ({ user, mail }) => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeMail: (id) => removemail(id, dispatch)
+    removeMail: (id) => removemail(id, dispatch),
+    setFormStatus:(status) => setformstatus(status, dispatch)
   };
 }
 

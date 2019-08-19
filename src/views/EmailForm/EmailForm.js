@@ -190,7 +190,8 @@ const EmailForm = props => {
     touched: {},
     errors: {},
   });
-  if(props.match.params.mailId)
+  console.log('current props:', props)
+  if(props.formStatus == "")
     props.setFormStatus(props.match.params.mailId)
 
   useEffect(() => {

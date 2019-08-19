@@ -28,3 +28,10 @@ a {
 .tox .tox-dialog__header {
 	padding-top: 40px !important;
 }
+.tox-notifications-container { 
+    display: none;
+}
+
+.MuiTouchRipple-root {
+  display: none!important;
+}
