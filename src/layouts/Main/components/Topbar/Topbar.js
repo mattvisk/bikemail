@@ -66,6 +66,16 @@ const Topbar = props => {
                                       className = 'headerlink'
                                       activeClassName = {classes.active_link}
                                       component={CustomRouterLink}
+                                      to='/recipients'
+                                    >
+                                  Recipients
+                                </Button>
+                              </li>
+                              <li>
+                                  <Button
+                                      className = 'headerlink'
+                                      activeClassName = {classes.active_link}
+                                      component={CustomRouterLink}
                                       to='/payment'
                                     >
                                   Payment
