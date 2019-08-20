@@ -17,3 +17,4 @@ export { default as UserList } from './UserList';
 export { default as Products } from './Products';
 export { default as Payment } from './Payment';
 
+export { default as Recipients } from './Recipients';

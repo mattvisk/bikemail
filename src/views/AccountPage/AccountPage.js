@@ -1,18 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useRef} from 'react';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import {CardElement, injectStripe, Elements, StripeProvider} from 'react-stripe-elements';
+
 import {
   updateuser,
   deleteuser,
   initstatus
 } from '../../modules/user'
 import {ToastsStore} from 'react-toasts';
-
+import UpdateCreditCard from './UpdateCreditCard';
 import {
   Grid,
   Button,
@@ -173,9 +175,9 @@ function ConfirmationDialogRaw(props) {
       open={open}
       {...other}
     >
-      <DialogTitle id="confirmation-dialog-title">Delete email</DialogTitle>
+      <DialogTitle id="confirmation-dialog-title">Delete Account</DialogTitle>
       <DialogContent dividers>
-          Do you want to delete this email?
+          Do you want to delete your account?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel} color="primary">
@@ -194,6 +196,8 @@ const AccountPage = props => {
   const { history } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  const childRef = useRef(null);
+
   const [formState, setFormState] = useState({
     isValid: false,
     values: {username: props.username, email: props.email, password: props.password},
@@ -251,6 +255,7 @@ const AccountPage = props => {
 
   const handleSave = event => {
     console.log(formState.values)
+    console.log(childRef)
     props.onSave(props.username, formState.values.username, formState.values.email, formState.values.password)
     event.preventDefault();
     // history.push('/');
@@ -299,7 +304,6 @@ const AccountPage = props => {
             <div className={classes.contentBody}>
               <form
                 className={classes.form}
-                onSubmit={handleSave}
               >
                 <Typography
                   className={classes.title}
@@ -307,7 +311,6 @@ const AccountPage = props => {
                 >
                   My Account
                 </Typography>
-
                 <TextField
                   className={classes.textField}
                   error={hasError('username')}
@@ -354,7 +357,7 @@ const AccountPage = props => {
                   className={classes.signUpButton}
                   color="primary"
                   disabled={!formState.isValid}
-                  
+                   onClick ={handleSave}
                   size="large"
                   type="submit"
                   variant="contained"

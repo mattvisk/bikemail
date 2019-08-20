@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo, useContext, createContext } from 'react';
+import React, { useState, useEffect, memo, useContext, createContext, forwardRef, useRef, useImperativeHandle  } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
@@ -17,15 +17,16 @@ import {
   Button
 } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
+
   cardelement: {
     border: '1px solid #ddd',
     padding: '10px 5px'
   }
 }))
-const UpdateCreditCard = props => {
+const UpdateCreditCard = forwardRef((props, ref)  => {
+  console.log('ssss', ref, props)
   const {stripe} = props
   const classes = useStyles();
-  
   const submit = async () => {
     let {token} = await stripe.createToken({name: "Name"});
     console.log(token, stripe)
@@ -46,12 +47,18 @@ const UpdateCreditCard = props => {
        props.history.push('/dashboard')
     }
   }
+  useImperativeHandle(ref, () => {
+    return {  
+      submit: submit
+    }
+
+  });
   return (
-        <div className="checkout">
+    <div className="checkout">
               <CardElement className={classes.cardelement}/>
-        </div>
+      </div>
     )
-}
+});
 
 const mapStateToProps = ({ user }) => ({
   username: user.username,

@@ -6,6 +6,7 @@ import { Main as MainLayout} from './layouts';
 import { connect } from 'react-redux'
 
 import {
+  Recipients as RecipientsView,
   AccountPage as AccountPageView,
   Payment as PaymentView,
   Products as ProductsView,
@@ -49,7 +50,13 @@ const Routes = () => {
         layout={MainLayout}
         path="/dashboard"
         auth='user'
-
+      />
+      <RouteWithLayout
+        component={RecipientsView}
+        exact
+        layout={MainLayout}
+        path="/recipients"
+        auth='user'
       />
       <RouteWithLayout
         component={AdminUserView}
