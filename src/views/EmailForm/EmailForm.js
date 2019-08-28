@@ -209,8 +209,12 @@ const EmailForm = props => {
         tmp.values = props.maildata
         setFormState(tmp)
       }
-      else 
+      else {
         setTitle('Create New Mail')
+        let tmp = formState;
+        tmp.values = {}
+        setFormState(tmp)
+      }
   }, [props.formStatus]);
   useEffect(() => {
     const errors = validate(formState.values, schema);

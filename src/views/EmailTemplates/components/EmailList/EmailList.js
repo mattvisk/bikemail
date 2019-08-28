@@ -145,6 +145,7 @@ const EmailList = props => {
     history.push('/mail-form/' + id)
   }
   const createmail = () => {
+    props.setFormStatus('')
     history.push('/mail-form')
   }
   return (
