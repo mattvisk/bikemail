@@ -28,7 +28,6 @@ import { connect } from 'react-redux'
 import {ToastsStore} from 'react-toasts';
 import {
   create_recipient_prop,
-  get_recipient_props,
   edit_recipient_prop,
   remove_recipient_prop,
   initstatus
@@ -156,8 +155,6 @@ const RecipientList = props => {
     const initialized = value.map(row => (Object.keys(row).length ? row : { }));
     setAddedRows(initialized);
   };
-  if(props.status == '')
-    props.getRecipientProps(props.username)
 
   useEffect(() => {
     if(props.status.includes('loaded')){
@@ -276,7 +273,6 @@ const mapStateToProps = ({ user, recipient_props}) => ({
 const mapDispatchToProps = dispatch => {
   return {
     addRecipientProp : (recipient, user) => create_recipient_prop(recipient, user, dispatch),
-    getRecipientProps : (username) => get_recipient_props(username, dispatch),
     editRecipientProp: (recipient) => edit_recipient_prop(recipient, dispatch),
     removeRecipientProp: (rid) => remove_recipient_prop(rid, dispatch),
     initStatus: () => initstatus(dispatch)

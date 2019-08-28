@@ -33,7 +33,9 @@ import {
   remove_recipient,
   initstatus
 } from '../../../../modules/recipient'
-
+import {
+  get_recipient_props,
+} from '../../../../modules/recipient_props'
 const useStyles = makeStyles(theme => ({
   root: {},
   content: {
@@ -116,14 +118,18 @@ function ConfirmationDialogRaw(props) {
 const RecipientList = props => {
   const { history, className, ...rest } = props;
   const classes = useStyles();
-  const [columns] = useState([
+  let state = [
     { name: '_id', title: 'ID' },
     { name: 'firstName', title: 'First Name' },
     { name: 'lastName', title: 'Last Name' },
     { name: 'email', title: 'Email' },
     { name: 'phone', title: 'Phone' },
     { name: 'unsubscribed', title: 'Unsubscribed' },
-  ]);
+  ]
+  for(let index in props.recipient_props)
+    state.push({name: props.recipient_props[index].field, title: props.recipient_props[index].field})
+
+  const [columns] = useState(state);
   const [deleted, setDeleted] = useState()
   const [rows, setRows] = useState([]);
   const [tableColumnExtensions] = useState([
@@ -156,8 +162,10 @@ const RecipientList = props => {
     const initialized = value.map(row => (Object.keys(row).length ? row : { }));
     setAddedRows(initialized);
   };
-  if(props.status == '')
+  if(props.status == ''){
+    props.getRecipientProps(props.username)
     props.getRecipients(props.username)
+  }
 
   useEffect(() => {
     if(props.status.includes('loaded')){
@@ -168,10 +176,21 @@ const RecipientList = props => {
     }
         
   }, [props.recipients]);
+  useEffect(() => {
+    
+        
+  }, [props.recipient_props]);
   const commitChanges = ({ added, changed, deleted }) => {
     let changedRows;
     if (added) {
       const startingAddedId = rows.length > 0 ? rows[rows.length - 1]._id + 1 : 0;
+      let info = {};
+      for(let index in props.recipient_props){
+        info[props.recipient_props[index].field] = added[0][props.recipient_props[index].field];
+        delete added[0][props.recipient_props[index].field];
+      }
+      added[0]['info'] = info;
+      console.log(added[0])
       props.addRecipient(added[0], props.username)
       changedRows = [
         ...rows,
@@ -193,6 +212,12 @@ const RecipientList = props => {
       console.log('changed:', changed, changedRows, Object.keys(changed)[0])
       
       setRows(changedRows);
+      let info = {};
+      for(let index in props.recipient_props){
+        info[props.recipient_props[index].field] = changedRow[props.recipient_props[index].field];
+        delete changedRow[props.recipient_props[index].field];
+      }
+      changedRow['info'] = info;
       props.editRecipient(changedRow)
     }
     if (deleted) {
@@ -228,7 +253,7 @@ const RecipientList = props => {
         <Paper>
           <Grid
             rows={rows}
-            columns={columns}
+            columns={state}
             getRowId={getRowId}
           >
             <EditingState
@@ -276,16 +301,19 @@ const RecipientList = props => {
   );
 };
 
-const mapStateToProps = ({ user, recipient}) => ({
+const mapStateToProps = ({ user, recipient, recipient_props}) => ({
   username: user.username,
   status: recipient.status,
-  recipients: recipient.recipients
+  recipients: recipient.recipients,
+  recipient_props: recipient_props.recipient_props
+
 })
 
 
 const mapDispatchToProps = dispatch => {
   return {
     addRecipient : (recipient, user) => create_recipient(recipient, user, dispatch),
+    getRecipientProps : (username) => get_recipient_props(username, dispatch),
     getRecipients : (username) => get_recipients(username, dispatch),
     editRecipient: (recipient) => edit_recipients(recipient, dispatch),
     removeRecipient: (rid) => remove_recipient(rid, dispatch),

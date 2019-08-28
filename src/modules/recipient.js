@@ -96,6 +96,11 @@ export const get_recipients = (username, dispatch) => {
         // var recipients = {}
         // for(var i = 0 ; i < recipientdata.data.length ; i++)
         //   recipients[recipientdata.data[i]._id] = recipientdata.data[i]
+        for(let index in recipientdata.data) {
+          for(let field in recipientdata.data[index].info)
+            recipientdata.data[index][field] = recipientdata.data[index].info[field]
+          delete recipientdata.data[index].info
+        }
         dispatch({
           type: GET_RECIPIENTS,
           recipients: recipientdata.data
