@@ -18,3 +18,4 @@ export { default as Products } from './Products';
 export { default as Payment } from './Payment';
 
 export { default as Recipients } from './Recipients';
+export { default as RecipientProps } from './RecipientProps';

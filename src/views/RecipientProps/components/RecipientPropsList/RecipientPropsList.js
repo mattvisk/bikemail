@@ -27,12 +27,12 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { connect } from 'react-redux'
 import {ToastsStore} from 'react-toasts';
 import {
-  create_recipient,
-  get_recipients,
-  edit_recipients,
-  remove_recipient,
+  create_recipient_prop,
+  get_recipient_props,
+  edit_recipient_prop,
+  remove_recipient_prop,
   initstatus
-} from '../../../../modules/recipient'
+} from '../../../../modules/recipient_props'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -54,6 +54,10 @@ const useStyles = makeStyles(theme => ({
   },
   clickabletd: {
     cursor: 'pointer'
+  },
+  container: {
+    width: '30%',
+    margin: '0 auto'
   }
 }));
 
@@ -98,7 +102,7 @@ function ConfirmationDialogRaw(props) {
       open={open}
       {...other}
     >
-      <DialogTitle id="confirmation-dialog-title">Delete Recipient</DialogTitle>
+      <DialogTitle id="confirmation-dialog-title">Delete RecipientProp</DialogTitle>
       <DialogContent dividers>
           Do you want to delete this recipient?
       </DialogContent>
@@ -118,11 +122,7 @@ const RecipientList = props => {
   const classes = useStyles();
   const [columns] = useState([
     { name: '_id', title: 'ID' },
-    { name: 'firstName', title: 'First Name' },
-    { name: 'lastName', title: 'Last Name' },
-    { name: 'email', title: 'Email' },
-    { name: 'phone', title: 'Phone' },
-    { name: 'unsubscribed', title: 'Unsubscribed' },
+    { name: 'field', title: 'PropName' },
   ]);
   const [deleted, setDeleted] = useState()
   const [rows, setRows] = useState([]);
@@ -146,7 +146,7 @@ const RecipientList = props => {
     const deletedSet = new Set(deleted);
     changedRows = rows.filter(row => !deletedSet.has(row._id))
     setRows(changedRows);
-    props.removeRecipient(deleted[0])
+    props.removeRecipientProp(deleted[0])
 
      console.log(deleted)
     // props.onDelete(props.username)
@@ -157,22 +157,22 @@ const RecipientList = props => {
     setAddedRows(initialized);
   };
   if(props.status == '')
-    props.getRecipients(props.username)
+    props.getRecipientProps(props.username)
 
   useEffect(() => {
     if(props.status.includes('loaded')){
       // props.initStatus()
-      setRows(props.recipients)
-      console.log(props.recipients, props)
+      setRows(props.recipient_props)
+      console.log(props.recipient_props, props)
       ToastsStore.success(props.status)
     }
         
-  }, [props.recipients]);
+  }, [props.recipient_props]);
   const commitChanges = ({ added, changed, deleted }) => {
     let changedRows;
     if (added) {
       const startingAddedId = rows.length > 0 ? rows[rows.length - 1]._id + 1 : 0;
-      props.addRecipient(added[0], props.username)
+      props.addRecipientProp(added[0], props.username)
       changedRows = [
         ...rows,
         ...added.map((row, index) => ({
@@ -193,7 +193,7 @@ const RecipientList = props => {
       console.log('changed:', changed, changedRows, Object.keys(changed)[0])
       
       setRows(changedRows);
-      props.editRecipient(changedRow)
+      props.editRecipientProp(changedRow)
     }
     if (deleted) {
       
@@ -202,26 +202,16 @@ const RecipientList = props => {
 
     }
   };
-  const customFields = () => {
-    history.push('/recipient-props')
-  }
+  // const customFields = () => {
+  //   history.push('/recipient-props')
+  // }
   return (
     <Card
-      className={clsx(classes.root, className)}
+      className={classes.container}
     >
       <CardHeader
-        action={
-          <Button
-            color="primary"
-            size="small"
-            variant="outlined"
-            to='/recipient-props'
-            onClick={customFields}
-          >
-            Custom Fields
-          </Button>
-        }
-        title="Recipient List"
+        
+        title="Recipient Custom Fields"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -276,19 +266,19 @@ const RecipientList = props => {
   );
 };
 
-const mapStateToProps = ({ user, recipient}) => ({
+const mapStateToProps = ({ user, recipient_props}) => ({
   username: user.username,
-  status: recipient.status,
-  recipients: recipient.recipients
+  status: recipient_props.status,
+  recipient_props: recipient_props.recipient_props
 })
 
 
 const mapDispatchToProps = dispatch => {
   return {
-    addRecipient : (recipient, user) => create_recipient(recipient, user, dispatch),
-    getRecipients : (username) => get_recipients(username, dispatch),
-    editRecipient: (recipient) => edit_recipients(recipient, dispatch),
-    removeRecipient: (rid) => remove_recipient(rid, dispatch),
+    addRecipientProp : (recipient, user) => create_recipient_prop(recipient, user, dispatch),
+    getRecipientProps : (username) => get_recipient_props(username, dispatch),
+    editRecipientProp: (recipient) => edit_recipient_prop(recipient, dispatch),
+    removeRecipientProp: (rid) => remove_recipient_prop(rid, dispatch),
     initStatus: () => initstatus(dispatch)
   };
 }

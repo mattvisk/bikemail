@@ -22,7 +22,8 @@ import {
   Settings as SettingsView,
   SignUp as SignUpView,
   SignIn as SignInView,
-  NotFound as NotFoundView
+  NotFound as NotFoundView,
+  RecipientProps as RecipientPropsView
 
 } from './views';
 import { history } from './store'
@@ -42,6 +43,13 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/account"
+        auth='user'
+      />
+      <RouteWithLayout
+        component={RecipientPropsView}
+        exact
+        layout={MainLayout}
+        path="/recipient-props"
         auth='user'
       />
       <RouteWithLayout

@@ -2,12 +2,9 @@ import React,  { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux'
-import {
-  getuserlist
-} from '../../modules/user'
 
 import {
-  RecipientList
+  RecipientPropsList
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -17,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Recipients = props => {
+const RecipientProps = props => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -30,7 +27,7 @@ const Recipients = props => {
           lg={12}
          
         >
-          <RecipientList  history={props.history}/>
+          <RecipientPropsList />
         </Grid>
       </Grid>
     </div>
@@ -52,4 +49,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Recipients)
+)(RecipientProps)
