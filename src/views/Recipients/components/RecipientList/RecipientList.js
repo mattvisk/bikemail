@@ -35,6 +35,7 @@ import {
 } from '../../../../modules/recipient'
 import {
   get_recipient_props,
+  initpropstatus
 } from '../../../../modules/recipient_props'
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -166,7 +167,10 @@ const RecipientList = props => {
     props.getRecipientProps(props.username)
     props.getRecipients(props.username)
   }
-
+  if(props.props_status.includes('updated')){
+      props.getRecipientProps(props.username)
+      props.initPropStatus()
+  }
   useEffect(() => {
     if(props.status.includes('loaded')){
       // props.initStatus()
@@ -177,8 +181,6 @@ const RecipientList = props => {
         
   }, [props.recipients]);
   useEffect(() => {
-    
-        
   }, [props.recipient_props]);
   const commitChanges = ({ added, changed, deleted }) => {
     let changedRows;
@@ -215,9 +217,10 @@ const RecipientList = props => {
       let info = {};
       for(let index in props.recipient_props){
         info[props.recipient_props[index].field] = changedRow[props.recipient_props[index].field];
-        delete changedRow[props.recipient_props[index].field];
+        // delete changedRow[props.recipient_props[index].field];
       }
       changedRow['info'] = info;
+      console.log(changedRow)
       props.editRecipient(changedRow)
     }
     if (deleted) {
@@ -304,6 +307,7 @@ const RecipientList = props => {
 const mapStateToProps = ({ user, recipient, recipient_props}) => ({
   username: user.username,
   status: recipient.status,
+  props_status: recipient_props.status,
   recipients: recipient.recipients,
   recipient_props: recipient_props.recipient_props
 
@@ -317,7 +321,8 @@ const mapDispatchToProps = dispatch => {
     getRecipients : (username) => get_recipients(username, dispatch),
     editRecipient: (recipient) => edit_recipients(recipient, dispatch),
     removeRecipient: (rid) => remove_recipient(rid, dispatch),
-    initStatus: () => initstatus(dispatch)
+    initStatus: () => initstatus(dispatch),
+    initPropStatus: () => initpropstatus(dispatch)
   };
 }
 

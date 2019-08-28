@@ -223,7 +223,7 @@ const AccountPage = props => {
         ToastsStore.error(props.status)
       else if(props.status.includes('deleted')){
         ToastsStore.success(props.status)
-        window.location.href='/sign-in'
+        window.location.href='/'
       }
       else
         ToastsStore.success(props.status)

@@ -27,10 +27,11 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { connect } from 'react-redux'
 import {ToastsStore} from 'react-toasts';
 import {
+  get_recipient_props,
   create_recipient_prop,
   edit_recipient_prop,
   remove_recipient_prop,
-  initstatus
+  initpropstatus
 } from '../../../../modules/recipient_props'
 
 const useStyles = makeStyles(theme => ({
@@ -155,6 +156,8 @@ const RecipientList = props => {
     const initialized = value.map(row => (Object.keys(row).length ? row : { }));
     setAddedRows(initialized);
   };
+  if(props.status == '')
+    props.getRecipientProps(props.username)
 
   useEffect(() => {
     if(props.status.includes('loaded')){
@@ -275,7 +278,8 @@ const mapDispatchToProps = dispatch => {
     addRecipientProp : (recipient, user) => create_recipient_prop(recipient, user, dispatch),
     editRecipientProp: (recipient) => edit_recipient_prop(recipient, dispatch),
     removeRecipientProp: (rid) => remove_recipient_prop(rid, dispatch),
-    initStatus: () => initstatus(dispatch)
+    getRecipientProps : (username) => get_recipient_props(username, dispatch),
+    initStatus: () => initpropstatus(dispatch)
   };
 }
 

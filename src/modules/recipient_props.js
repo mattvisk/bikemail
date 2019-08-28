@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
       return state
   }
 }
-export const initstatus= (dispatch) => {
+export const initpropstatus= (dispatch) => {
   dispatch({
     type: INIT_STATUS
   });

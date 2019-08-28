@@ -49,7 +49,7 @@ const Topbar = props => {
 
     const signOut = () => {
       props.signout()
-      window.location.href='/sign-in'
+      window.location.href='/'
     }
     return (
         <div>
