@@ -35,3 +35,10 @@ a {
 .MuiTouchRipple-root {
   display: none!important;
 }
+
+th, td {
+  text-align: center !important;
+}
+th span {
+  margin: 0 auto;
+}
