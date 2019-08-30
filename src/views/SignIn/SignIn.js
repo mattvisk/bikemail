@@ -38,10 +38,6 @@ const schema = {
 };
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: theme.palette.background.default,
-    height: '100%'
-  },
   grid: {
     height: '100%'
   },

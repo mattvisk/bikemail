@@ -38,57 +38,63 @@ const useStyles = makeStyles(theme => ({
     marginRight: 20
   },
   cardtitle: {
-    fontWeight: '700',
+    fontWeight: '500',
     margin: 0,
-    fontSize: 60,
+    fontSize: 46,
     lineHeight: 1.2
   },
   cardprice: {
     margin: 0,
     textTransform: 'uppercase',
     fontWeight: '200',
-    fontSize: 20,
+    fontSize: 16,
     letterSpacing: '.1em',
-    marginBottom: 6,
+    marginBottom: 0,
 
   },
   cardfreedate: {
     display: 'block',
-    fontWeight: 400
+    fontWeight: 400,
+    fontSize:11,
+    margin:0,
+    opacity:.5,
   },
   cardcontent: {
     padding: 0
   },
   gopro: {
-     background: 'linear-gradient(to right,#5f69b1,#6441a5)',
-     width: 200,
-     height: 200,
-     borderRadius: 25,
-     padding: '55px 0',
-     textAlign: 'center',
-     color: 'white',
-     cursor: 'pointer'
+    background: 'linear-gradient(to right,#5f69b1,#6441a5)',
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+    padding: '55px 0',
+    textAlign: 'center',
+    color: 'white',
+    cursor: 'pointer'
   },
   gofree: {
-     background: '#222',
-     width: 200,
-     height: 200,
-     borderRadius: 25,
-     padding: '55px 0',
-     textAlign: 'center',
-     color: 'white',
-     cursor: 'pointer'
+    background: '#222',
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+    padding: '55px 0',
+    textAlign: 'center',
+    color: 'white',
+    cursor: 'pointer'
   },
   providedservices: {
     display: 'block',
     margin: '30px 0',
     padding: 0,
-    listStyle: 'none'
+    listStyle: 'none',
+    fontSize:12,
   },
   icon: {
-    width: 18,
-    height: 18,
-    marginRight: 5
+    width: 14,
+    height: 14,
+    margin: '4px 8px 0 0',
+    color:'#888',
+    float:'left'
   },
   bullet: {
     display: 'inline-block',
@@ -102,7 +108,6 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 12,
   },
   root: {
-    backgroundColor: theme.palette.background.default,
     height: '100%',
     padding: 0
   },
@@ -159,49 +164,43 @@ const Products = props => {
   return (
     <div className={classes.root}>
       {props.status}
-      <Grid
-        className={classes.grid}
-        container
-      >
-        
-        <Grid
-          className={classes.content}
-          item
-          lg={12}
-          xs={12}
-        >
-          <div className={classes.content}>
-            <div className={classes.contentBody}>
-              {props.accountTypeList.map(atype => (
-                <Card className={classes.card}>
-                <CardContent className={classes.cardcontent}>
-                  <div className={atype.price == 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug, atype.price)}>
-                      <h2 className={classes.cardtitle}>{atype.title}</h2>
-                      <h3 className={classes.cardprice}>
-                        { atype.price == 0 ? '' : '$' + atype.price + ' monthly' }
-                      </h3>
-                      <small className={classes.cardfreedate}>
-                      { atype.price == 0 ? '' : atype.free + ' Days Free' }</small>
-                  </div>
-                  <ul className={classes.providedservices}>
-                    <li>
+      <div className={classes.content}>
+        <div className={classes.contentBody}>
+          {props.accountTypeList.map(atype => (
+            <Card className={classes.card}>
+              <CardContent className={classes.cardcontent}>
+                <div className={atype.price == 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug, atype.price)}>
+                  <h2 className={classes.cardtitle}>{atype.title}</h2>
+                  <h3 className={classes.cardprice}>
+                    { atype.price == 0 ? '' : '$' + atype.price + ' monthly' }
+                  </h3>
+                  <small className={classes.cardfreedate}>
+                    { atype.price == 0 ? '' : atype.free + ' Days Free' }</small>
+                </div>
+                <ul className={classes.providedservices}>
+                  <li>
                     <CheckCircleIcon className={classes.icon}/>
-                      <strong>1000</strong> uploads
-                    </li>
-                    <li>
+                    Unlimited Emails Per Month
+                  </li>
+                  <li>
                     <CheckCircleIcon className={classes.icon}/>
-                    Embed Capabilities</li>
-                  </ul>
-                  
-                </CardContent>
-                <CardActions>
-                </CardActions>
-              </Card>
-                ))}
-            </div>
-          </div>
-        </Grid>
-      </Grid>
+                    Automatic Email Scheduler
+                  </li>
+                  <li>
+                    <CheckCircleIcon className={classes.icon}/>
+                    Onsite Newsletter Widget
+                  </li>
+                  <li>
+                    <CheckCircleIcon className={classes.icon}/>
+                    Email Series Creator
+                  </li>
+                </ul>
+              </CardContent>
+              <CardActions />
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

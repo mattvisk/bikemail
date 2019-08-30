@@ -8,41 +8,34 @@ header {
 header .inner {
   padding:1vw 5vw;
 }
-.header-spacer {
-  height:91px;
-}
 .logo {
   width:200px;
-}
-.active_link {
-  border-bottom: 2px solid red;
-}
-.headerlink {
-  margin-left:10px !important;
-  margin-right:10px !important;
-  border-radius:2px;
-}
-.bold{
-   background: #2229ab;
-  border-radius:2px;
-   
-   color:#fff;
-}
-header {
-
 }
 .splitter {
   line-height: 1.5
 }
 nav {
   float:right;
+  display:flex;
   padding-top:8px;
+  a {
+    color:#888;
+  }
+  a.active {
+    color:#111;
+  }
 }
-nav ul {
-  margin:0;
-}
-nav li {
-  float:left;
-  list-style:none;
 
+nav a.special {
+  background:#0c9;
+  color:#fff;
+  border-radius:6px;
+  margin-right:1em;
+  font-weight:bold;
+  background: #5f3ac0;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5f3ac0, #3634a3);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5f3ac0, #3634a3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  &.active {
+    font-weight:bold;
+  }
 }
