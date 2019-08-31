@@ -25,31 +25,6 @@ p {
   padding:40px 0;
 }
 
-/*.bold a {
-  background: #2229ab;
-  border-radius:2px;
-  margin-left:10px;
-  color:#fff;
-}*/
-a.bold {
-  background: #2229ab;
-  border-radius:2px;
-  color:#fff;
-}
-
-nav li a.cur {
-  text-decoration: underline;
-}
-nav a {
-  color:#444;
-  display:block;
-  padding:8px 12px;
-  font-size:16px;
-  text-decoration: none;
-  letter-spacing: 0px;
-  font-size:12px;
-
-}
 
 #banner {
   height:80vh;
@@ -112,18 +87,18 @@ nav a {
   color:#fff;
   font-size:40px;
   h1 {
-    font-size:46px;
-    margin-top:60px;
+    font-size:36px;
+    margin-top:40px;
     line-height:1.1em;
     font-weight:400;
   }
   .large-btn {
     border-radius: 4px;
     display: inline-block;
-    padding: 1.2em 2em;
+    padding: 1em 1.4em;
     margin-top: 6vh;
     color: #fff;
-    font-size:24px;
+    font-size:18px;
     background: #41295a;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to top, #2F0743, #41295a);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to top, #2F0743, #41295a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

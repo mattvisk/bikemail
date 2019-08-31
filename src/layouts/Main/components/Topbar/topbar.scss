@@ -19,23 +19,30 @@ nav {
   display:flex;
   padding-top:8px;
   a {
-    color:#888;
+    color:#444;
+    display:block;
+    padding:8px 4px;
+    margin:0 1vw;
+    text-decoration: none;
+    letter-spacing: 0px;
+    font-size:14px;
   }
   a.active {
     color:#111;
+    border-bottom:2px solid #ccc;
   }
 }
 
 nav a.special {
   background:#0c9;
   color:#fff;
-  border-radius:6px;
+  border-radius:4px;
   margin-right:1em;
-  font-weight:bold;
+  padding:8px 16px;
   background: #5f3ac0;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #5f3ac0, #3634a3);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #5f3ac0, #3634a3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   &.active {
-    font-weight:bold;
+    border-color:#0c9;
   }
 }

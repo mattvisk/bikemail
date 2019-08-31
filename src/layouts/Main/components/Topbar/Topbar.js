@@ -35,7 +35,7 @@ const Topbar = props => {
             <nav>
               <NavLink to="/recipients">Recipients</NavLink>
               <NavLink to="/email-templates"> Email Templates </NavLink>
-              <a> | </a>
+              <a> &nbsp; | &nbsp; </a>
               <NavLink to="/account"> {props.username} </NavLink>
               <NavLink onClick={signOut}>Logout</NavLink>
             </nav>
