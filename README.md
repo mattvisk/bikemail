@@ -26,10 +26,10 @@ ssh -i /d/bikemail.pem ubuntu@ec2-18-191-195-77.us-east-2.compute.amazonaws.com
 cd bikemail
 ```
 ```sh
-sh backend.sh
+sh frontend.sh
 ```
 
 ```sh
-sh frontend.sh
+sh backend.sh
 ```
 Open [http://bikemail.io] to view it in the browser.
