@@ -20,7 +20,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ## `How to deploy`
 
 ```sh
-ssh -i /d/bikemail.pem ubuntu@ec2-3-15-149-157.us-east-2.compute.amazonaws.com
+ssh -i /d/bikemail.pem ubuntu@ec2-18-191-195-77.us-east-2.compute.amazonaws.com
 ```
 ```sh
 cd bikemail
