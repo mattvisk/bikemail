@@ -32,4 +32,10 @@ sh frontend.sh
 ```sh
 sh backend.sh
 ```
+
+## `How to upload`
+```sh
+scp -i /d/bikemail.pem /d/x.txt ubuntu@ec2-18-191-195-77.us-east-2.compute.amazonaws.com:~/
+```
+
 Open [http://bikemail.io] to view it in the browser.
