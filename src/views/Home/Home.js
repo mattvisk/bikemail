@@ -13,7 +13,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Home = () => {
-  const classes = useStyles();
 
   return (
     <div id="banner-wrapper">

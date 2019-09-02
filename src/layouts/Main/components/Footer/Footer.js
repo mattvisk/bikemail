@@ -28,11 +28,7 @@ const Footer = props => {
           target="_blank"
         >
           Bikemail
-        </Link
-        <Link 
-        
-        >
-        . 2019
+        </Link>
       </Typography>
       <Typography variant="caption">
         Created with love by designers and developers who love to work together.
