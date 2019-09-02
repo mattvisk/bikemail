@@ -195,6 +195,7 @@ const Products = props => {
                     Email Series Creator
                   </li>
                 </ul>
+                <a className="btn" href="/">Choose {atype.title}</a>
               </CardContent>
               <CardActions />
             </Card>

@@ -21,7 +21,7 @@ const Home = () => {
       <h1>Automatic Customer Communication.</h1>
       <h2>Talk to your customers one-on-one, at scale.</h2>
 
-      <NavLink className="large-btn" to='/sign-up'>Create your account</NavLink>
+      <NavLink className="large-btn" to='/create-an-account'>Create your account</NavLink>
 
     </div>
   );
