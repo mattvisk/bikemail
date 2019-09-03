@@ -33,6 +33,8 @@ const Topbar = props => {
           </NavLink>
           {props.isLoggedIn == true ? (
             <nav>
+
+              <NavLink to="/email-cue">Email Cue</NavLink>
               <NavLink to="/recipients">Recipients</NavLink>
               <NavLink to="/email-templates"> Email Templates </NavLink>
               <NavLink to="/account"> {props.username} </NavLink>

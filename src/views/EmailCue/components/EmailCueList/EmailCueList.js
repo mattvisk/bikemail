@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link , withRouter } from 'react-router-dom';
 import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -41,6 +42,14 @@ const useStyles = makeStyles(theme => ({
   },
   actions: {
     justifyContent: 'flex-end'
+  },
+  pending: {
+    backgroundColor: '#1e88e5',
+    display:'inline-block',
+    marginRight: 8,
+    width: 10,
+    height: 10,
+    borderRadius: 10
   }
 }));
 
@@ -50,29 +59,23 @@ const statusColors = {
   refunded: 'danger'
 };
 
-const UserList = props => {
+const EmailCueList = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
 
   // const [orders] = useState(mockData);
-  const users = props.list
+  console.log('email_cue', props.list)
+  const email_cue = []
+  for(let x in props.list)
+    email_cue.push(props.list[x])
   return (
     <Card
       {...rest}
       className={clsx(classes.root, className)}
     >
       <CardHeader
-        action={
-          <Button
-            color="primary"
-            size="small"
-            variant="outlined"
-          >
-            New entry
-          </Button>
-        }
-        title="User List"
+        title="Email Cue"
       />
       <Divider />
       <CardContent className={classes.content}>
@@ -81,9 +84,9 @@ const UserList = props => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>UserName</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Role</TableCell>
+                  <TableCell>Recipient</TableCell>
+                  <TableCell>Mail</TableCell>
+                  <TableCell>Status</TableCell>
 
                   <TableCell sortDirection="desc">
                     <Tooltip
@@ -98,23 +101,57 @@ const UserList = props => {
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
+                  <TableCell sortDirection="desc">
+                    <Tooltip
+                      enterDelay={300}
+                      title="Sort"
+                    >
+                      <TableSortLabel
+                        active
+                        direction="desc"
+                      >
+                        Sent_At
+                      </TableSortLabel>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell sortDirection="desc">
+                    <Tooltip
+                      enterDelay={300}
+                      title="Sort"
+                    >
+                      <TableSortLabel
+                        active
+                        direction="desc"
+                      >
+                        Failed_At
+                      </TableSortLabel>
+                    </Tooltip>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {users.map(user => (
+                {email_cue.map(cue => (
                   <TableRow
                     hover
-                    key={user._id}
+                    key={cue._id}
                   >
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.email}</TableCell>
+                    <TableCell>{cue.recipient_id}</TableCell>
+                    <TableCell><Link to={'/mail-form/' + cue.mail_id}>{cue.mail_id}</Link></TableCell>
                     <TableCell>
-                        {user.role}
+                      <span className={cue.status == 'PENDING'? classes.pending : classes.sent}>
+                      </span>
+                        {cue.status}
+                      
                     </TableCell>
                     <TableCell>
-                      {moment(user.createdAt).format('DD/MM/YYYY')}
+                      {moment(cue.createdAt).format('DD/MM/YYYY')}
                     </TableCell>
-                    
+                    <TableCell>
+                      {cue.send_at ? moment(cue.send_at).format('DD/MM/YYYY'): ''}
+                    </TableCell>
+                    <TableCell>
+                      {cue.failed_at ? moment(cue.failed_at).format('DD/MM/YYYY'): ''}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -122,22 +159,12 @@ const UserList = props => {
           </div>
         </PerfectScrollbar>
       </CardContent>
-      <Divider />
-      <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-        >
-          View all <ArrowRightIcon />
-        </Button>
-      </CardActions>
     </Card>
   );
 };
 
-UserList.propTypes = {
+EmailCueList.propTypes = {
   className: PropTypes.string
 };
 
-export default UserList;
+export default EmailCueList;

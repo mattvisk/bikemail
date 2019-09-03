@@ -22,7 +22,8 @@ import {
   SignUp as SignUpView,
   SignIn as SignInView,
   NotFound as NotFoundView,
-  RecipientProps as RecipientPropsView
+  RecipientProps as RecipientPropsView,
+  EmailCue as EmailCueView
 } from './views';
 
 
@@ -51,6 +52,7 @@ const Routes = () => {
       <RouteWithLayout component={SettingsView} exact layout={MainLayout} path="/settings" auth="'user'" />
 
       <RouteWithLayout component={AdminUserView} exact layout={MainLayout} path="/admin-user" auth="'user'" />
+      <RouteWithLayout component={EmailCueView} exact layout={MainLayout} path="/email-cue" auth="'user'" />
 
       <RouteWithLayout component={NotFoundView} exact layout={MainLayout} path="/not-found" />
       <Redirect to="/not-found" />

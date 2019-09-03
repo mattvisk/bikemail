@@ -2,7 +2,7 @@ import axios from 'axios';
 export const EMAIL_CUE_CREATED = 'email-cue/EMAIL_CUE_CREATED'
 export const EMAIL_CUE_UPDATED = 'email-cue/EMAIL_CUE_UPDATED'
 export const EMAIL_CUE_REMOVED = 'email-cue/EMAIL_CUE_REMOVED'
-export const GET_EMAIL_CUE = 'email-cue/EMAIL_CUE_PROPS'
+export const GET_EMAIL_CUE = 'email-cue/GET_EMAIL_CUE'
 export const INIT_STATUS = 'email-cue/INIT_STATUS'
 
 
@@ -24,7 +24,13 @@ export default (state = initialState, action) => {
     case EMAIL_CUE_CREATED:
       return {
         ...state,
-        status: 'Recipient Prop is Created Successfully.'
+        status: 'Email Cue is Created Successfully.'
+      }
+    case GET_EMAIL_CUE:
+      return {
+        ...state,
+        status: 'Email Cue is loaded Successfully.',
+        email_cue: action.email_cue
       }
     default:
       return state
@@ -40,6 +46,19 @@ export const create_email_cue = (email_cue, dispatch) => {
     .then( emailcuedata =>{
         dispatch({
           type: EMAIL_CUE_CREATED
+        })
+    })
+    .catch( error => {
+        console.log(error);
+    });
+}
+
+export const get_email_cue = (username, dispatch) => {
+  axios.get(`${API_URL}/api/email-cue/list/${username}`)
+    .then( emailcuedata =>{
+        dispatch({
+          type: GET_EMAIL_CUE,
+          email_cue: emailcuedata.data
         })
     })
     .catch( error => {
@@ -72,19 +91,3 @@ export const create_email_cue = (email_cue, dispatch) => {
 //     });
 // }
 
-
-// export const get_recipient_props = (username, dispatch) => {
-//   axios.get(`${API_URL}/api/recipient-props/list/${username}`)
-//     .then( recipientdata =>{
-//         // var recipients = {}
-//         // for(var i = 0 ; i < recipientdata.data.length ; i++)
-//         //   recipients[recipientdata.data[i]._id] = recipientdata.data[i]
-//         dispatch({
-//           type: GET_RECIPIENT_PROPS,
-//           recipient_props: recipientdata.data
-//         })
-//     })
-//     .catch( error => {
-//         console.log(error);
-//     });
-// }
