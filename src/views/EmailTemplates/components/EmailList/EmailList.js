@@ -44,7 +44,9 @@ import {
 import {
   get_recipients,
 } from '../../../../modules/recipient'
-
+import {
+  create_email_cue,
+} from '../../../../modules/email_cue'
 const useStyles = makeStyles(theme => ({
   root: {},
   content: {
@@ -80,6 +82,9 @@ const useStyles = makeStyles(theme => ({
   },
   noLabel: {
     marginTop: theme.spacing(3),
+  },
+  dialogcontent: {
+    overflowY: 'unset'
   }
 }));
 
@@ -166,8 +171,6 @@ function SendmailDialogRaw(props) {
     recipients.push(props.recipients[index])
 
   }
-  // if(props.recipients)
-  //   recipients = props.recipients
   function handleChange(event) {
     setRecMail(event.target.value);
   }
@@ -187,7 +190,8 @@ function SendmailDialogRaw(props) {
   }
 
   function handleSend() {
-    onSend();
+
+    onSend(rec_mail);
   }
 
   return (
@@ -201,7 +205,7 @@ function SendmailDialogRaw(props) {
       {...other}
     >
       <DialogTitle id="confirmation-dialog-title">Send Email</DialogTitle>
-      <DialogContent dividers>
+      <DialogContent dividers className={classes.dialogcontent}>
           Please select the recipients you want to send this email.
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-checkbox">Recipient's Email</InputLabel>
@@ -238,7 +242,7 @@ const EmailList = props => {
   const [open, setOpen] = React.useState(false);
   const [open_send, setOpenSend] = React.useState(false);
   const [remove, setRemove] = React.useState();
-
+  const [currentmail, setCurrentMail] = React.useState('')
   const classes = useStyles();
 
   const removemail = (id) => {
@@ -246,8 +250,7 @@ const EmailList = props => {
     setOpen(true);
   }
   const sendmail = (id) => {
-    // setRemove(id);
-    console.log('here is recipients you want', props.recipients)
+    setCurrentMail(id)
     setOpenSend(true);
   }
   const mails = props.list
@@ -263,7 +266,13 @@ const EmailList = props => {
   const handleCloseSend = () => {
     setOpenSend(false);
   }
-  const handleSend = (remove) => {
+  const handleSend = (rec_mail) => {
+    console.log(rec_mail, props.username, currentmail);
+    props.createEmailCue({
+      mail_id: currentmail,
+      member_id: props.username,
+      recipeintlist: rec_mail
+    })
     setOpenSend(false);
   }
   const editCol = (id) => {
@@ -415,7 +424,7 @@ const mapDispatchToProps = dispatch => {
     removeMail: (id) => removemail(id, dispatch),
     setFormStatus:(status) => setformstatus(status, dispatch),
     getRecipients : (username) => get_recipients(username, dispatch),
-
+    createEmailCue : (email_cue) => create_email_cue(email_cue)
   };
 }
 
