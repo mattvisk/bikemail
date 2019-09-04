@@ -19,3 +19,5 @@ export { default as Payment } from './Payment';
 
 export { default as Recipients } from './Recipients';
 export { default as RecipientProps } from './RecipientProps';
+export { default as EmailCue } from './EmailCue';
+
