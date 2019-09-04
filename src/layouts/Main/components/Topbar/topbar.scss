@@ -26,15 +26,19 @@ nav {
     text-decoration: none;
     letter-spacing: 0px;
     font-size:14px;
+    transition: padding 200ms ease-out, color 100ms linear;
   }
   a.active {
     color:#111;
+    padding:8px 8px; 
+  }
+  a:hover {
+    color:#777;
   }
 }
 
 nav a.special {
   background:#0c9;
-  transition: padding 200ms ease-out;
   color:#fff;
   border-radius:4px;
   margin-right:1em;
@@ -43,11 +47,24 @@ nav a.special {
   background: -webkit-linear-gradient(to right, #5f3ac0, #3634a3);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #5f3ac0, #3634a3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   &.active {
-    border-bottom:0px solid #ccc;
-    padding:8px 20px;    
+    border-bottom:0px solid #ccc;   
+    padding:8px 20px;
   }
 }
 
-nav a.small {
-
+nav .small-links {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  border-left:1px solid #ddd;
+  padding:0 0 0 20px;
+  margin-left:10px;
+  a {
+    padding:0;
+    font-size:12px;
+    text-transform: capitalize;
+    text-align:right;
+    line-height:1.4em;
+  }
 }
