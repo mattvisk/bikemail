@@ -190,7 +190,7 @@ function SendmailDialogRaw(props) {
   }
 
   function handleSend() {
-
+    setRecMail([]);
     onSend(rec_mail);
   }
 

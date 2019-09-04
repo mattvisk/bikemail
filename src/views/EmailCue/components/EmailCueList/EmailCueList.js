@@ -50,6 +50,22 @@ const useStyles = makeStyles(theme => ({
     width: 10,
     height: 10,
     borderRadius: 10
+  },
+  sent: {
+    backgroundColor: '#43a047',
+    display:'inline-block',
+    marginRight: 8,
+    width: 10,
+    height: 10,
+    borderRadius: 10
+  },
+  failed: {
+    backgroundColor: '#e53935',
+    display:'inline-block',
+    marginRight: 8,
+    width: 10,
+    height: 10,
+    borderRadius: 10
   }
 }));
 
@@ -144,13 +160,13 @@ const EmailCueList = props => {
                       
                     </TableCell>
                     <TableCell>
-                      {moment(cue.createdAt).format('DD/MM/YYYY')}
+                      {moment(cue.createdAt).format('YYYY-MM-DD hh:mm:ss')}
                     </TableCell>
                     <TableCell>
-                      {cue.send_at ? moment(cue.send_at).format('DD/MM/YYYY'): ''}
+                      {cue.send_at ? moment(cue.send_at).format('YYYY-MM-DD hh:mm:ss'): ''}
                     </TableCell>
                     <TableCell>
-                      {cue.failed_at ? moment(cue.failed_at).format('DD/MM/YYYY'): ''}
+                      {cue.failed_at ? moment(cue.failed_at).format('YYYY-MM-DD hh:mm:ss'): ''}
                     </TableCell>
                   </TableRow>
                 ))}
