@@ -19,21 +19,35 @@ nav {
   display:flex;
   padding-top:8px;
   a {
-    color:#666;
+    color:#444;
     display:block;
-    padding:8px 4px;
+    padding:8px 3px;
     margin:0 1vw;
     text-decoration: none;
     letter-spacing: 0px;
     font-size:14px;
-    transition: padding 200ms ease-out, color 100ms linear;
+    transition: padding 250ms cubic-bezier(.05,.7,.58,.99), color 100ms linear;
+    svg {
+      width:.7em!important  ;
+      height:.7em!important ;
+      margin:3px 6px 0 0;
+      transition: color 500ms linear;
+      float:left;
+      color:#aaa;
+    }
+  }
+  a:hover {
+    color:#333;
+    svg {
+      color:#666;
+    }
   }
   a.active {
     color:#111;
-    padding:8px 8px; 
-  }
-  a:hover {
-    color:#777;
+    padding:8px 9px; 
+    svg {
+      color:#9d5dde;
+    }
   }
 }
 
@@ -62,9 +76,11 @@ nav .small-links {
   margin-left:10px;
   a {
     padding:0;
-    font-size:12px;
-    text-transform: capitalize;
+    font-size:9px;
+    text-transform: uppercase;
     text-align:right;
     line-height:1.4em;
+    letter-spacing: 1px;
+    color:#5f3ac0;
   }
 }

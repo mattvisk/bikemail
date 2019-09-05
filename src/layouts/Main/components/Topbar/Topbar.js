@@ -3,8 +3,11 @@ import React, { forwardRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import AccountBoxIcon from '@material-ui/icons/AccountBox';
-import Icon from '@material-ui/core/Icon';
+import SendIcon from '@material-ui/icons/Send';
+import GroupIcon from '@material-ui/icons/Group';
+import SettingsIcon from '@material-ui/icons/Settings';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import EmailIcon from '@material-ui/icons/Email';
 import logo from './logo_v1.png';
 import './topbar.scss';
 import { SIGNOUT, LOGEDIN } from '../../../../modules/user';
@@ -34,10 +37,10 @@ const Topbar = props => {
           </NavLink>
           {props.isLoggedIn == true ? (
             <nav>
-              <NavLink to="/email-cue"> <Icon>star</Icon> Cue </NavLink>
-              <NavLink to="/email-templates"> <Icon>star</Icon> Emails </NavLink>
-              <NavLink to="/recipients"><Icon>star</Icon> Recipients</NavLink>
-              <NavLink to="/settings"> <Icon>star</Icon> Settings </NavLink>
+              <NavLink to="/email-cue"> <SendIcon /> Schedule </NavLink>
+              <NavLink to="/email-templates"> <AlternateEmailIcon /> Emails </NavLink>
+              <NavLink to="/recipients"><GroupIcon /> Recipients</NavLink>
+              <NavLink to="/settings"> <SettingsIcon />Settings </NavLink>
               <div className="small-links">
                 <NavLink to="/account"> {props.username} </NavLink>
                 <NavLink onClick={signOut}>Logout</NavLink>
