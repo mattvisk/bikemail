@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import SendIcon from '@material-ui/icons/Send';
 import GroupIcon from '@material-ui/icons/Group';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import EmailIcon from '@material-ui/icons/Email';
 import logo from './logo_v1.png';
 import './topbar.scss';
@@ -37,7 +38,7 @@ const Topbar = props => {
           {props.isLoggedIn == true ? (
             <nav>
               <NavLink to="/email-cue"> <SendIcon /> Schedule </NavLink>
-              <NavLink to="/email-templates"> <EmailIcon /> Emails </NavLink>
+              <NavLink to="/email-templates"> <AlternateEmailIcon /> Emails </NavLink>
               <NavLink to="/recipients"><GroupIcon /> Recipients</NavLink>
               <NavLink to="/settings"> <SettingsIcon />Settings </NavLink>
               <div className="small-links">
