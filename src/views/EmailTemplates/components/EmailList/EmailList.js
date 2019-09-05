@@ -1,3 +1,4 @@
+import 'date-fns';
 import React, { useState, forwardRef } from 'react';
 import {NavLink} from 'react-router-dom';
 import { connect } from 'react-redux'
@@ -7,6 +8,10 @@ import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers'
+
+import DateFnsUtils from "@date-io/date-fns"; // import
 import {
   Card,
   CardActions,
@@ -69,9 +74,7 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer'
   },
   formControl: {
-    margin: theme.spacing(1),
     width: '100%'
-
   },
   chips: {
     display: 'flex',
@@ -85,6 +88,9 @@ const useStyles = makeStyles(theme => ({
   },
   dialogcontent: {
     overflowY: 'unset'
+  },
+  picker: {
+    width: '50%'
   }
 }));
 
@@ -167,9 +173,10 @@ function SendmailDialogRaw(props) {
   const radioGroupRef = React.useRef(null);
   let recipients = []
   const [rec_mail, setRecMail] = React.useState([]);
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
+
   for(let index in props.recipients){
     recipients.push(props.recipients[index])
-
   }
   function handleChange(event) {
     setRecMail(event.target.value);
@@ -191,9 +198,11 @@ function SendmailDialogRaw(props) {
 
   function handleSend() {
     setRecMail([]);
-    onSend(rec_mail);
+    onSend(rec_mail, selectedDate);
   }
-
+  function handleDateChange(date) {
+    setSelectedDate(date);
+  }
   return (
     <Dialog
       disableBackdropClick
@@ -207,6 +216,7 @@ function SendmailDialogRaw(props) {
       <DialogTitle id="confirmation-dialog-title">Send Email</DialogTitle>
       <DialogContent dividers className={classes.dialogcontent}>
           Please select the recipients you want to send this email.
+          
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-checkbox">Recipient's Email</InputLabel>
             <Select
@@ -225,6 +235,32 @@ function SendmailDialogRaw(props) {
               ))}
             </Select>
           </FormControl>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Date"
+              format="MM/dd/yyyy"
+              value={selectedDate}
+              onChange={handleDateChange}
+              className={classes.picker}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+            <KeyboardTimePicker
+              margin="normal"
+              id="time-picker"
+              label="Time"
+              value={selectedDate}
+              onChange={handleDateChange}
+              className={classes.picker}
+              KeyboardButtonProps={{
+                'aria-label': 'change time',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel} color="primary">
@@ -266,12 +302,13 @@ const EmailList = props => {
   const handleCloseSend = () => {
     setOpenSend(false);
   }
-  const handleSend = (rec_mail) => {
+  const handleSend = (rec_mail, selectedDate) => {
     console.log(rec_mail, props.username, currentmail);
     props.createEmailCue({
       mail_id: currentmail,
       member_id: props.username,
-      recipeintlist: rec_mail
+      recipeintlist: rec_mail,
+      send_at: selectedDate
     })
     setOpenSend(false);
   }

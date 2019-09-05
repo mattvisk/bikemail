@@ -126,7 +126,7 @@ const EmailCueList = props => {
                         active
                         direction="desc"
                       >
-                        Sent_At
+                        Send_At
                       </TableSortLabel>
                     </Tooltip>
                   </TableCell>
