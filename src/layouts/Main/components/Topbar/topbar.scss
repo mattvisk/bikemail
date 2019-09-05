@@ -21,16 +21,27 @@ nav {
   a {
     color:#666;
     display:block;
-    padding:8px 4px;
+    padding:8px 3px;
     margin:0 1vw;
     text-decoration: none;
     letter-spacing: 0px;
     font-size:14px;
-    transition: padding 200ms ease-out, color 100ms linear;
+    transition: padding 250ms cubic-bezier(.05,.7,.58,.99), color 500ms linear;
+    svg {
+      width:.7em!important  ;
+      height:.7em!important ;
+      margin:3px 6px 0 0;
+      transition: color 500ms linear;
+      float:left;
+      color:#aaa;
+    }
   }
   a.active {
     color:#111;
-    padding:8px 8px; 
+    padding:8px 9px; 
+    svg {
+      color:rgb(6, 140, 230);
+    }
   }
   a:hover {
     color:#777;
