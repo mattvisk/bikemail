@@ -30,7 +30,7 @@ const Routes = () => {
   return (
     <Switch>
       <RouteWithLayout component={HomeView} exact layout={MainLayout} path="/" />
-      <RouteWithLayout component={SignUpView} exact layout={MainLayout} path="/sign-up/:mode/:price" />
+      <RouteWithLayout component={SignUpView} exact layout={MainLayout} path="/sign-up/:mode" />
       <RouteWithLayout component={SignInView} exact layout={MainLayout} path="/sign-in" />
       <RouteWithLayout component={ProductsView} exact layout={MainLayout} path="/products-and-pricing" />
       <RouteWithLayout component={ProductsView} exact layout={MainLayout} path="/create-an-account" />

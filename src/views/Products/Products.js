@@ -142,7 +142,7 @@ const Products = props => {
 
   const goSignUp = (type, price) => {
     props.setAccountType(type)
-    history.push('/sign-up/' + type + '/' + price)
+    history.push('/sign-up/' + type)
 
   }
   return (
