@@ -150,9 +150,6 @@ const SignIn = props => {
           window.localStorage.setItem('blockedurl', '')
         }
         else {
-          if(props.role === 'admin')
-            history.push('/admin-user')
-          else
             history.push('/email-templates')
         }
       }

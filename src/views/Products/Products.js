@@ -140,7 +140,7 @@ const Products = props => {
     }
   }, [props.status])
 
-  const goSignUp = (type, price) => {
+  const goSignUp = (type) => {
     props.setAccountType(type)
     history.push('/sign-up/' + type)
 
@@ -153,7 +153,7 @@ const Products = props => {
           {props.accountTypeList.map(atype => (
             <Card className={classes.card}>
               <CardContent className={classes.cardcontent}>
-                <div className={atype.price === 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug, atype.price)}>
+                <div className={atype.price === 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug)}>
                   <h2 className={classes.cardtitle}>{atype.title}</h2>
                   <h3 className={classes.cardprice}>
                     { atype.price === 0 ? '' : '$' + atype.price + ' monthly' }
@@ -179,7 +179,7 @@ const Products = props => {
                     Email Series Creator
                   </li>
                 </ul>
-                <a className="btn" href="/">Choose {atype.title}</a>
+                <a className="btn" onClick={() => goSignUp(atype.slug)}>Choose {atype.title}</a>
               </CardContent>
               <CardActions />
             </Card>
