@@ -1,14 +1,8 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo, useContext, createContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {CardElement, injectStripe, Elements, StripeProvider} from 'react-stripe-elements';
-import {
-  signup,
-  initstatus
-} from '../../modules/user'
+import { CardElement, injectStripe } from 'react-stripe-elements';
+
 import {ToastsStore} from 'react-toasts';
 import {
   Card,

@@ -7,7 +7,6 @@ import SendIcon from '@material-ui/icons/Send';
 import GroupIcon from '@material-ui/icons/Group';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
-import EmailIcon from '@material-ui/icons/Email';
 import logo from './logo_v1.png';
 import './topbar.scss';
 import { SIGNOUT, LOGEDIN } from '../../../../modules/user';
@@ -16,14 +15,9 @@ const headerstyle = {
 };
 const useStyles = makeStyles(theme => ({
 }));
-const CustomRouterLink = forwardRef((props, ref) => (
-  <div ref={ref}>
-    <NavLink {...props} />
-  </div>
-));
+
 // eslint-disable-next-line react/no-multi-comp
 const Topbar = props => {
-  const classes = useStyles();
   const signOut = () => {
     props.signout();
     window.location.href = '/';
@@ -35,7 +29,7 @@ const Topbar = props => {
           <NavLink to="/">
             <img className="logo" alt="Bikemail Logo" width="" src={logo} />
           </NavLink>
-          {props.isLoggedIn == true ? (
+          {props.isLoggedIn === true ? (
             <nav>
               <NavLink to="/email-cue"> <SendIcon /> Schedule </NavLink>
               <NavLink to="/email-templates"> <AlternateEmailIcon /> Emails </NavLink>

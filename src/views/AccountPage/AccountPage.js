@@ -1,12 +1,7 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo, useRef} from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import React, { useState, useEffect,useRef} from 'react';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {CardElement, injectStripe, Elements, StripeProvider} from 'react-stripe-elements';
 
 import {
   updateuser,
@@ -14,22 +9,16 @@ import {
   initstatus
 } from '../../modules/user'
 import {ToastsStore} from 'react-toasts';
-import UpdateCreditCard from './UpdateCreditCard';
 import {
   Grid,
   Button,
-  IconButton,
   TextField,
-  Link,
-  FormHelperText,
-  Checkbox,
   Typography,
   DialogTitle,
   DialogContent,
   DialogActions,
   Dialog 
 } from '@material-ui/core';
-const key = 'accountpage';
 const schema = {
   username: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -193,7 +182,6 @@ function ConfirmationDialogRaw(props) {
 
 const AccountPage = props => {
 
-  const { history } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
   const childRef = useRef(null);
@@ -218,7 +206,7 @@ const AccountPage = props => {
     }));
   }, [formState.values]);
   useEffect(() => {
-    if(props.status != '') {
+    if(props.status !== '') {
       if(props.status.includes('dupl'))
         ToastsStore.error(props.status)
       else if(props.status.includes('deleted')){
@@ -247,10 +235,6 @@ const AccountPage = props => {
         [event.target.name]: true
       }
     }));
-  };
-
-  const handleBack = () => {
-    history.goBack();
   };
 
   const handleSave = event => {

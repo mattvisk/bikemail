@@ -131,7 +131,7 @@ export const initstatus= (dispatch) => {
 }
 export const setformstatus= (formStatus, dispatch) => {
 
-  if(formStatus != 'create')
+  if(formStatus !== 'create')
     axios.get(`${API_URL}/api/mail/${formStatus}`)
     .then( maildata =>{ 
       console.log('getting now', maildata.data)

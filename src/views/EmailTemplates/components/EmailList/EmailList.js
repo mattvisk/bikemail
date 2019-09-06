@@ -1,12 +1,10 @@
 import 'date-fns';
-import React, { useState, forwardRef } from 'react';
-import {NavLink} from 'react-router-dom';
+import React from 'react';
 import { connect } from 'react-redux'
 
 import clsx from 'clsx';
 import moment from 'moment';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers'
@@ -14,7 +12,6 @@ import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from 
 import DateFnsUtils from "@date-io/date-fns"; // import
 import {
   Card,
-  CardActions,
   CardHeader,
   CardContent,
   Button,
@@ -37,13 +34,9 @@ import {
   ListItemText,
   Select,
   Checkbox,
-  Chip
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { StatusBullet } from 'components';
 import {
   removemail,
-  initstatus,
   setformstatus
 } from '../../../../modules/mail'
 import {
@@ -94,18 +87,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const statusColors = {
-  delivered: 'success',
-  pending: 'info',
-  refunded: 'danger'
-};
-const CustomRouterLink = forwardRef((props, ref) => (
-  <div
-    ref={ref}
-  >
-    <NavLink {...props} />
-  </div>
-));
 
 function ConfirmationDialogRaw(props) {
   const { remove, onOk, onClose, open, ...other } = props;
@@ -321,7 +302,7 @@ const EmailList = props => {
     history.push('/mail-form')
   }
 
-  if(props.recp_status == '')
+  if(props.recp_status === '')
     props.getRecipients(props.username)
   return (
     <Card

@@ -14,7 +14,6 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import {
   Card,
-  CardActions,
   CardHeader,
   CardContent,
   Divider,
@@ -24,7 +23,6 @@ import {
   DialogActions,
   Dialog
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { connect } from 'react-redux';
 import { ToastsStore } from 'react-toasts';
 import {
@@ -60,12 +58,6 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer'
   }
 }));
-
-const statusColors = {
-  delivered: 'success',
-  pending: 'info',
-  refunded: 'danger'
-};
 
 const getRowId = row => row._id;
 function ConfirmationDialogRaw(props) {
@@ -132,7 +124,6 @@ const RecipientList = props => {
       title: props.recipient_props[index].field
     });
 
-  const [columns] = useState(state);
   const [deleted, setDeleted] = useState();
   const [rows, setRows] = useState([]);
   const [tableColumnExtensions] = useState([{ columnName: '_id', width: 200 }]);
@@ -162,7 +153,7 @@ const RecipientList = props => {
     const initialized = value.map(row => (Object.keys(row).length ? row : {}));
     setAddedRows(initialized);
   };
-  if (props.status == '') {
+  if (props.status === '') {
     props.getRecipientProps(props.username);
     props.getRecipients(props.username);
   }
@@ -208,7 +199,7 @@ const RecipientList = props => {
       );
       let changedRow;
       for (var i = 0; i < changedRows.length; i++)
-        if (changedRows[i]._id == Object.keys(changed)[0])
+        if (changedRows[i]._id === Object.keys(changed)[0])
           changedRow = changedRows[i];
       console.log('changed:', changed, changedRows, Object.keys(changed)[0]);
 

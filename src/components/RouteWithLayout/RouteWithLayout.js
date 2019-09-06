@@ -10,7 +10,7 @@ import {
 const RouteWithLayout = props => {
   const { path, layout: Layout, auth, component: Component, ...rest } = props;
   console.log('route', props)
-  if(props.isLoggedIn == ''){
+  if(props.isLoggedIn === ''){
       if(window.localStorage.getItem('username')){
          props.logedin(window.localStorage.getItem('username'),
            window.localStorage.getItem('email'),
@@ -20,8 +20,8 @@ const RouteWithLayout = props => {
   let role = window.localStorage.getItem('role')
       console.log('props ', props)
 
-  if(path != '/sign-in' && 
-    ((role != 'user' && role !='admin') && auth == 'user') || (auth == 'admin' && role != 'admin')){
+  if(path !== '/sign-in' && 
+    ((role !== 'user' && role !=='admin') && auth === 'user') || (auth === 'admin' && role !== 'admin')){
       props.storeurl(history.location.pathname)
       window.localStorage.setItem('blockedurl', history.location.pathname)
       // console.log(history.location.pathname)

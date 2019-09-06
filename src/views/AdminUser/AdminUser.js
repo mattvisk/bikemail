@@ -1,4 +1,4 @@
-import React,  { useState, useEffect } from 'react';
+import React,  { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux'
@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 const AdminUser = props => {
   const classes = useStyles();
   useEffect(() => {
-    if(props.isLoggedIn && props.role == 'admin')
+    if(props.isLoggedIn && props.role === 'admin')
       props.getUserList()
   }, [props.isLoggedIn]);
   return (

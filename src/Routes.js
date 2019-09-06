@@ -3,7 +3,6 @@ import { Switch, Redirect } from 'react-router-dom';
 import { RouteWithLayout } from './components';
 import { Main as MainLayout} from './layouts';
 import { connect } from 'react-redux';
-import { history } from './store';
 import {
   Recipients as RecipientsView,
   AccountPage as AccountPageView,

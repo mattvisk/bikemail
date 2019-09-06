@@ -1,10 +1,7 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   signup,
@@ -13,16 +10,13 @@ import {
 import {ToastsStore} from 'react-toasts';
 
 import {
-  Grid,
   Button,
-  IconButton,
   TextField,
   Link,
   FormHelperText,
   Checkbox,
   Typography
 } from '@material-ui/core';
-const key = 'signup';
 const schema = {
   username: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -162,16 +156,16 @@ const SignUp = props => {
   });
   // if(props.match.params.mode == 'free' && props.match.params.mode == '')
   useEffect(() => {
-    if(props.status != ''){
+    if(props.status !== ''){
       ToastsStore.success(props.status)
-      if(props.match.params.price != 0)
+      if(props.match.params.price !== 0)
         history.push('/payment')
       else
         history.push('/dashboard')
       props.initStatus()
     }
   }, [props.status])
-  if(props.accountType == '')
+  if(props.accountType === '')
     history.push('/products-and-pricing')
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -201,9 +195,6 @@ const SignUp = props => {
     }));
   };
 
-  const handleBack = () => {
-    history.goBack();
-  };
 
   const handleSignUp = event => {
     console.log(formState.values)

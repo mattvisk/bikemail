@@ -1,34 +1,18 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
-import validate from 'validate.js';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   set_account_type,
   get_account_type
 } from '../../modules/user'
-import {ToastsStore} from 'react-toasts';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 
 import {
-  Grid,
-  Button,
-  IconButton,
-  TextField,
-  Link,
-  FormHelperText,
-  Checkbox,
-  Typography,
   Card,
   CardActions,
   CardContent
 } from '@material-ui/core';
-const key = 'products';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -144,14 +128,14 @@ const Products = props => {
   const { history } = props;
   // const [state, dispatch] = useReducer(reducer, initialState);
   const classes = useStyles();
-  if(props.accountTypeList.length == 0){
+  if(props.accountTypeList.length === 0){
     console.log('Products', props)
     props.getAccountType()
   }
   
 
   useEffect(() => {
-    if(props.status != ''){
+    if(props.status !== ''){
       // ToastsStore.success(props.status)
     }
   }, [props.status])
@@ -169,13 +153,13 @@ const Products = props => {
           {props.accountTypeList.map(atype => (
             <Card className={classes.card}>
               <CardContent className={classes.cardcontent}>
-                <div className={atype.price == 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug, atype.price)}>
+                <div className={atype.price === 0 ? classes.gofree: classes.gopro} onClick={() => goSignUp(atype.slug, atype.price)}>
                   <h2 className={classes.cardtitle}>{atype.title}</h2>
                   <h3 className={classes.cardprice}>
-                    { atype.price == 0 ? '' : '$' + atype.price + ' monthly' }
+                    { atype.price === 0 ? '' : '$' + atype.price + ' monthly' }
                   </h3>
                   <small className={classes.cardfreedate}>
-                    { atype.price == 0 ? '' : atype.free + ' Days Free' }</small>
+                    { atype.price === 0 ? '' : atype.free + ' Days Free' }</small>
                 </div>
                 <ul className={classes.providedservices}>
                   <li>

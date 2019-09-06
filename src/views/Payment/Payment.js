@@ -1,55 +1,18 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo, useContext, createContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {CardElement, injectStripe, Elements, StripeProvider} from 'react-stripe-elements';
+import { Elements, StripeProvider} from 'react-stripe-elements';
 import {
   signup,
   initstatus
 } from '../../modules/user'
-import {ToastsStore} from 'react-toasts';
 import CheckoutForm from './CheckoutForm';
 
 import {
-  Grid,
-  Button,
-  IconButton,
-  TextField,
-  Link,
-  FormHelperText,
-  Checkbox,
-  Typography
+  Grid
 } from '@material-ui/core';
-const Context = createContext()
 
-const key = 'signup';
-const schema = {
-  username: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 32
-    }
-  },
-  email: {
-    presence: { allowEmpty: false, message: 'is required' },
-    email: true,
-    length: {
-      maximum: 64
-    }
-  },
-  password: {
-    presence: { allowEmpty: false, message: 'is required' },
-    length: {
-      maximum: 128
-    }
-  },
-  policy: {
-    presence: { allowEmpty: false, message: 'is required' },
-    checked: true
-  }
-};
+
 
 const useStyles = makeStyles(theme => ({
   root: {

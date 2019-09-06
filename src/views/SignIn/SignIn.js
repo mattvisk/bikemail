@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link as RouterLink, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Link as RouterLink } from 'react-router-dom';
 import validate from 'validate.js';
 import { connect } from 'react-redux'
 import {ToastsStore} from 'react-toasts';
@@ -9,14 +8,11 @@ import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
   Button,
-  IconButton,
   TextField,
   Link,
   Typography
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-import { Facebook as FacebookIcon, Google as GoogleIcon } from 'icons';
 import {
   signin,
   initstatus,
@@ -145,16 +141,16 @@ const SignIn = props => {
     errors: {}
   });
   useEffect(() => {
-    if(props.status != '' ){
+    if(props.status !== '' ){
       if(props.isLoggedIn){
         ToastsStore.success(props.status)
         console.log(window.localStorage.getItem('blockedurl'))
-        if(window.localStorage.getItem('blockedurl') != ''){
+        if(window.localStorage.getItem('blockedurl') !== ''){
           history.push(window.localStorage.getItem('blockedurl'))
           window.localStorage.setItem('blockedurl', '')
         }
         else {
-          if(props.role == 'admin')
+          if(props.role === 'admin')
             history.push('/admin-user')
           else
             history.push('/email-templates')
@@ -177,9 +173,6 @@ const SignIn = props => {
     }));
   }, [formState.values]);
 
-  const handleBack = () => {
-    history.goBack();
-  };
 
   const handleChange = event => {
     event.persist();

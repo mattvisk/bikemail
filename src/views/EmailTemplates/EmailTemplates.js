@@ -1,4 +1,4 @@
-import React,  { useState, useEffect } from 'react';
+import React,  { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 import { connect } from 'react-redux'
@@ -23,7 +23,7 @@ const EmailTemplates = props => {
   const { history } = props;
   const classes = useStyles();
   useEffect(() => {
-    if(props.status != ''){
+    if(props.status !== ''){
       ToastsStore.success(props.status)
       console.log(props.status,props.status.includes('removed'))
       if(props.status.includes('removed'))

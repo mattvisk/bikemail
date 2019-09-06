@@ -1,10 +1,7 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, memo, forwardRef } from 'react';
-import { NavLink, Link as RouterLink, withRouter } from 'react-router-dom';
+import React, { useState, useEffect, forwardRef } from 'react';
+import { NavLink } from 'react-router-dom';
 import validate from 'validate.js';
 import { makeStyles } from '@material-ui/styles';
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Editor } from '@tinymce/tinymce-react';
 import {
@@ -22,9 +19,6 @@ import {
   Button,
   IconButton,
   TextField,
-  Link,
-  FormHelperText,
-  Checkbox,
   Typography,
   Radio,
   RadioGroup,
@@ -33,7 +27,6 @@ import {
   FormLabel,
 } from '@material-ui/core';
 
-const key = 'signup';
 const schema = {
   subject: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -191,7 +184,7 @@ const EmailForm = props => {
     errors: {},
   });
   console.log('current props:', props)
-  if(props.formStatus == "")
+  if(props.formStatus === "")
     props.setFormStatus(props.match.params.mailId)
 
   useEffect(() => {
@@ -203,7 +196,7 @@ const EmailForm = props => {
 
   }, [props.status]);
   useEffect(() => {
-      if(props.formStatus != ''){
+      if(props.formStatus !== ''){
         setTitle('Update Mail')
         let tmp = formState;
         tmp.values = props.maildata
@@ -248,7 +241,6 @@ const EmailForm = props => {
      tmp.innerHTML = email
      console.log("aafasdfasfasdf",  tmp.textContent || tmp.innerText || "")
 
-    var mail_content = $(email).find('a')
     var link_list = []
     $(email).find('a').each(function(){
       link_list.push({title: $(this).text(), url: $(this).attr('href')})
@@ -257,7 +249,7 @@ const EmailForm = props => {
     formState.values.mail_content = tmp.textContent || tmp.innerText || ""
     formState.values.mail_html = email
     console.log(formState)
-    if(props.formStatus != '')
+    if(props.formStatus !== '')
       props.onEmailUpdate(formState.values, link_list, props.username)
     else
       props.onEmailCreate(formState.values, link_list, props.username)

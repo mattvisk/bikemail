@@ -23,6 +23,7 @@ import {
 } from '@material-ui/core';
 import { connect } from 'react-redux'
 import {ToastsStore} from 'react-toasts';
+
 import {
   get_recipient_props,
   create_recipient_prop,
@@ -53,8 +54,10 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer'
   },
   container: {
-    width: '30%',
-    margin: '0 auto'
+    margin: '0 auto',
+    marginTop: 100,
+    marginRight: 100,
+    marginLeft: 100
   }
 }));
 
