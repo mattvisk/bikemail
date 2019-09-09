@@ -4,6 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import { EditingState } from '@devexpress/dx-react-grid';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
+import { CSVLink, CSVDownload } from "react-csv";
+import moment from 'moment';
 
 import {
   Grid,
@@ -118,12 +120,25 @@ const RecipientList = props => {
     { name: 'phone', title: 'Phone' },
     { name: 'unsubscribed', title: 'Unsubscribed' }
   ];
-  for (let index in props.recipient_props)
+
+  const headers = [
+    { label: '_id', key: '_id' },
+    { label: 'firstName', key: 'firstName' },
+    { label: 'lastName', key: 'lastName' },
+    { label: 'email', key: 'email' },
+    { label: 'phone', key: 'phone' },
+    { label: 'unsubscribed', key: 'unsubscribed' }
+  ];
+  for (let index in props.recipient_props){
     state.push({
       name: props.recipient_props[index].field,
       title: props.recipient_props[index].field
     });
-
+    headers.push({
+      label: props.recipient_props[index].field,
+      key: props.recipient_props[index].field
+    })
+  }
   const [deleted, setDeleted] = useState();
   const [rows, setRows] = useState([]);
   const [tableColumnExtensions] = useState([{ columnName: '_id', width: 200 }]);
@@ -222,18 +237,27 @@ const RecipientList = props => {
   const customFields = () => {
     history.push('/recipient-props');
   };
+
+  const data = [
+    { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
+    { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
+    { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
+  ];
   return (
     <Card className={clsx(classes.root, className)}>
       <CardHeader
         action={
+            <div> 
           <Button
             color="primary"
-            onClick={customFields}
             size="small"
-            to="/recipient-props"
             variant="outlined">
-            Custom Fields
+            <CSVLink  filename={props.username + '_' + moment(new Date()).format('YYYY-MM-DD')+'.csv'} data={rows} headers={headers}>
+              Export to CSV
+            </CSVLink>
           </Button>
+          
+          </div>
         }
         title="Recipient List"
       />
