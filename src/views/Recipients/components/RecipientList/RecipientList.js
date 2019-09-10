@@ -23,8 +23,16 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Dialog
+  Dialog,
+  Table as MTable,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+  TableSortLabel
 } from '@material-ui/core';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 import { connect } from 'react-redux';
 import { ToastsStore } from 'react-toasts';
 import {
@@ -112,6 +120,85 @@ function ConfirmationDialogRaw(props) {
     </Dialog>
   );
 }
+function ImportDialogRaw(props) {
+  const { onOk, onClose, open, list, ...other } = props;
+  const radioGroupRef = React.useRef(null);
+  let datalist = [[],[]], header = []
+  if(list.length >= 1){
+    datalist = []
+    header = list[0]
+    for(let index = 1 ; index < list.length; index++)
+      datalist.push(list[index])
+  }
+    
+  console.log('here is recpients list:',list);
+  React.useEffect(() => {
+    if (!open) {
+    }
+  }, [open]);
+
+  function handleEntering() {
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+  }
+
+  function handleCancel() {
+    onClose();
+  }
+
+  function handleOk() {
+    onOk();
+  }
+
+  return (
+    <Dialog
+      aria-labelledby="confirmation-dialog-title"
+      disableBackdropClick
+      disableEscapeKeyDown
+      maxWidth="lg"
+      onEntering={handleEntering}
+      open={open}
+      {...other}>
+      <DialogTitle id="confirmation-dialog-title">Import Recipient List</DialogTitle>
+      <DialogContent dividers>
+      <PerfectScrollbar>
+          <div>
+            <MTable>
+              <TableHead>
+                <TableRow>
+                  {header.map(hcell => (
+                    <TableCell>{hcell}</TableCell>
+                  ))}
+                  
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {datalist.map(row => (
+                  <TableRow
+                    hover
+                  >
+                    {row.map(cell => (
+                    <TableCell>{cell}</TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </MTable>
+          </div>
+        </PerfectScrollbar>
+      </DialogContent>
+      <DialogActions>
+        <Button color="primary" onClick={handleCancel}>
+          Cancel
+        </Button>
+        <Button color="primary" onClick={handleOk}>
+          Ok
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 const RecipientList = props => {
   const { history, className, ...rest } = props;
   const classes = useStyles();
@@ -150,8 +237,40 @@ const RecipientList = props => {
   const [editingStateColumnExtensions] = useState([
     { columnName: '_id', editingEnabled: false }
   ]);
+  const [importedList, setImportedList] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
+  const [importopen, setImportOpen] = React.useState(false);
+
+  const handleImportClose = () => {
+    setImportOpen(false);
+  };
+  const handleImportOk = () => {
+    setImportOpen(false);
+    let datalist = [];
+    for(let index = 1 ; index < importedList.length; index++) {
+      let tmp = {}
+      for(let jindex = 0; jindex < importedList[index].length; jindex++)
+        tmp[importedList[0][jindex]] = importedList[index][jindex]
+      let info = {};
+      for (let index in props.recipient_props) {
+        info[props.recipient_props[index].field] =
+          tmp[props.recipient_props[index].field];
+        delete tmp[props.recipient_props[index].field];
+      }
+      delete tmp['_id']
+      tmp['info'] = info;
+      datalist.push(tmp)
+      props.addRecipient(tmp, props.username);
+    }
+    for(let index = 0; index < rows.length ; index++)
+      props.removeRecipient(rows[index]['_id']);
+    setRows(datalist);
+    // console.log(datalist)
+
+      
+    // props.onDelete(props.username)
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -240,7 +359,10 @@ const RecipientList = props => {
     history.push('/recipient-props');
   };
   const handleForce= (resp) => {
-    console.log(resp)
+    console.log(resp);
+    setImportedList(resp);
+    setImportOpen(true);
+
   }
   const handleDarkSideForce= () => {
 
@@ -302,6 +424,14 @@ const RecipientList = props => {
             onClose={handleClose}
             onOk={handleOk}
             open={open}
+          />
+          <ImportDialogRaw
+            id="ringtone-menu"
+            keepMounted
+            onClose={handleImportClose}
+            onOk={handleImportOk}
+            open={importopen}
+            list={importedList}
           />
         </Paper>
       </CardContent>
