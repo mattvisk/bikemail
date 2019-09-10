@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { CSVLink, CSVDownload } from "react-csv";
 import moment from 'moment';
-
+import CSVReader from 'react-csv-reader'
 import {
   Grid,
   Table,
@@ -58,6 +58,9 @@ const useStyles = makeStyles(theme => ({
   },
   clickabletd: {
     cursor: 'pointer'
+  },
+  m_r_30: {
+    marginRight: 30
   }
 }));
 
@@ -122,7 +125,6 @@ const RecipientList = props => {
   ];
 
   const headers = [
-    { label: '_id', key: '_id' },
     { label: 'firstName', key: 'firstName' },
     { label: 'lastName', key: 'lastName' },
     { label: 'email', key: 'email' },
@@ -237,18 +239,19 @@ const RecipientList = props => {
   const customFields = () => {
     history.push('/recipient-props');
   };
+  const handleForce= (resp) => {
+    console.log(resp)
+  }
+  const handleDarkSideForce= () => {
 
-  const data = [
-    { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
-    { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-    { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
-  ];
+  }
   return (
     <Card className={clsx(classes.root, className)}>
       <CardHeader
         action={
             <div> 
           <Button
+            className={classes.m_r_30}
             color="primary"
             size="small"
             variant="outlined">
@@ -256,7 +259,16 @@ const RecipientList = props => {
               Export to CSV
             </CSVLink>
           </Button>
-          
+          <Button
+            color="primary"
+            size="small"
+            variant="outlined">
+            <CSVReader
+              onFileLoaded={handleForce}
+              onError={handleDarkSideForce}
+            />
+          </Button>
+
           </div>
         }
         title="Recipient List"
