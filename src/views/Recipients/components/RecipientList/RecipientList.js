@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/styles';
 import { CSVLink, CSVDownload } from "react-csv";
 import moment from 'moment';
 import CSVReader from 'react-csv-reader'
+
 import {
   Grid,
   Table,
@@ -15,6 +16,8 @@ import {
   TableEditColumn
 } from '@devexpress/dx-react-grid-material-ui';
 import {
+  Select,
+  MenuItem,
   Card,
   CardHeader,
   CardContent,
@@ -69,6 +72,9 @@ const useStyles = makeStyles(theme => ({
   },
   m_r_30: {
     marginRight: 30
+  },
+  selectHeader: {
+    width: '100%'
   }
 }));
 
@@ -121,16 +127,24 @@ function ConfirmationDialogRaw(props) {
   );
 }
 function ImportDialogRaw(props) {
-  const { onOk, onClose, open, list, ...other } = props;
+  const { onOk, onClose, open, list, props_headers, ...other } = props;
   const radioGroupRef = React.useRef(null);
-  let datalist = [[],[]], header = []
+  const classes = useStyles();
+  let datalist = [[],[]];
+  let [header, setHeader] = useState({data: [], status: true})
   if(list.length >= 1){
     datalist = []
-    header = list[0]
+    if(header.data.length == 0)
+      setHeader({data: list[0], status: true})
+    
     for(let index = 1 ; index < list.length; index++)
       datalist.push(list[index])
   }
-    
+
+  let static_headers = []
+  if(props_headers) static_headers = props_headers;
+  console.log(static_headers)
+
   console.log('here is recpients list:',list);
   React.useEffect(() => {
     if (!open) {
@@ -148,9 +162,36 @@ function ImportDialogRaw(props) {
   }
 
   function handleOk() {
-    onOk();
+    let changedHeader = header.data;
+    let sheader = []
+    for(let index in static_headers)
+      sheader.push(static_headers[index]['key'])
+    for(let index in changedHeader) {
+      if(!sheader.includes(changedHeader[index]))
+        changedHeader[index] = ''
+      if(changedHeader[index] != ' ') {
+        let count = 0;
+        for(let jindex in changedHeader)
+          if(changedHeader[jindex] == changedHeader[index])
+            count++;
+        if(count >= 2){
+          ToastsStore.error("Fields are duplicated.")
+          return
+        }
+      }
+    }
+    onOk(changedHeader);
   }
-
+  function handleChange(event, index) {
+    console.log('changed', event.target.value);
+    setHeader(oldValues => {
+      oldValues.data[index] = event.target.value
+      let newstatus = !oldValues.status
+      console.log('changed', oldValues);
+      return {data: oldValues.data, status: newstatus};
+    });
+  }
+  console.log('refreshed')
   return (
     <Dialog
       aria-labelledby="confirmation-dialog-title"
@@ -167,8 +208,23 @@ function ImportDialogRaw(props) {
             <MTable>
               <TableHead>
                 <TableRow>
-                  {header.map(hcell => (
-                    <TableCell>{hcell}</TableCell>
+                  {header.data.map((hcell,index) => (
+                    <TableCell>
+                      <Select
+                        value={header.data[index]}
+                        displayEmpty
+                        name={header.data[index]}
+                        onChange={(event) => handleChange(event, index)}
+                        className={classes.selectHeader}
+                      >
+                        <MenuItem value="">
+                          <em>None</em>
+                        </MenuItem>
+                        {static_headers.map((scell,index) => (
+                          <MenuItem value={scell['key']}>{scell['label']}</MenuItem>
+                        ))}
+                      </Select>
+                    </TableCell>
                   ))}
                   
                 </TableRow>
@@ -245,13 +301,18 @@ const RecipientList = props => {
   const handleImportClose = () => {
     setImportOpen(false);
   };
-  const handleImportOk = () => {
+  const handleImportOk = (changedHeader) => {
     setImportOpen(false);
     let datalist = [];
     for(let index = 1 ; index < importedList.length; index++) {
       let tmp = {}
-      for(let jindex = 0; jindex < importedList[index].length; jindex++)
-        tmp[importedList[0][jindex]] = importedList[index][jindex]
+      for(let jindex = 0; jindex < importedList[index].length; jindex++){
+        if(changedHeader[jindex] != '')
+          tmp[changedHeader[jindex]] = importedList[index][jindex]
+        else
+          tmp[changedHeader[jindex]] = ''
+      }
+
       let info = {};
       for (let index in props.recipient_props) {
         info[props.recipient_props[index].field] =
@@ -432,6 +493,7 @@ const RecipientList = props => {
             onOk={handleImportOk}
             open={importopen}
             list={importedList}
+            props_headers = {headers}
           />
         </Paper>
       </CardContent>
