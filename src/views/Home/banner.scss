@@ -72,16 +72,16 @@ p {
 
 
 #banner-wrapper {
-  height:100vh;
+  height:600px;
   background: #BE93C5;  /* fallback for old browsers */
-  background: linear-gradient(to right, #8240da, #30339e);
+  background: linear-gradient(to right, #333333, #212121);
   position: absolute;
   top:0;
   width:100%;
   img {
     margin:0 auto;
     display:block;
-    margin-top:35vh;
+    margin-top:180px;
   }
   text-align:center;
   color:#fff;
