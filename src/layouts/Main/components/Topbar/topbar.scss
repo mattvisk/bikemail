@@ -1,15 +1,20 @@
 header {
   position: fixed;
   width:100%;
-  background:#fff;
-  border-bottom:1px solid rgba(0,0,0,.05);
-  background:rgba(255,255,255,.9);
+  background:#111;
+  background: -webkit-linear-gradient(to bottom, #131313, #101010);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #131313, #101010); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ 
 }
 header .inner {
-  padding:1vw 5vw;
+  padding:1vw 3vw;
+  @media(max-width:800px){
+    padding:4px 10px; 
+  }
 }
 .logo {
   width:200px;
+  margin-top:2px;
 }
 .splitter {
   line-height: 1.5
@@ -17,34 +22,31 @@ header .inner {
 nav {
   float:right;
   display:flex;
-  padding-top:8px;
+  padding-top:9px;
   a {
-    color:#444;
+    color:#888;
     display:block;
-    padding:8px 3px;
+    padding:8px .5vw;
     margin:0 1vw;
     text-decoration: none;
     letter-spacing: 0px;
     font-size:14px;
-    transition: padding 250ms cubic-bezier(.05,.7,.58,.99), color 100ms linear;
     svg {
       width:.7em!important  ;
       height:.7em!important ;
-      margin:3px 6px 0 0;
-      transition: color 500ms linear;
+      margin:3px 4px 0 0;
       float:left;
       color:#aaa;
     }
   }
   a:hover {
-    color:#333;
+    color:#888;
     svg {
-      color:#666;
+      color:#888;
     }
   }
   a.active {
-    color:#111;
-    padding:8px 9px; 
+    color:#eee;
     svg {
       color:#9d5dde;
     }
@@ -71,8 +73,8 @@ nav .small-links {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  border-left:1px solid #ddd;
-  padding:0 0 0 20px;
+  border-left:1px solid #333;
+  padding:0 0 0 1vw;
   margin-left:10px;
   a {
     padding:0;
@@ -81,6 +83,6 @@ nav .small-links {
     text-align:right;
     line-height:1.4em;
     letter-spacing: 1px;
-    color:#5f3ac0;
+    color:#9282b5;
   }
 }
