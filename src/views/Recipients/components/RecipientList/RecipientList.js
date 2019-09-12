@@ -248,7 +248,7 @@ function ImportDialogRaw(props) {
                     hover
                   >
                     {row.map(cell => (
-                    <TableCell>{cell == 'Null' || cell == null ? '' : cell}</TableCell>
+                    <TableCell>{cell == 'NULL' || cell == null ? '' : cell}</TableCell>
                     ))}
                   </TableRow>
                 ))}
@@ -318,13 +318,14 @@ const RecipientList = props => {
   const handleImportOk = (changedHeader) => {
     setImportOpen(false);
     setSpinner(true);
+    console.log('start', new Date())
     setTimeout(() => {
       let datalist = [];
       for(let index = 1 ; index < importedList.length; index++) {
         let tmp = {}
         for(let jindex = 0; jindex < importedList[index].length; jindex++){
           if(changedHeader[jindex] != '')
-            tmp[changedHeader[jindex]] = importedList[index][jindex]
+            tmp[changedHeader[jindex]] = importedList[index][jindex] == 'NULL' || importedList[index][jindex] == 'null' || importedList[index][jindex] == null ? '' : importedList[index][jindex]
           else
             tmp[changedHeader[jindex]] = ''
         }
@@ -341,6 +342,8 @@ const RecipientList = props => {
         datalist.push(tmp)
       }
       props.importRecipients(datalist, props.username)
+      console.log('end', new Date())
+
     })
   };
   const handleClose = () => {
