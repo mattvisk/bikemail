@@ -1,22 +1,26 @@
 /* eslint-disable react/no-multi-comp */
 import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
-import { EditingState } from '@devexpress/dx-react-grid';
+import { 
+  EditingState,
+  PagingState,
+  IntegratedPaging,
+} from '@devexpress/dx-react-grid';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 import moment from 'moment';
 import CSVReader from 'react-csv-reader'
 
 import {
-  Grid,
+  Grid, 
   Table,
   TableHeaderRow,
   TableEditRow,
-  TableEditColumn
+  TableEditColumn,
+  PagingPanel
 } from '@devexpress/dx-react-grid-material-ui';
 import {
-  View,
   Select,
   MenuItem,
   Card,
@@ -33,8 +37,6 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Tooltip,
-  TableSortLabel,
   CircularProgress 
 } from '@material-ui/core';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -152,7 +154,7 @@ function ImportDialogRaw(props) {
   let [header, setHeader] = useState({data: [], status: true})
   if(list.length >= 1){
     datalist = []
-    if(header.data.length == 0)
+    if(header.data.length === 0)
       setHeader({data: list[0], status: true})
     
     for(let index = 1 ; index < list.length; index++)
@@ -185,10 +187,10 @@ function ImportDialogRaw(props) {
     for(let index in changedHeader) {
       if(!sheader.includes(changedHeader[index]))
         changedHeader[index] = ''
-      if(changedHeader[index] != '') {
+      if(changedHeader[index] !== '') {
         let count = 0;
         for(let jindex in changedHeader)
-          if(changedHeader[jindex] == changedHeader[index])
+          if(changedHeader[jindex] === changedHeader[index])
             count++;
         if(count >= 2){
           ToastsStore.error("Fields are duplicated.")
@@ -248,7 +250,7 @@ function ImportDialogRaw(props) {
                     hover
                   >
                     {row.map(cell => (
-                    <TableCell>{cell == 'NULL' || cell == null ? '' : cell}</TableCell>
+                    <TableCell>{cell === 'NULL' || cell === null ? '' : cell}</TableCell>
                     ))}
                   </TableRow>
                 ))}
@@ -302,6 +304,7 @@ const RecipientList = props => {
   const [editingRowIds, setEditingRowIds] = useState([]);
   const [addedRows, setAddedRows] = useState([]);
   const [rowChanges, setRowChanges] = useState({});
+  const [pageSizes] = useState([5, 10, 15, 0]);
   const [editingStateColumnExtensions] = useState([
     { columnName: '_id', editingEnabled: false }
   ]);
@@ -323,8 +326,8 @@ const RecipientList = props => {
       for(let index = 1 ; index < importedList.length; index++) {
         let tmp = {}
         for(let jindex = 0; jindex < importedList[index].length; jindex++){
-          if(changedHeader[jindex] != '')
-            tmp[changedHeader[jindex]] = importedList[index][jindex] == 'NULL' || importedList[index][jindex] == 'null' || importedList[index][jindex] == null ? '' : importedList[index][jindex]
+          if(changedHeader[jindex] !== '')
+            tmp[changedHeader[jindex]] = importedList[index][jindex] === 'NULL' || importedList[index][jindex] === 'null' || importedList[index][jindex] == null ? '' : importedList[index][jindex]
           else
             tmp[changedHeader[jindex]] = ''
         }
@@ -425,15 +428,10 @@ const RecipientList = props => {
       setOpen(true);
     }
   };
-  const customFields = () => {
-    history.push('/recipient-props');
-  };
-  const [importdata, setImportData] = useState();
+
   const handleForce= (resp) => {
-    // setImportData(resp)
     setImportedList(resp);
     setImportOpen(true);
-    // setSpinner(false);
   }
   useEffect(() => {
     if(importedList.length > 0) {
@@ -503,6 +501,16 @@ const RecipientList = props => {
               showAddCommand={!addedRows.length}
               showDeleteCommand
               showEditCommand
+            />
+            <PagingState
+              defaultCurrentPage={0}
+              defaultPageSize={5}
+            />
+            <IntegratedPaging />
+            <Table />
+            <TableHeaderRow />
+            <PagingPanel
+              pageSizes={pageSizes}
             />
           </Grid>
           <ConfirmationDialogRaw
