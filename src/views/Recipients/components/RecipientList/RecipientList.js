@@ -16,6 +16,7 @@ import {
   TableEditColumn
 } from '@devexpress/dx-react-grid-material-ui';
 import {
+  View,
   Select,
   MenuItem,
   Card,
@@ -33,7 +34,8 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  TableSortLabel
+  TableSortLabel,
+  CircularProgress 
 } from '@material-ui/core';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { connect } from 'react-redux';
@@ -43,6 +45,7 @@ import {
   get_recipients,
   edit_recipients,
   remove_recipient,
+  import_recipients,
   initstatus
 } from '../../../../modules/recipient';
 import {
@@ -75,7 +78,22 @@ const useStyles = makeStyles(theme => ({
   },
   selectHeader: {
     width: '100%'
+  },
+  spinner: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      backgroundColor: "rgb(243,243,243,0.6)",
+      zIndex: 11
+  },
+  progress: {
+    marginTop: '20%',
+    marginLeft: '50%'
   }
+
 }));
 
 const getRowId = row => row._id;
@@ -143,9 +161,7 @@ function ImportDialogRaw(props) {
 
   let static_headers = []
   if(props_headers) static_headers = props_headers;
-  console.log(static_headers)
 
-  console.log('here is recpients list:',list);
   React.useEffect(() => {
     if (!open) {
     }
@@ -169,7 +185,7 @@ function ImportDialogRaw(props) {
     for(let index in changedHeader) {
       if(!sheader.includes(changedHeader[index]))
         changedHeader[index] = ''
-      if(changedHeader[index] != ' ') {
+      if(changedHeader[index] != '') {
         let count = 0;
         for(let jindex in changedHeader)
           if(changedHeader[jindex] == changedHeader[index])
@@ -183,15 +199,12 @@ function ImportDialogRaw(props) {
     onOk(changedHeader);
   }
   function handleChange(event, index) {
-    console.log('changed', event.target.value);
     setHeader(oldValues => {
       oldValues.data[index] = event.target.value
       let newstatus = !oldValues.status
-      console.log('changed', oldValues);
       return {data: oldValues.data, status: newstatus};
     });
   }
-  console.log('refreshed')
   return (
     <Dialog
       aria-labelledby="confirmation-dialog-title"
@@ -217,7 +230,7 @@ function ImportDialogRaw(props) {
                         onChange={(event) => handleChange(event, index)}
                         className={classes.selectHeader}
                       >
-                        <MenuItem value="">
+                        <MenuItem value="None">
                           <em>None</em>
                         </MenuItem>
                         {static_headers.map((scell,index) => (
@@ -293,6 +306,7 @@ const RecipientList = props => {
   const [editingStateColumnExtensions] = useState([
     { columnName: '_id', editingEnabled: false }
   ]);
+  const [spinner, setSpinner] = useState(false);
   const [importedList, setImportedList] = React.useState([]);
 
   const [open, setOpen] = React.useState(false);
@@ -303,34 +317,31 @@ const RecipientList = props => {
   };
   const handleImportOk = (changedHeader) => {
     setImportOpen(false);
-    let datalist = [];
-    for(let index = 1 ; index < importedList.length; index++) {
-      let tmp = {}
-      for(let jindex = 0; jindex < importedList[index].length; jindex++){
-        if(changedHeader[jindex] != '')
-          tmp[changedHeader[jindex]] = importedList[index][jindex]
-        else
-          tmp[changedHeader[jindex]] = ''
-      }
+    setSpinner(true);
+    setTimeout(() => {
+      let datalist = [];
+      for(let index = 1 ; index < importedList.length; index++) {
+        let tmp = {}
+        for(let jindex = 0; jindex < importedList[index].length; jindex++){
+          if(changedHeader[jindex] != '')
+            tmp[changedHeader[jindex]] = importedList[index][jindex]
+          else
+            tmp[changedHeader[jindex]] = ''
+        }
 
-      let info = {};
-      for (let index in props.recipient_props) {
-        info[props.recipient_props[index].field] =
-          tmp[props.recipient_props[index].field];
-        delete tmp[props.recipient_props[index].field];
+        let info = {};
+        for (let index in props.recipient_props) {
+          info[props.recipient_props[index].field] =
+            tmp[props.recipient_props[index].field];
+          delete tmp[props.recipient_props[index].field];
+        }
+        delete tmp['_id']
+        tmp['info'] = info;
+        tmp['user'] = props.username;
+        datalist.push(tmp)
       }
-      delete tmp['_id']
-      tmp['info'] = info;
-      datalist.push(tmp)
-      props.addRecipient(tmp, props.username);
-    }
-    for(let index = 0; index < rows.length ; index++)
-      props.removeRecipient(rows[index]['_id']);
-    setRows(datalist);
-    // console.log(datalist)
-
-      
-    // props.onDelete(props.username)
+      props.importRecipients(datalist, props.username)
+    })
   };
   const handleClose = () => {
     setOpen(false);
@@ -343,7 +354,6 @@ const RecipientList = props => {
     setRows(changedRows);
     props.removeRecipient(deleted[0]);
 
-    console.log(deleted);
     // props.onDelete(props.username)
   };
   const changeAddedRows = value => {
@@ -362,7 +372,7 @@ const RecipientList = props => {
     if (props.status.includes('loaded')) {
       // props.initStatus()
       setRows(props.recipients);
-      console.log(props.recipients, props);
+      setSpinner(false)
       ToastsStore.success(props.status);
     }
   }, [props.recipients]);
@@ -379,7 +389,6 @@ const RecipientList = props => {
         delete added[0][props.recipient_props[index].field];
       }
       added[0]['info'] = info;
-      console.log(added[0]);
       props.addRecipient(added[0], props.username);
       changedRows = [
         ...rows,
@@ -398,7 +407,6 @@ const RecipientList = props => {
       for (var i = 0; i < changedRows.length; i++)
         if (changedRows[i]._id === Object.keys(changed)[0])
           changedRow = changedRows[i];
-      console.log('changed:', changed, changedRows, Object.keys(changed)[0]);
 
       setRows(changedRows);
       let info = {};
@@ -408,7 +416,6 @@ const RecipientList = props => {
         // delete changedRow[props.recipient_props[index].field];
       }
       changedRow['info'] = info;
-      console.log(changedRow);
       props.editRecipient(changedRow);
     }
     if (deleted) {
@@ -419,17 +426,28 @@ const RecipientList = props => {
   const customFields = () => {
     history.push('/recipient-props');
   };
+  const [importdata, setImportData] = useState();
   const handleForce= (resp) => {
-    console.log(resp);
+    // setImportData(resp)
     setImportedList(resp);
     setImportOpen(true);
-
+    // setSpinner(false);
   }
+  useEffect(() => {
+    if(importedList.length > 0) {
+      setSpinner(false)
+    }
+  }, [importedList]);
   const handleDarkSideForce= () => {
 
   }
   return (
     <Card className={clsx(classes.root, className)}>
+
+      {spinner && <Card className={classes.spinner}>
+              <CircularProgress disableShrink className={classes.progress}/>
+          </Card>
+      }
       <CardHeader
         action={
             <div> 
@@ -447,7 +465,13 @@ const RecipientList = props => {
             size="small"
             variant="outlined">
             <CSVReader
-              onFileLoaded={handleForce}
+              onClick={()=>alert(123)}
+              onFileLoaded={(resp)=>{
+                setSpinner(true);
+                setTimeout(() => {
+                  handleForce(resp);
+                })
+              }}
               onError={handleDarkSideForce}
             />
           </Button>
@@ -524,6 +548,8 @@ const mapDispatchToProps = dispatch => {
   return {
     addRecipient: (recipient, user) =>
       create_recipient(recipient, user, dispatch),
+    importRecipients: (recipients, user) =>
+      import_recipients(recipients, user, dispatch),
     getRecipientProps: username => get_recipient_props(username, dispatch),
     getRecipients: username => get_recipients(username, dispatch),
     editRecipient: recipient => edit_recipients(recipient, dispatch),

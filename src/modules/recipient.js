@@ -1,5 +1,6 @@
 import axios from 'axios';
 export const RECIPIENT_CREATED = 'recipient/RECIPIENT_CREATED'
+export const RECIPIENT_IMPORTED = 'recipient/RECIPIENT_IMPORTED'
 export const RECIPIENT_UPDATED = 'recipient/RECIPIENT_UPDATED'
 export const RECIPIENT_REMOVED = 'recipient/RECIPIENT_REMOVED'
 export const GET_RECIPIENTS = 'recipient/GET_RECIPIENTS'
@@ -57,6 +58,20 @@ export const create_recipient = (recipient, username, dispatch) => {
     .then( recipientdata =>{
         dispatch({
           type: RECIPIENT_CREATED
+        })
+    })
+    .catch( error => {
+        console.log(error);
+    });
+}
+
+export const import_recipients = (recipients, username, dispatch) => {
+  let data = {recipients: recipients, user: username}
+  axios.post(`${API_URL}/api/recipient/import`, data)
+    .then( recipientdata =>{
+        dispatch({
+          type: GET_RECIPIENTS  ,
+          recipients: recipientdata.data
         })
     })
     .catch( error => {
