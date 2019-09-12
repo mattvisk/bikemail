@@ -7,22 +7,28 @@ header {
  
 }
 header .inner {
-  padding:1vw 3vw;
+  padding:1vw 2vw;
   @media(max-width:800px){
-    padding:4px 10px; 
+    text-align: center;
+
   }
 }
 .logo {
-  width:200px;
-  margin-top:2px;
+  width:151px;
+  margin-top:3px;
 }
 .splitter {
   line-height: 1.5
 }
 nav {
   float:right;
+  @media(max-width:800px){
+    float:none;
+    width:100%;
+    justify-content:space-between;
+  }
   display:flex;
-  padding-top:9px;
+  padding-top:7px;
   a {
     color:#888;
     display:block;
@@ -30,7 +36,7 @@ nav {
     margin:0 1vw;
     text-decoration: none;
     letter-spacing: 0px;
-    font-size:14px;
+    font-size:13px;
     svg {
       width:.7em!important  ;
       height:.7em!important ;
@@ -64,16 +70,18 @@ nav a.special {
   background: linear-gradient(to right, #5f3ac0, #3634a3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   &.active {
     border-bottom:0px solid #ccc;   
-    padding:8px 20px;
+    opacity:.9;
+    box-shadow: 0px 1px 3px rgba(0,0,0,.5) inset;
   }
 }
 
 nav .small-links {
+  @media(max-width:800px){
+  }
   display: flex;
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  border-left:1px solid #333;
   padding:0 0 0 1vw;
   margin-left:10px;
   a {

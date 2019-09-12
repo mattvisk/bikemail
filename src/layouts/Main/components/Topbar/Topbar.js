@@ -42,12 +42,11 @@ const Topbar = props => {
             </nav>
           ) : (
             <nav>
-              <NavLink to="/create-an-account" className='special'> Create an account </NavLink>
+              <NavLink to="/" exact> Home </NavLink>
               <NavLink to="/products-and-pricing"> Pricing </NavLink>
-              <NavLink to="/contact"> Contact </NavLink>
-              <div className="small-links">
-                <NavLink to="/sign-in"> Login </NavLink>
-              </div>
+              <NavLink to="/faq"> About </NavLink>
+              <NavLink to="/sign-in"> Login </NavLink>
+              <NavLink to="/create-an-account" className='special'> Sign Up </NavLink>
             </nav>
           )}
         </div>
