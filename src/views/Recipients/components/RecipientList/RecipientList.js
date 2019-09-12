@@ -272,7 +272,6 @@ const RecipientList = props => {
   const { history, className, ...rest } = props;
   const classes = useStyles();
   let state = [
-    { name: '_id', title: 'ID' },
     { name: 'firstName', title: 'First Name' },
     { name: 'lastName', title: 'Last Name' },
     { name: 'email', title: 'Email' },
@@ -353,7 +352,7 @@ const RecipientList = props => {
     setOpen(false);
     let changedRows;
     const deletedSet = new Set(deleted);
-    changedRows = rows.filter(row => !deletedSet.has(row._id));
+    changedRows = rows.filter(row => !deletedSet.has(row.email));
     setRows(changedRows);
     props.removeRecipient(deleted[0]);
 
@@ -384,7 +383,7 @@ const RecipientList = props => {
     let changedRows;
     if (added) {
       const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1]._id + 1 : 0;
+        rows.length > 0 ? rows[rows.length - 1].email + 1 : 0;
       let info = {};
       for (let index in props.recipient_props) {
         info[props.recipient_props[index].field] =
@@ -396,7 +395,7 @@ const RecipientList = props => {
       changedRows = [
         ...rows,
         ...added.map((row, index) => ({
-          _id: startingAddedId + index,
+          email: startingAddedId + index,
           ...row
         }))
       ];
