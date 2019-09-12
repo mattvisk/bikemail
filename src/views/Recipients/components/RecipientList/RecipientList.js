@@ -248,7 +248,7 @@ function ImportDialogRaw(props) {
                     hover
                   >
                     {row.map(cell => (
-                    <TableCell>{cell}</TableCell>
+                    <TableCell>{cell == 'Null' || cell == null ? '' : cell}</TableCell>
                     ))}
                   </TableRow>
                 ))}
