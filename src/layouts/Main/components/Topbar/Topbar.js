@@ -31,7 +31,7 @@ const Topbar = props => {
           </NavLink>
           {props.isLoggedIn === true ? (
             <nav>
-              <NavLink to="/email-cue"> <SendIcon /> Schedule </NavLink>
+              <NavLink to="/email-cue"> <SendIcon /> Dashboard </NavLink>
               <NavLink to="/email-templates"> <AlternateEmailIcon /> Emails </NavLink>
               <NavLink to="/recipients"><GroupIcon /> Recipients</NavLink>
               <NavLink to="/settings"> <SettingsIcon />Settings </NavLink>
