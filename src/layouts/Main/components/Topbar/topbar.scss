@@ -8,7 +8,7 @@ header {
   background: linear-gradient(to bottom, #131313, #101010); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 header .inner {
-  padding:1vw 2vw;
+  padding:.5vw 1vw;
   @media(min-width:800px){
     display:flex;
     justify-content:space-between;
@@ -33,19 +33,11 @@ header .inner {
 nav {
   display:flex;
   justify-content:space-between;
-  // @media(max-width:800px){
-  //   float:none;
-  //   width:100%;
-  // }
   display:flex;
-  padding-top:7px;
-  @media(max-width:800px){
-    padding:0;
-  }
+  align-self: center;
   a {
     color:#888;
-    display:block;
-    padding:8px .5vw;
+    padding:0 .5vw;
     margin:0 1vw;
     text-decoration: none;
     letter-spacing: 0px;
@@ -73,15 +65,16 @@ nav {
 }
 nav .main-links {
   display:flex;
+  a {
+    padding:10px .4vw;
+  }
 }
 nav .small-links {
-  // @media(max-width:800px){
-  // }
   display: flex;
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  padding:0 0 0 1vw;
+  padding:0 0 0 .5vw;
   margin-left:10px;
   a {
     padding:0;
