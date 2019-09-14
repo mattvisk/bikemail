@@ -1,34 +1,47 @@
+/* Header
+--------------*/
 header {
-  position: fixed;
+  //position: fixed;
   width:100%;
   background:#111;
   background: -webkit-linear-gradient(to bottom, #131313, #101010);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to bottom, #131313, #101010); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
- 
 }
 header .inner {
   padding:1vw 2vw;
-  @media(max-width:800px){
-    text-align: center;
-
-  }
-}
-.logo {
-  width:151px;
-  margin-top:3px;
-}
-.splitter {
-  line-height: 1.5
-}
-nav {
-  float:right;
-  @media(max-width:800px){
-    float:none;
-    width:100%;
+  @media(min-width:800px){
+    display:flex;
     justify-content:space-between;
   }
+}
+/* Logo
+--------------*/
+.logo {
+  margin-top:3px;
+  display:block;
+  img {
+    width:151px;
+  }
+  @media(max-width:800px){
+    width:100%;
+    text-align:center;
+  }
+}
+
+/* Main Nav
+--------------*/
+nav {
+  display:flex;
+  justify-content:space-between;
+  // @media(max-width:800px){
+  //   float:none;
+  //   width:100%;
+  // }
   display:flex;
   padding-top:7px;
+  @media(max-width:800px){
+    padding:0;
+  }
   a {
     color:#888;
     display:block;
@@ -58,26 +71,12 @@ nav {
     }
   }
 }
-
-nav a.special {
-  background:#0c9;
-  color:#fff;
-  border-radius:4px;
-  margin-right:1em;
-  padding:8px 16px;
-  background: #5f3ac0;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #5f3ac0, #3634a3);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #5f3ac0, #3634a3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  &.active {
-    border-bottom:0px solid #ccc;   
-    opacity:.9;
-    box-shadow: 0px 1px 3px rgba(0,0,0,.5) inset;
-  }
+nav .main-links {
+  display:flex;
 }
-
 nav .small-links {
-  @media(max-width:800px){
-  }
+  // @media(max-width:800px){
+  // }
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -92,5 +91,21 @@ nav .small-links {
     line-height:1.4em;
     letter-spacing: 1px;
     color:#9282b5;
+  }
+}
+
+nav a.special {
+  background:#0c9;
+  color:#fff;
+  border-radius:4px;
+  margin-right:1em;
+  padding:8px 16px;
+  background: #5f3ac0;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #5f3ac0, #3634a3);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #5f3ac0, #3634a3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  &.active {
+    border-bottom:0px solid #ccc;   
+    opacity:.9;
+    box-shadow: 0px 1px 3px rgba(0,0,0,.5) inset;
   }
 }

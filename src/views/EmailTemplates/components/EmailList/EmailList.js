@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import 'date-fns';
 import React from 'react';
 import { connect } from 'react-redux'

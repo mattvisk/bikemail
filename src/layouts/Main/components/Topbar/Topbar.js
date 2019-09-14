@@ -26,15 +26,17 @@ const Topbar = props => {
     <div>
       <header style={headerstyle}>
         <div className="inner">
-          <NavLink to="/">
-            <img className="logo" alt="Bikemail Logo" width="" src={logo} />
+          <NavLink className="logo" to="/">
+            <img alt="Bikemail Logo" width="" src={logo} />
           </NavLink>
           {props.isLoggedIn === true ? (
             <nav>
-              <NavLink to="/email-cue"> <SendIcon /> Dashboard </NavLink>
-              <NavLink to="/email-templates"> <AlternateEmailIcon /> Emails </NavLink>
-              <NavLink to="/recipients"><GroupIcon /> Recipients</NavLink>
-              <NavLink to="/settings"> <SettingsIcon />Settings </NavLink>
+              <div className="main-links">
+                <NavLink to="/email-cue"> <SendIcon /> Dashboard </NavLink>
+                <NavLink to="/email-templates"> <AlternateEmailIcon /> Emails </NavLink>
+                <NavLink to="/recipients"><GroupIcon /> Recipients</NavLink>
+                <NavLink to="/settings"> <SettingsIcon />Settings </NavLink>
+              </div>
               <div className="small-links">
                 <NavLink to="/account"> {props.username} </NavLink>
                 <NavLink onClick={signOut}>Logout</NavLink>
@@ -42,11 +44,15 @@ const Topbar = props => {
             </nav>
           ) : (
             <nav>
-              <NavLink to="/" exact> Home </NavLink>
-              <NavLink to="/products-and-pricing"> Pricing </NavLink>
-              <NavLink to="/faq"> About </NavLink>
-              <NavLink to="/sign-in"> Login </NavLink>
-              <NavLink to="/create-an-account" className='special'> Sign Up </NavLink>
+              <div className="main-links">
+                <NavLink to="/" exact> Home </NavLink>
+                <NavLink to="/products-and-pricing"> Pricing </NavLink>
+                <NavLink to="/faq"> About </NavLink>
+                <NavLink to="/sign-in"> Login </NavLink>
+              </div>
+              <div className="small-links">
+                <NavLink to="/create-an-account" className='special'> Sign Up </NavLink>
+              </div>
             </nav>
           )}
         </div>
