@@ -4,11 +4,13 @@ import mail from './mail'
 import recipient from './recipient'
 import recipient_props from './recipient_props'
 import email_cue from './email_cue'
+import campaign from './campaign'
 
 export default combineReducers({
   user,
   mail,
   recipient,
   recipient_props,
-  email_cue
+  email_cue,
+  campaign
 })

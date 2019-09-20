@@ -494,20 +494,20 @@ const RecipientList = props => {
               onRowChangesChange={setRowChanges}
               rowChanges={rowChanges}
             />
+            
+            
+            <PagingState
+              defaultCurrentPage={0}
+              defaultPageSize={5}
+            />
+            <IntegratedPaging />
             <Table columnExtensions={tableColumnExtensions} />
-            <TableHeaderRow />
             <TableEditRow />
             <TableEditColumn
               showAddCommand={!addedRows.length}
               showDeleteCommand
               showEditCommand
             />
-            <PagingState
-              defaultCurrentPage={0}
-              defaultPageSize={5}
-            />
-            <IntegratedPaging />
-            <Table />
             <TableHeaderRow />
             <PagingPanel
               pageSizes={pageSizes}

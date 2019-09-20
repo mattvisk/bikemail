@@ -22,7 +22,8 @@ import {
   SignIn as SignInView,
   NotFound as NotFoundView,
   RecipientProps as RecipientPropsView,
-  EmailCue as EmailCueView
+  EmailCue as EmailCueView,
+  Campaigns as CampaignsView
 } from './views';
 
 
@@ -44,6 +45,8 @@ const Routes = () => {
       <RouteWithLayout component={EmailFormView} exact layout={MainLayout} auth="'user'" path="/mail-form/:mailId" />
       <RouteWithLayout component={EmailFormView} exact layout={MainLayout} path="/mail-form" auth="'user'" />
       <RouteWithLayout component={EmailTemplatesView} exact layout={MainLayout} path="/email-templates" auth="'user'" />
+      <RouteWithLayout component={CampaignsView} exact layout={MainLayout} path="/email-campaigns" auth="'user'" />
+
       <RouteWithLayout component={UserListView} exact layout={MainLayout} path="/users" auth="'user'" />
       <RouteWithLayout component={ProductListView} exact layout={MainLayout} path="/products" auth="'user'" />
       <RouteWithLayout component={TypographyView} exact layout={MainLayout} path="/typography" auth="'user'" />

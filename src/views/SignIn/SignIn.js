@@ -145,7 +145,7 @@ const SignIn = props => {
       if(props.isLoggedIn){
         ToastsStore.success(props.status)
         console.log(window.localStorage.getItem('blockedurl'))
-        if(window.localStorage.getItem('blockedurl') !== ''){
+        if(window.localStorage.getItem('blockedurl')){
           history.push(window.localStorage.getItem('blockedurl'))
           window.localStorage.setItem('blockedurl', '')
         }
