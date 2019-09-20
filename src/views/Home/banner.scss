@@ -75,13 +75,12 @@ p {
   height:600px;
   background: #BE93C5;  /* fallback for old browsers */
   background: linear-gradient(to right, #333333, #212121);
-  position: absolute;
   top:0;
   width:100%;
   img {
     margin:0 auto;
     display:block;
-    margin-top:180px;
+    padding-top:180px;
   }
   text-align:center;
   color:#fff;
@@ -101,5 +100,34 @@ p {
     font-size:18px;
     background: #41295a;  /* fallback for old browsers */
      background: linear-gradient(to RIGHT, #7723a0, #7026bd);
+  }
+}
+
+
+
+.squares {
+  padding:8vw;
+  display:flex;
+  text-align: left;
+  justify-content: space-between;
+  > div {
+    width:20vw;
+    h2 {
+      font-size:18px;
+      font-weight:400;
+    }
+    ul {
+      padding:0;
+      margin:0;
+    }
+    li {
+      list-style:none;
+      padding:0;
+      font-size:11px;
+      border-top:1px solid #f4f4f4;
+      padding:10px 0 0;
+      margin:10px 0 0;
+      line-height:1.3em;
+    }
   }
 }
