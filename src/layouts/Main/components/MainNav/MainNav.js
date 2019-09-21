@@ -13,11 +13,8 @@ import { SIGNOUT, LOGEDIN } from '../../../../modules/user';
 const headerstyle = {
   zIndex: 5
 };
-const useStyles = makeStyles(theme => ({
-}));
-
 // eslint-disable-next-line react/no-multi-comp
-const Topbar = props => {
+const MainNav = props => {
   const signOut = () => {
     props.signout();
     window.location.href = '/';
@@ -75,4 +72,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Topbar);
+)(MainNav);

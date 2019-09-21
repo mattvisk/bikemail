@@ -36,7 +36,7 @@ nav {
   display:flex;
   align-self: center;
   a {
-    color:#888;
+    color:#aaa;
     padding:0 .5vw;
     margin:0 1vw;
     text-decoration: none;
@@ -45,7 +45,7 @@ nav {
     svg {
       width:.7em!important  ;
       height:.7em!important ;
-      margin:3px 4px 0 0;
+      margin:2px 4px 0 0;
       float:left;
       color:#aaa;
     }
@@ -59,7 +59,7 @@ nav {
   a.active {
     color:#eee;
     svg {
-      color:#9d5dde;
+      color:#ae5dff;
     }
   }
 }

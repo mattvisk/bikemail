@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { useMediaQuery } from '@material-ui/core';
-import { Topbar, Footer } from './components';
+import { MainNav, SubNav, Footer } from './components';
 import './main.scss';
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +34,8 @@ const Main = props => {
 
   return (
     <div>
-      <Topbar history = {history} onSidebarOpen={handleSidebarOpen} />
+      <MainNav history = {history} onSidebarOpen={handleSidebarOpen} />
+      <SubNav />
       <div
       className={clsx({
         [classes.root]: true,
