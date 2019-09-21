@@ -1,0 +1,17 @@
+ul {
+    font-weight:bold;
+    display:flex;
+    justify-content: space-evenly;
+    background:#eee;
+    a {
+        color:#555;
+        font-size:13px;
+        padding:10px 1vw;
+        line-height: 1.2em;
+        small {
+            display:block;
+            color:#aaa;
+            font-weight:normal;
+        }
+    }
+}

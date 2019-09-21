@@ -1,34 +1,17 @@
 import React, { forwardRef } from 'react';
 import { matchPath } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import StyleSheet from 'react-style';
-
-const styles = StyleSheet.create({
-  primary: {
-    background: 'green'
-  },
-  warning: {
-    background: 'yellow'
-  },
-  button: {
-    padding: '1em'
-  },
-  // media queries
-  '@media (max-width: 200px)': {
-    button: {
-      width: '100%'
-    }
-  }
-});
+import Styles from './subnav.scss';
 
 
 const SubNav = props => {
   return(
     <div className={Styles}>
-        <NavLink>Something</NavLink>
-        <NavLink>Something</NavLink>
-        <NavLink>Something</NavLink>
-        <NavLink>Something</NavLink>
+        <ul>
+            <NavLink to="email-campaigns">Series<small>Courses, Newsletters, Etc.</small></NavLink>
+            <NavLink to="email-campaigns">One Time<small>Courses, Newsletters, Etc.</small></NavLink>
+            <NavLink to="email-campaigns">Action<small>Courses, Newsletters, Etc.</small></NavLink>
+        </ul>
     </div>
   )
 };
