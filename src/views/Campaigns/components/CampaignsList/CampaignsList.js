@@ -37,7 +37,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  CircularProgress 
+  CircularProgress,
+  FormControl,
+  ListItemText,
+  Input,
+  InputLabel,
+  Checkbox
 } from '@material-ui/core';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { connect } from 'react-redux';
@@ -49,6 +54,10 @@ import {
   remove_campaign,
   initstatus
 } from '../../../../modules/campaign';
+
+import {
+  getemaillist
+} from '../../../../modules/mail'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -90,9 +99,39 @@ const useStyles = makeStyles(theme => ({
   progress: {
     marginTop: '20%',
     marginLeft: '50%'
+  },
+  formControl: {
+    width: '100%'
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+  dialogcontent: {
+    overflowY: 'unset'
+  },
+  picker: {
+    width: '50%'
   }
 
 }));
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const getRowId = row => row._id;
 function ConfirmationDialogRaw(props) {
@@ -142,7 +181,90 @@ function ConfirmationDialogRaw(props) {
     </Dialog>
   );
 }
+function CreateCampaignDialogRaw(props) {
+  const classes = useStyles();
+  const { remove, onSave, onClose, open, ...other } = props;
+  const radioGroupRef = React.useRef(null);
+  let templates = []
+  const [rec_mail, setRecMail] = React.useState([]);
 
+  for(let index in props.templates){
+    templates.push(props.templates[index])
+  }
+  function handleChange(event) {
+    setRecMail(event.target.value);
+  }
+  React.useEffect(() => {
+    if (!open) {
+    }
+  }, [open]);
+
+  function handleEntering() {  
+    if (radioGroupRef.current != null) {
+      radioGroupRef.current.focus();
+    }
+  }
+
+  function handleCancel() {
+    onClose();
+  }
+
+  function handleSave() {
+    setRecMail([]);
+    onSave(rec_mail);
+  }
+  return (
+    <Dialog
+      disableBackdropClick
+      disableEscapeKeyDown
+      maxWidth="lg"
+      onEntering={handleEntering}
+      aria-labelledby="confirmation-dialog-title"
+      open={open}
+      {...other}
+    >
+      <DialogTitle id="confirmation-dialog-title">Create Campaign</DialogTitle>
+      <DialogContent dividers className={classes.dialogcontent}>
+          <FormControl className={classes.formControl}>
+            <InputLabel >Campaign Title</InputLabel>
+            <Input >Email Template</Input>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="select-multiple-checkbox">Campaign Description</InputLabel>
+            <Input >Email Template</Input>
+          </FormControl>
+          Please select the recipients you want to send this email.
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="select-multiple-checkbox">Email Template</InputLabel>
+            <Select
+              multiple
+              value={rec_mail}
+              onChange={handleChange}
+              input={<Input id="select-multiple-checkbox" />}
+              renderValue={selected => selected.join(', ')}
+              MenuProps={MenuProps}
+            >
+              {templates.map(template => (
+                <MenuItem key={template._id} value={template.sender_name + '/' + template.sender_email + '/' + template.subject}>
+                  <Checkbox checked={rec_mail.indexOf(template.sender_name + '/' + template.sender_email + '/' + template.subject) > -1} />
+                  <ListItemText primary={template.sender_name + '/' + template.sender_email + '/' + template.subject} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleSave} color="primary">
+          Send
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+}
 const CampaignsList = props => {
   const { history, className, ...rest } = props;
   const classes = useStyles();
@@ -150,7 +272,11 @@ const CampaignsList = props => {
     { name: 'title', title: 'Title' },
     { name: 'emails', title: 'Emails' },
   ];
-
+  console.log('111111111111111111111', props.maillist);
+   useEffect(() => {
+    if(props.isLoggedIn)
+      props.getEmailList(props.username)
+  }, [props.isLoggedIn]);
   const [deleted, setDeleted] = useState();
   const [rows, setRows] = useState([]);
   const [tableColumnExtensions] = useState([{ columnName: '_id', width: 200 }]);
@@ -164,9 +290,15 @@ const CampaignsList = props => {
   const [spinner, setSpinner] = useState(false);
 
   const [open, setOpen] = React.useState(false);
-
+  const [openform, setOpenForm] = React.useState(false);
+  const handleCloseForm = () => {
+    setOpenForm(false);
+  };
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleSaveForm = () => {
+    setOpenForm(false);
   };
   const handleOk = () => {
     setOpen(false);
@@ -178,6 +310,10 @@ const CampaignsList = props => {
 
     // props.onDelete(props.username)
   };
+  const createcampaign = () => {
+
+    setOpenForm(true);
+  }
   const changeAddedRows = value => {
     const initialized = value.map(row => (Object.keys(row).length ? row : {}));
     setAddedRows(initialized);
@@ -238,6 +374,13 @@ const CampaignsList = props => {
       <CardHeader
         action={
             <div> 
+            <Button
+            className={classes.m_r_30}
+            color="primary"
+            size="small"
+            variant="outlined" onClick={() => {createcampaign()}}>
+              Create Campaign
+          </Button>
           </div>
         }
         title="Campaigns List"
@@ -276,7 +419,14 @@ const CampaignsList = props => {
             onOk={handleOk}
             open={open}
           />
-
+          <CreateCampaignDialogRaw
+            id="ringtone-menu"
+            keepMounted
+            onClose={handleCloseForm}
+            onOk={handleSaveForm}
+            open={openform}
+            templates={props.maillist}
+          />
         </Paper>
       </CardContent>
 
@@ -294,14 +444,17 @@ const CampaignsList = props => {
   );
 };
 
-const mapStateToProps = ({ user, campaign }) => ({
+const mapStateToProps = ({ user, campaign, mail }) => ({
   username: user.username,
   status: campaign.status,
   campaigns: campaign.campaigns,
+  maillist: mail.maillist,
+  isLoggedIn: user.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => {
   return {
+    getEmailList: (username) => getemaillist(username, dispatch),
     addCampaign: (campaign, user) =>
     create_campaign(campaign, user, dispatch),
     getCampaigns: username => get_campaigns(username, dispatch),
