@@ -22,13 +22,12 @@ const useStyles = makeStyles(theme => ({
 
 const Main = props => {
   const { children } = props;
-  const {history} = props
+  const { history } = props
   const classes = useStyles();
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'), {
     defaultMatches: true
   });
-
   const handleSidebarOpen = () => {
   };
 

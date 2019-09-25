@@ -9,7 +9,7 @@ import {
 } from '../../modules/user'
 const RouteWithLayout = props => {
   const { path, layout: Layout, auth, component: Component, ...rest } = props;
-  console.log('route', props)
+    localStorage.setItem('currentpath', props.path);
   if(props.isLoggedIn === ''){
       if(window.localStorage.getItem('username')){
          props.logedin(window.localStorage.getItem('username'),
@@ -33,7 +33,7 @@ const RouteWithLayout = props => {
     <Route
       {...rest}
       render={matchProps => (
-        <Layout>
+        <Layout >
           <Component {...matchProps} />
         </Layout>
       )}

@@ -25,6 +25,7 @@ validate.validators = {
 
 export default class App extends Component {
   render() {
+    localStorage.setItem('currentpath', history.location.pathname);
     return (
     <Provider store={store}>
 
