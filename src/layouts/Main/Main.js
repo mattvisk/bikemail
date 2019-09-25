@@ -35,7 +35,7 @@ const Main = props => {
   return (
     <div>
       <MainNav history = {history} onSidebarOpen={handleSidebarOpen} />
-      <SubNav />
+      <SubNav history = {history} />
       <div
       className={clsx({
         [classes.root]: true,
