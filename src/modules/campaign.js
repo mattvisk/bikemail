@@ -18,14 +18,19 @@ const API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:4040'
 export default (state = initialState, action) => {
   switch (action.type) {
      case INIT_STATUS:
+     alert(123);
       return {
         ...state,
-        status:''
+        status:'211111111111111'
       }
     case CAMPAIGN_CREATED:
+      let oldcampaigns = state.campaigns;
+      action.campaign.emails = action.campaign.emails.length;
+      oldcampaigns.push(action.campaign);
       return {
         ...state,
-        status: 'Campaign is Created Successfully.'
+        campaigns: oldcampaigns,
+        status: 'Campaign is created Successfully.'
       }
     case GET_CAMPAIGNS:
       return {
@@ -53,11 +58,12 @@ export const initstatus= (dispatch) => {
   });
 }
 export const create_campaign = (campaign, username, dispatch) => {
-  campaign.user = username
+  campaign.userId = username
   axios.post(`${API_URL}/api/campaign/`, campaign)
     .then( campaigndata =>{
-        dispatch({
-          type: CAMPAIGN_CREATED
+      return dispatch({
+          type: CAMPAIGN_CREATED,
+          campaign: campaigndata.data
         })
     })
     .catch( error => {
@@ -108,8 +114,9 @@ export const edit_campaign = (campaign, dispatch) => {
 export const get_campaigns = (username, dispatch) => {
   axios.get(`${API_URL}/api/campaign/list/${username}`)
     .then( campaigndata =>{
-
-        dispatch({
+        for(let i = 0 ; i < campaigndata.data.length ; i++)
+          campaigndata.data[i].emails = campaigndata.data[i].emails.length;
+        return dispatch({
           type: GET_CAMPAIGNS,
           campaigns: campaigndata.data
         })

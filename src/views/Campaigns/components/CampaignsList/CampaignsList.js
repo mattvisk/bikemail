@@ -101,7 +101,8 @@ const useStyles = makeStyles(theme => ({
     marginLeft: '50%'
   },
   formControl: {
-    width: '100%'
+    width: '100%',
+    marginBottom: 30
   },
   chips: {
     display: 'flex',
@@ -187,6 +188,9 @@ function CreateCampaignDialogRaw(props) {
   const radioGroupRef = React.useRef(null);
   let templates = []
   const [rec_mail, setRecMail] = React.useState([]);
+  const [description, setDescription] = React.useState('');
+  const [title, setTitle] = React.useState('');
+
 
   for(let index in props.templates){
     templates.push(props.templates[index])
@@ -211,7 +215,21 @@ function CreateCampaignDialogRaw(props) {
 
   function handleSave() {
     setRecMail([]);
-    onSave(rec_mail);
+    var maillist = []
+    for(let i = 0 ; i < rec_mail.length ; i++)
+      for(let j = 0 ; j < templates.length ; j++)
+        if(rec_mail[i] == templates[j].sender_name + '/' + templates[j].sender_email + '/' + templates[j].subject) {
+          maillist.push(templates[j]._id);
+          break;
+        }
+    console.log(maillist);
+    onSave(title, description, maillist);
+  }
+  function descriptionChange(event) {
+    setDescription(event.target.value);
+  }
+  function titleChange(event) {
+    setTitle(event.target.value);
   }
   return (
     <Dialog
@@ -227,13 +245,14 @@ function CreateCampaignDialogRaw(props) {
       <DialogContent dividers className={classes.dialogcontent}>
           <FormControl className={classes.formControl}>
             <InputLabel >Campaign Title</InputLabel>
-            <Input >Email Template</Input>
+            <Input value={title}
+              onChange={titleChange}>Email Template</Input>
           </FormControl>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-checkbox">Campaign Description</InputLabel>
-            <Input >Email Template</Input>
+            <Input value={description}
+              onChange={descriptionChange}>Email Template</Input>
           </FormControl>
-          Please select the recipients you want to send this email.
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="select-multiple-checkbox">Email Template</InputLabel>
             <Select
@@ -272,10 +291,11 @@ const CampaignsList = props => {
     { name: 'title', title: 'Title' },
     { name: 'emails', title: 'Emails' },
   ];
-  console.log('111111111111111111111', props.maillist);
    useEffect(() => {
-    if(props.isLoggedIn)
+    if(props.isLoggedIn) {
       props.getEmailList(props.username)
+      props.getCampaigns(props.username);
+    }
   }, [props.isLoggedIn]);
   const [deleted, setDeleted] = useState();
   const [rows, setRows] = useState([]);
@@ -287,8 +307,9 @@ const CampaignsList = props => {
   const [editingStateColumnExtensions] = useState([
     { columnName: '_id', editingEnabled: false }
   ]);
+  const [created, setCreated] = useState(false)
   const [spinner, setSpinner] = useState(false);
-
+console.log(props.campaigns)
   const [open, setOpen] = React.useState(false);
   const [openform, setOpenForm] = React.useState(false);
   const handleCloseForm = () => {
@@ -297,7 +318,13 @@ const CampaignsList = props => {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSaveForm = () => {
+  const handleSaveForm = (title, description, maillist) => {
+    props.addCampaign({
+      title,
+      description,
+      emails: maillist
+    }, props.username);
+    setCreated(true);
     setOpenForm(false);
   };
   const handleOk = () => {
@@ -321,48 +348,21 @@ const CampaignsList = props => {
   if (props.status === '') {
     props.getCampaigns(props.username);
   }
-
+  console.log('3333333333333333333333333333333', created);
+  if (created && rows.length != props.campaigns.length) {
+    setRows(props.campaigns);
+    setCreated(false);
+    // ToastsStore.success(props.status);
+  }
   useEffect(() => {
     if (props.status.includes('loaded')) {
+      console.log('222222222222222222222222222', props);
       // props.initStatus()
       setRows(props.campaigns);
-      ToastsStore.success(props.status);
+      // ToastsStore.success(props.status);
     }
   }, [props.campaigns]);
-  const commitChanges = ({ added, changed, deleted }) => {
-    let changedRows;
-    if (added) {
-      const startingAddedId =
-        rows.length > 0 ? rows[rows.length - 1].email + 1 : 0;
 
-      props.addCampaign(added[0], props.username);
-      changedRows = [
-        ...rows,
-        ...added.map((row, index) => ({
-          email: startingAddedId + index,
-          ...row
-        }))
-      ];
-      setRows(changedRows);
-    }
-    if (changed) {
-      changedRows = rows.map(row =>
-        changed[row._id] ? { ...row, ...changed[row._id] } : row
-      );
-      let changedRow;
-      for (var i = 0; i < changedRows.length; i++)
-        if (changedRows[i]._id === Object.keys(changed)[0])
-          changedRow = changedRows[i];
-
-      setRows(changedRows);
-
-      props.editCampaign(changedRow);
-    }
-    if (deleted) {
-      setDeleted(deleted);
-      setOpen(true);
-    }
-  };
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -389,17 +389,7 @@ const CampaignsList = props => {
       <CardContent className={classes.content}>
         <Paper>
           <Grid columns={state} getRowId={getRowId} rows={rows}>
-            <EditingState
-              addedRows={addedRows}
-              columnExtensions={editingStateColumnExtensions}
-              editingRowIds={editingRowIds}
-              onAddedRowsChange={changeAddedRows}
-              onCommitChanges={commitChanges}
-              onEditingRowIdsChange={setEditingRowIds}
-              onRowChangesChange={setRowChanges}
-              rowChanges={rowChanges}
-            />
-            
+           
             <PagingState
               defaultCurrentPage={0}
               defaultPageSize={5}
@@ -423,7 +413,7 @@ const CampaignsList = props => {
             id="ringtone-menu"
             keepMounted
             onClose={handleCloseForm}
-            onOk={handleSaveForm}
+            onSave={handleSaveForm}
             open={openform}
             templates={props.maillist}
           />
